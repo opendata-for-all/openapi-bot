@@ -1,0 +1,19 @@
+import library "OpenAPIExample/OpenAPIExampleLibrary.xmi" as OpenAPILibrary
+import platform "OpenAPIPlatform/OpenAPIPlatform.xmi" as OpenAPIPlatform
+import platform "ReactPlatform"
+
+use provider ReactPlatform.ReactIntentProvider
+
+on intent ApiUrl do
+	action ReactPlatform.Reply(message : "Loading API from " + context(API).get("url"))
+	action OpenAPIPlatform.LoadAPI(url : context(API).get("url"))
+
+on intent ListPaths do
+	def pathList = action OpenAPIPlatform.ListPaths
+	def pathEnum = action ReactPlatform.EnumerateList(list : pathList)
+	action ReactPlatform.Reply(message : pathEnum)
+	
+
+on intent GetNumberOfPath do
+	def result = action OpenAPIPlatform.GetNumberOfPaths
+	action ReactPlatform.Reply(message : "There are " + result + " paths in the API")

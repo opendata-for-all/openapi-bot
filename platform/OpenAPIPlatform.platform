@@ -1,0 +1,9 @@
+Platform OpenAPIPlatform
+
+path "com.xatkit.plugins.openapi.platform.OpenAPIPlatform"
+
+actions {
+	LoadAPI("url")
+	ListPaths
+	GetNumberOfPaths
+}

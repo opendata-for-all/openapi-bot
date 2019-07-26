@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ASCII"?>
+<intent:Library xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intent="com.xatkit.intent" name="OpenAPIExampleLibrary">
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="ApiUrl">
+    <outContexts name="API">
+      <parameters name="url" textFragment="URL">
+        <entity xsi:type="intent:BaseEntityDefinitionReference">
+          <baseEntity entityType="url"/>
+        </entity>
+      </parameters>
+    </outContexts>
+    <trainingSentences>URL</trainingSentences>
+  </eventDefinitions>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="ListPaths">
+    <trainingSentences>Show me the list of paths in the API</trainingSentences>
+    <trainingSentences>Show me the list of paths</trainingSentences>
+    <trainingSentences>Display the relative paths</trainingSentences>
+    <trainingSentences>What are the paths?</trainingSentences>
+  </eventDefinitions>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="GetNumberOfPath">
+    <trainingSentences>Give me the number of paths</trainingSentences>
+    <trainingSentences>How many paths are there in the API</trainingSentences>
+    <trainingSentences>How many paths?</trainingSentences>
+  </eventDefinitions>
+</intent:Library>

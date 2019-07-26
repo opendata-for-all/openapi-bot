@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ASCII"?>
+<platform:PlatformDefinition xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:platform="com.xatkit.platform" name="OpenAPIPlatform" runtimePath="com.xatkit.plugins.openapi.platform.OpenAPIPlatform">
+  <actions name="LoadAPI">
+    <parameters key="url"/>
+  </actions>
+  <actions name="ListPaths"/>
+  <actions name="GetNumberOfPaths"/>
+</platform:PlatformDefinition>

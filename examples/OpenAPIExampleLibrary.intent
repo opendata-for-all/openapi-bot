@@ -1,0 +1,27 @@
+Library OpenAPIExampleLibrary
+
+intent ApiUrl {
+	inputs {
+		"URL"
+	}
+	creates context API {
+		sets parameter "url" from fragment "URL" (entity url)
+	}
+}
+
+intent ListPaths {
+	inputs {
+		"Show me the list of paths in the API"
+		"Show me the list of paths"
+		"Display the relative paths"
+		"What are the paths?"
+	}
+}
+
+intent GetNumberOfPath {
+	inputs {
+		"Give me the number of paths"
+		"How many paths are there in the API"
+		"How many paths?"
+	}
+}
