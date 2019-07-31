@@ -7,4 +7,5 @@
   <actions name="GetNumberOfPaths"/>
   <actions name="GetLicense"/>
   <actions name="IsAuthenticationRequired"/>
+  <actions name="SupportedSchemes"/>
 </platform:PlatformDefinition>

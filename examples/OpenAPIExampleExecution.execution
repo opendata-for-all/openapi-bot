@@ -25,4 +25,16 @@ on intent AskLicenseInfo do
 	
 on intent IsAuthenticationRequired do 
 	def result = action OpenAPIPlatform.IsAuthenticationRequired
-	action ReactPlatform.Reply(message : ""+result)
+	action ReactPlatform.Reply(message : result)
+	
+	
+on intent SupportedSchemes do
+	def result = action OpenAPIPlatform.SupportedSchemes
+	if(result.isEmpty()) {
+		action ReactPlatform.Reply(message : "No transfer protocols found.")
+		action ReactPlatform.Reply(message : "This means that the default scheme to be used is the one used to access the OpenAPI definition itself.")
+	} else {
+		action ReactPlatform.Reply(message : "This API supports: ")
+		def itemize = action ReactPlatform.ItemizeList(list : result)
+		action ReactPlatform.Reply(message : itemize)
+	}

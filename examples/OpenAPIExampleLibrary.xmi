@@ -27,4 +27,7 @@
   <eventDefinitions xsi:type="intent:IntentDefinition" name="IsAuthenticationRequired">
     <trainingSentences>Does this API require authentication?</trainingSentences>
   </eventDefinitions>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="SupportedSchemes">
+    <trainingSentences>What are the transfer protocols supported by this API?</trainingSentences>
+  </eventDefinitions>
 </intent:Library>

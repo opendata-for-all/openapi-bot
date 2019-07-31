@@ -37,3 +37,8 @@ intent IsAuthenticationRequired {
 		"Does this API require authentication?"
 	}
 }
+intent SupportedSchemes {
+	inputs {
+		"What are the transfer protocols supported by this API?"
+	}
+}

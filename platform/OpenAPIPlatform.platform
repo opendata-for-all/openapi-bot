@@ -8,4 +8,5 @@ actions {
 	GetNumberOfPaths
 	GetLicense
 	IsAuthenticationRequired
+	SupportedSchemes
 }
