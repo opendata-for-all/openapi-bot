@@ -25,7 +25,12 @@ on intent AskLicenseInfo do
 	
 on intent IsAuthenticationRequired do 
 	def result = action OpenAPIPlatform.IsAuthenticationRequired
-	action ReactPlatform.Reply(message : result)
+	if(result.isEmpty()) {
+		action ReactPlatform.Reply(message : "No")
+	}
+	else {
+		action ReactPlatform.Reply(message : "Yes")
+	}
 	
 	
 on intent SupportedSchemes do

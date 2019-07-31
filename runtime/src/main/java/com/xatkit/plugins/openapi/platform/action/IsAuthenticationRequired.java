@@ -15,7 +15,6 @@ public class IsAuthenticationRequired extends RuntimeAction<OpenAPIPlatform> {
     @Override
     protected Object compute() throws Exception {
         API api = (API) session.get(OpenAPIPlatform.LOADED_API_KEY);
-        String result = api.getSecurity().isEmpty()?"No":"Yes";
-        return result;
+        return api.getSecurity();
     }
 }
