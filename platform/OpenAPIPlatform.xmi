@@ -6,4 +6,5 @@
   <actions name="ListPaths"/>
   <actions name="GetNumberOfPaths"/>
   <actions name="GetLicense"/>
+  <actions name="IsAuthenticationRequired"/>
 </platform:PlatformDefinition>

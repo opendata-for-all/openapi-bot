@@ -7,4 +7,5 @@ actions {
 	ListPaths
 	GetNumberOfPaths
 	GetLicense
+	IsAuthenticationRequired
 }

@@ -31,3 +31,9 @@ intent AskLicenseInfo {
 		"What is the license associated with this API?"
 	}
 }
+
+intent IsAuthenticationRequired {
+	inputs {
+		"Does this API require authentication?"
+	}
+}

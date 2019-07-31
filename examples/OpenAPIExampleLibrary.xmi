@@ -24,4 +24,7 @@
   <eventDefinitions xsi:type="intent:IntentDefinition" name="AskLicenseInfo">
     <trainingSentences>What is the license associated with this API?</trainingSentences>
   </eventDefinitions>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="IsAuthenticationRequired">
+    <trainingSentences>Does this API require authentication?</trainingSentences>
+  </eventDefinitions>
 </intent:Library>

@@ -21,3 +21,8 @@ on intent GetNumberOfPath do
 on intent AskLicenseInfo do 
 	def result = action OpenAPIPlatform.GetLicense
 	action ReactPlatform.Reply(message : "The license is " + result)
+
+	
+on intent IsAuthenticationRequired do 
+	def result = action OpenAPIPlatform.IsAuthenticationRequired
+	action ReactPlatform.Reply(message : ""+result)
