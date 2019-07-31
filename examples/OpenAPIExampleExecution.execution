@@ -17,3 +17,7 @@ on intent ListPaths do
 on intent GetNumberOfPath do
 	def result = action OpenAPIPlatform.GetNumberOfPaths
 	action ReactPlatform.Reply(message : "There are " + result + " paths in the API")
+	
+on intent AskLicenseInfo do 
+	def result = action OpenAPIPlatform.GetLicense
+	action ReactPlatform.Reply(message : "The license is " + result)

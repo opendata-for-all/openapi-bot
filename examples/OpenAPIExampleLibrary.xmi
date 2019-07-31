@@ -21,4 +21,7 @@
     <trainingSentences>How many paths are there in the API</trainingSentences>
     <trainingSentences>How many paths?</trainingSentences>
   </eventDefinitions>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="AskLicenseInfo">
+    <trainingSentences>What is the license associated with this API?</trainingSentences>
+  </eventDefinitions>
 </intent:Library>

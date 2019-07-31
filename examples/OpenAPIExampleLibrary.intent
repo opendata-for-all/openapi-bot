@@ -25,3 +25,9 @@ intent GetNumberOfPath {
 		"How many paths?"
 	}
 }
+
+intent AskLicenseInfo {
+	inputs {
+		"What is the license associated with this API?"
+	}
+}

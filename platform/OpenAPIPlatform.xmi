@@ -5,4 +5,5 @@
   </actions>
   <actions name="ListPaths"/>
   <actions name="GetNumberOfPaths"/>
+  <actions name="GetLicense"/>
 </platform:PlatformDefinition>

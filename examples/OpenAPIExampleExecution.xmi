@@ -72,6 +72,24 @@
       </values>
     </instructions>
   </executionRules>
+  <executionRules>
+    <event href="pathmap://XATKIT_CUSTOM_LIBRARY/OpenAPILibrary#//@eventDefinitions.3"/>
+    <instructions xsi:type="common:VariableDeclaration" name="result">
+      <value xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.3"/>
+      </value>
+    </instructions>
+    <instructions xsi:type="execution:ActionInstance">
+      <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+      <values>
+        <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+        <expression xsi:type="common:OperationCall" name="+">
+          <source xsi:type="common:StringLiteral" value="The license is "/>
+          <args xsi:type="common:VariableAccess" referredVariable="//@executionRules.2/@instructions.0"/>
+        </expression>
+      </values>
+    </instructions>
+  </executionRules>
   <imports xsi:type="common:LibraryImportDeclaration" path="OpenAPIExample/OpenAPIExampleLibrary.xmi" alias="OpenAPILibrary"/>
   <imports xsi:type="common:PlatformImportDeclaration" path="OpenAPIPlatform/OpenAPIPlatform.xmi" alias="OpenAPIPlatform"/>
   <imports xsi:type="common:PlatformImportDeclaration" path="ReactPlatform"/>

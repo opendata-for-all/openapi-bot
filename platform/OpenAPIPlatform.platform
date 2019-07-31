@@ -6,4 +6,5 @@ actions {
 	LoadAPI("url")
 	ListPaths
 	GetNumberOfPaths
+	GetLicense
 }
