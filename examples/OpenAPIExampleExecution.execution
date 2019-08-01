@@ -1,4 +1,5 @@
 import library "OpenAPIExample/OpenAPIExampleLibrary.xmi" as OpenAPILibrary
+import library "CoreLibrary"
 import platform "OpenAPIPlatform/OpenAPIPlatform.xmi" as OpenAPIPlatform
 import platform "ReactPlatform"
 
@@ -12,11 +13,16 @@ on intent ListPaths do
 	def pathList = action OpenAPIPlatform.ListPaths
 	def pathEnum = action ReactPlatform.EnumerateList(list : pathList)
 	action ReactPlatform.Reply(message : pathEnum)
-	
+
+on intent ListOperationForPath do
+	def operationList = action OpenAPIPlatform.ListOperations(pathIdentifier : context(Path).get("pathIdentifier"))
+	def operationItemize = action ReactPlatform.ItemizeList(list : operationList)
+	action ReactPlatform.Reply(message : "Here are the operations I found for the path:")
+	action ReactPlatform.Reply(message : operationItemize)
 
 on intent GetNumberOfPath do
-	def result = action OpenAPIPlatform.GetNumberOfPaths
-	action ReactPlatform.Reply(message : "There are " + result + " paths in the API")
+	def result = action OpenAPIPlatform.ListPaths
+	action ReactPlatform.Reply(message : "There are " + result.size() + " paths in the API")
 	
 on intent AskLicenseInfo do 
 	def result = action OpenAPIPlatform.GetLicense
@@ -43,3 +49,6 @@ on intent SupportedSchemes do
 		def itemize = action ReactPlatform.ItemizeList(list : result)
 		action ReactPlatform.Reply(message : itemize)
 	}
+
+on intent Default_Fallback_Intent do
+	action ReactPlatform.Reply(message : "")

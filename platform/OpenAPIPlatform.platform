@@ -5,7 +5,8 @@ path "com.xatkit.plugins.openapi.platform.OpenAPIPlatform"
 actions {
 	LoadAPI("url")
 	ListPaths
-	GetNumberOfPaths
+	// pathIdentifier = Integer for now
+	ListOperations(pathIdentifier)
 	GetLicense
 	IsAuthenticationRequired
 	SupportedSchemes
