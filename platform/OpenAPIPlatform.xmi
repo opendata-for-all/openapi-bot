@@ -4,7 +4,9 @@
     <parameters key="url"/>
   </actions>
   <actions name="ListPaths"/>
-  <actions name="GetNumberOfPaths"/>
+  <actions name="ListOperations">
+    <parameters key="pathIdentifier"/>
+  </actions>
   <actions name="GetLicense"/>
   <actions name="IsAuthenticationRequired"/>
   <actions name="SupportedSchemes"/>

@@ -4,10 +4,6 @@ import com.xatkit.core.platform.action.RuntimeAction;
 import com.xatkit.core.session.XatkitSession;
 import com.xatkit.plugins.openapi.platform.OpenAPIPlatform;
 import edu.uoc.som.openapi2.API;
-import edu.uoc.som.openapi2.Path;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class ListPaths extends RuntimeAction<OpenAPIPlatform> {
 
@@ -18,7 +14,6 @@ public class ListPaths extends RuntimeAction<OpenAPIPlatform> {
     @Override
     protected Object compute() throws Exception {
         API api = runtimePlatform.getApi(session);
-        List<String> relativePaths =  api.getPaths().stream().map(Path::getRelativePath).collect(Collectors.toList());
-        return relativePaths;
+        return api.getPaths();
     }
 }

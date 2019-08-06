@@ -10,11 +10,21 @@
     </outContexts>
     <trainingSentences>URL</trainingSentences>
   </eventDefinitions>
-  <eventDefinitions xsi:type="intent:IntentDefinition" name="ListPaths">
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="ListPaths" followedBy="//@eventDefinitions.2">
     <trainingSentences>Show me the list of paths in the API</trainingSentences>
     <trainingSentences>Show me the list of paths</trainingSentences>
     <trainingSentences>Display the relative paths</trainingSentences>
     <trainingSentences>What are the paths?</trainingSentences>
+  </eventDefinitions>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="ListOperationForPath" follows="//@eventDefinitions.1">
+    <outContexts name="Path">
+      <parameters name="pathIdentifier" textFragment="XXX">
+        <entity xsi:type="intent:BaseEntityDefinitionReference">
+          <baseEntity entityType="number"/>
+        </entity>
+      </parameters>
+    </outContexts>
+    <trainingSentences>List the operations of XXX</trainingSentences>
   </eventDefinitions>
   <eventDefinitions xsi:type="intent:IntentDefinition" name="GetNumberOfPath">
     <trainingSentences>Give me the number of paths</trainingSentences>

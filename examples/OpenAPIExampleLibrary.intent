@@ -18,6 +18,16 @@ intent ListPaths {
 	}
 }
 
+intent ListOperationForPath follows ListPaths {
+	inputs {
+		"List the operations of XXX"
+	}
+	creates context Path {
+		// Let's say it's an integer for now
+		sets parameter pathIdentifier from fragment "XXX" (entity number)
+	}
+}
+
 intent GetNumberOfPath {
 	inputs {
 		"Give me the number of paths"
@@ -37,6 +47,7 @@ intent IsAuthenticationRequired {
 		"Does this API require authentication?"
 	}
 }
+
 intent SupportedSchemes {
 	inputs {
 		"What are the transfer protocols supported by this API?"
