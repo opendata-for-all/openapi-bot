@@ -1,9 +1,5 @@
 package com.xatkit.plugins.openapi.platform.action;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.xatkit.core.platform.action.RuntimeAction;
 import com.xatkit.core.session.XatkitSession;
 import com.xatkit.plugins.openapi.platform.OpenAPIPlatform;
