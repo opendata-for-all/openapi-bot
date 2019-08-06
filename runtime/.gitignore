@@ -1,2 +1,4 @@
 /.classpath
 /.project
+target
+**/BotTest.java
