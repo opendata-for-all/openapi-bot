@@ -1,5 +1,7 @@
 Library OpenAPIExampleLibrary
 
+
+
 intent ApiUrl {
 	inputs {
 		"URL"
@@ -42,14 +44,24 @@ intent AskLicenseInfo {
 	}
 }
 
+
+intent SupportedSchemes {
+	inputs {
+		"What are the transfer protocols supported by this API?"
+	}
+}
+//Security
 intent IsAuthenticationRequired {
 	inputs {
 		"Does this API require authentication?"
 	}
 }
 
-intent SupportedSchemes {
+intent IsAuthenticationRequiredOperation {
 	inputs {
-		"What are the transfer protocols supported by this API?"
+		"Does the operation xxx require authentication?"
+	}
+	creates context Operation {
+		sets parameter operationId from fragment "xxx" (entity any)
 	}
 }

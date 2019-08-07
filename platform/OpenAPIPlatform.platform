@@ -8,6 +8,8 @@ actions {
 	// pathIdentifier = Integer for now
 	ListOperations(pathIdentifier)
 	GetLicense
-	IsAuthenticationRequired
 	SupportedSchemes
+	//Security
+	IsAuthenticationRequired
+	IsAuthenticationRequiredOperation(operationId)
 }

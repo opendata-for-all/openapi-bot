@@ -8,6 +8,9 @@
     <parameters key="pathIdentifier"/>
   </actions>
   <actions name="GetLicense"/>
-  <actions name="IsAuthenticationRequired"/>
   <actions name="SupportedSchemes"/>
+  <actions name="IsAuthenticationRequired"/>
+  <actions name="IsAuthenticationRequiredOperation">
+    <parameters key="operationId"/>
+  </actions>
 </platform:PlatformDefinition>

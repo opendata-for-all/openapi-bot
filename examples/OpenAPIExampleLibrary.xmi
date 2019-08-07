@@ -34,10 +34,20 @@
   <eventDefinitions xsi:type="intent:IntentDefinition" name="AskLicenseInfo">
     <trainingSentences>What is the license associated with this API?</trainingSentences>
   </eventDefinitions>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="SupportedSchemes">
+    <trainingSentences>What are the transfer protocols supported by this API?</trainingSentences>
+  </eventDefinitions>
   <eventDefinitions xsi:type="intent:IntentDefinition" name="IsAuthenticationRequired">
     <trainingSentences>Does this API require authentication?</trainingSentences>
   </eventDefinitions>
-  <eventDefinitions xsi:type="intent:IntentDefinition" name="SupportedSchemes">
-    <trainingSentences>What are the transfer protocols supported by this API?</trainingSentences>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="IsAuthenticationRequiredOperation">
+    <outContexts name="Operation">
+      <parameters name="operationId" textFragment="xxx">
+        <entity xsi:type="intent:BaseEntityDefinitionReference">
+          <baseEntity/>
+        </entity>
+      </parameters>
+    </outContexts>
+    <trainingSentences>Does the operation xxx require authentication?</trainingSentences>
   </eventDefinitions>
 </intent:Library>

@@ -5,6 +5,7 @@ import platform "ReactPlatform"
 
 use provider ReactPlatform.ReactIntentProvider
 
+//We load here a definition from a url. We need to add more messages to guide the user about the messages he could ask
 on intent ApiUrl do
 	action ReactPlatform.Reply(message : "Loading API from " + context(API).get("url"))
 	action OpenAPIPlatform.LoadAPI(url : context(API).get("url"))
@@ -14,7 +15,7 @@ on intent ListPaths do
 	def pathEnum = action ReactPlatform.EnumerateList(list : pathList)
 	action ReactPlatform.Reply(message : pathEnum)
 
-on intent ListOperationForPath do
+on intent ListOperationForPath  do
 	def operationList = action OpenAPIPlatform.ListOperations(pathIdentifier : context(Path).get("pathIdentifier"))
 	def operationItemize = action ReactPlatform.ItemizeList(list : operationList)
 	action ReactPlatform.Reply(message : "Here are the operations I found for the path:")
@@ -29,16 +30,6 @@ on intent AskLicenseInfo do
 	action ReactPlatform.Reply(message : "The license is " + result)
 
 	
-on intent IsAuthenticationRequired do 
-	def result = action OpenAPIPlatform.IsAuthenticationRequired
-	if(result.isEmpty()) {
-		action ReactPlatform.Reply(message : "No")
-	}
-	else {
-		action ReactPlatform.Reply(message : "Yes")
-	}
-	
-	
 on intent SupportedSchemes do
 	def result = action OpenAPIPlatform.SupportedSchemes
 	if(result.isEmpty()) {
@@ -51,4 +42,40 @@ on intent SupportedSchemes do
 	}
 
 on intent Default_Fallback_Intent do
-	action ReactPlatform.Reply(message : "")
+	action ReactPlatform.Reply(message : "An error occurred")
+
+//Security actions	
+on intent IsAuthenticationRequired do 
+	def result = action OpenAPIPlatform.IsAuthenticationRequired
+	if(result.isEmpty()) {
+		action ReactPlatform.Reply(message : "No")
+	}
+	else {
+		action ReactPlatform.Reply(message : "Yes")
+	}
+	
+on intent IsAuthenticationRequiredOperation do 
+	def result = action OpenAPIPlatform.IsAuthenticationRequiredOperation(operationId : context(Operation).get("operationId"))
+	if(result.get("found") == false){
+		def operationItemize = action ReactPlatform.ItemizeList(list : result.get("operations"))
+		action ReactPlatform.Reply(message : "Oops! I could not find the operation "+context(Operation).get("operationId"))
+		action ReactPlatform.Reply(message : "The operations provided by the API are: ")
+		action ReactPlatform.Reply(message : operationItemize)
+	}
+
+else {
+	def answer = result.get("answer")
+	if(answer == false){
+		action ReactPlatform.Reply(message : "No authentication required to execute this operation.")
+		}
+		else {
+			def options = action ReactPlatform.ItemizeList(list : result.get("options"))
+			action ReactPlatform.Reply(message : "Yes, authentication is needed to execute operation "+ context(Operation).get("operationId"))
+			action ReactPlatform.Reply(message : "You should use one of the following:")
+			action ReactPlatform.Reply(message : options)
+		}
+	}
+	
+	
+	
+	
