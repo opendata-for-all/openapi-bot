@@ -1,8 +1,12 @@
 package com.xatkit.plugins.openapi.platform.action;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.xatkit.core.platform.action.RuntimeAction;
 import com.xatkit.core.session.XatkitSession;
 import com.xatkit.plugins.openapi.platform.OpenAPIPlatform;
+import com.xatkit.plugins.openapi.platform.utils.OpenAPIUtils;
 
 import edu.uoc.som.openapi2.API;
 
@@ -15,6 +19,10 @@ public class IsAuthenticationRequired extends RuntimeAction<OpenAPIPlatform> {
     @Override
     protected Object compute() throws Exception {
         API api = (API) session.get(OpenAPIPlatform.LOADED_API_KEY);
-        return api.getSecurity();
+        Map<String, Object> results = new HashMap<String, Object> ();
+        results.put("securityDefinitions", api.getSecurityDefinitions());
+        results.put("security", api.getSecurity());
+        results.put("operation", OpenAPIUtils.getOperationsIncludingSecurity(api));
+        return results;
     }
 }
