@@ -5,10 +5,20 @@ import platform "ReactPlatform"
 
 use provider ReactPlatform.ReactIntentProvider
 
-//We load here a definition from a url. We need to add more messages to guide the user about the messages he could ask
+//We load here a definition from a url. We need to add more messages to guide the user about the questions he could ask
 on intent ApiUrl do
 	action ReactPlatform.Reply(message : "Loading API from " + context(API).get("url"))
-	action OpenAPIPlatform.LoadAPI(url : context(API).get("url"))
+	def result = action OpenAPIPlatform.LoadAPI(url : context(API).get("url"))
+	if(result.get("loaded") == false){
+		action ReactPlatform.Reply(message : "Oops, we could not parse the API. Make sure that you provided a valid API")
+		action ReactPlatform.Reply(message : "Here is the error message")
+		action ReactPlatform.Reply(message : result.get("error"))
+	}
+	else {
+		def api = result.get("api")
+		action ReactPlatform.Reply(message : "The API "+api.getInfo().getTitle()+", version "+api.getInfo().getVersion()+", was successfully loaded")
+		action ReactPlatform.Reply(message : "Ask me something")
+	}
 
 on intent ListPaths do
 	def pathList = action OpenAPIPlatform.ListPaths
