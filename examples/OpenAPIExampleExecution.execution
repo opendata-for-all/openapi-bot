@@ -92,7 +92,7 @@ on intent SecuritySchemeList do
 		action ReactPlatform.Reply(message : "No security schemes found")
 	}
 	else {
-		def securitySchemeItemize = action ReactPlatform.ItemizeList(list : result.entrySet())
+		def securitySchemeItemize = action ReactPlatform.ItemizeList(list : result)
 		action ReactPlatform.Reply(message : "The security schemes provided by the API are: ")
 		action ReactPlatform.Reply(message : securitySchemeItemize)
 	}

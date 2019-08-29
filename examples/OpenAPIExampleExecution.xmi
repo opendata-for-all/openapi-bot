@@ -436,9 +436,7 @@
           <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.1"/>
           <values>
             <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.1/@parameters.0"/>
-            <expression xsi:type="common:OperationCall" name="entrySet">
-              <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.0/@instructions.1"/>
-            </expression>
+            <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.0/@instructions.1"/>
           </values>
         </value>
       </elseInstructions>

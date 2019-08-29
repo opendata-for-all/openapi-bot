@@ -1,11 +1,15 @@
 package com.xatkit.plugins.openapi.platform;
 
 import com.xatkit.core.XatkitCore;
+import com.xatkit.core.platform.Formatter;
 import com.xatkit.core.platform.RuntimePlatform;
 import com.xatkit.core.session.XatkitSession;
 import edu.uoc.som.openapi2.API;
 import edu.uoc.som.openapi2.Operation;
 import edu.uoc.som.openapi2.Path;
+
+import java.util.Map;
+
 import org.apache.commons.configuration2.Configuration;
 
 public class OpenAPIPlatform extends RuntimePlatform {
@@ -17,6 +21,10 @@ public class OpenAPIPlatform extends RuntimePlatform {
         this.xatkitCore.getFormatter("Default").registerFormatFunction(Path.class, Path::getRelativePath);
         this.xatkitCore.getFormatter("Default").registerFormatFunction(Operation.class,
                 o -> o.getHTTPMethod() + ": " + o.getSummary());
+        this.xatkitCore.getFormatter("Default").registerFormatFunction(Map.Entry.class, e -> e.getKey()+"");
+//        Formatter formatter = new Formatter();
+//        this.xatkitCore.registerFormatter("LOL", formatter);
+//        formatter.registerFormatFunction(Path.class, p -> "lol" + p.getRelativePath());
     }
 
     public API getApi(XatkitSession session) {
