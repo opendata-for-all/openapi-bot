@@ -13,4 +13,5 @@ actions {
 	IsAuthenticationRequired
 	IsAuthenticationRequiredOperation(operationId)
 	SecuritySchemeList
+	SecuritySchemeDetails(securitySchemeId)
 }

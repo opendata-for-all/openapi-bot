@@ -96,6 +96,15 @@ on intent SecuritySchemeList do
 		action ReactPlatform.Reply(message : "The security schemes provided by the API are: ")
 		action ReactPlatform.Reply(message : securitySchemeItemize)
 	}
+	
+on intent SecuritySchemeDetails do
+	def result = action OpenAPIPlatform.SecuritySchemeDetails(securitySchemeId : context(SecurityScheme).get("securitySchemeId"))
+	if(result.get("found") == false){
+		action ReactPlatform.Reply(message : "Oops! I could not find the security scheme "+context(SecurityScheme).get("securitySchemeId"))
+	}else {
+		def securityScheme = result.get("value")
+		action  ReactPlatform.Reply(message : "Here is the definition of the security scheme "+context(SecurityScheme).get("securitySchemeId")+":  \nType: "+securityScheme.getType()+"  \nName: "+securityScheme.getName()+"  \nIn: "+securityScheme.getLocation())
+		}
 
 	
 	

@@ -14,4 +14,7 @@
     <parameters key="operationId"/>
   </actions>
   <actions name="SecuritySchemeList"/>
+  <actions name="SecuritySchemeDetails">
+    <parameters key="securitySchemeId"/>
+  </actions>
 </platform:PlatformDefinition>

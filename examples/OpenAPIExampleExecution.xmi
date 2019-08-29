@@ -2,7 +2,7 @@
 <execution:ExecutionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="com.xatkit.common" xmlns:execution="com.xatkit.execution">
   <eventProviderDefinitions href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@eventProviderDefinitions.0"/>
   <executionRules>
-    <event href="pathmap://XATKIT_CUSTOM_LIBRARY/OpenAPILibrary#//@eventDefinitions.0"/>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.0"/>
     <instructions xsi:type="execution:ActionInstance">
       <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
       <values>
@@ -103,7 +103,7 @@
     </instructions>
   </executionRules>
   <executionRules>
-    <event href="pathmap://XATKIT_CUSTOM_LIBRARY/OpenAPILibrary#//@eventDefinitions.1"/>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.1"/>
     <instructions xsi:type="common:VariableDeclaration" name="pathList">
       <value xsi:type="execution:ActionInstance">
         <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.1"/>
@@ -127,7 +127,7 @@
     </instructions>
   </executionRules>
   <executionRules>
-    <event href="pathmap://XATKIT_CUSTOM_LIBRARY/OpenAPILibrary#//@eventDefinitions.2"/>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.2"/>
     <instructions xsi:type="common:VariableDeclaration" name="operationList">
       <value xsi:type="execution:ActionInstance">
         <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.2"/>
@@ -165,7 +165,7 @@
     </instructions>
   </executionRules>
   <executionRules>
-    <event href="pathmap://XATKIT_CUSTOM_LIBRARY/OpenAPILibrary#//@eventDefinitions.3"/>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.3"/>
     <instructions xsi:type="common:VariableDeclaration" name="result">
       <value xsi:type="execution:ActionInstance">
         <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.1"/>
@@ -188,7 +188,7 @@
     </instructions>
   </executionRules>
   <executionRules>
-    <event href="pathmap://XATKIT_CUSTOM_LIBRARY/OpenAPILibrary#//@eventDefinitions.4"/>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.4"/>
     <instructions xsi:type="common:VariableDeclaration" name="result">
       <value xsi:type="execution:ActionInstance">
         <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.3"/>
@@ -206,7 +206,7 @@
     </instructions>
   </executionRules>
   <executionRules>
-    <event href="pathmap://XATKIT_CUSTOM_LIBRARY/OpenAPILibrary#//@eventDefinitions.5"/>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.5"/>
     <instructions xsi:type="common:VariableDeclaration" name="result">
       <value xsi:type="execution:ActionInstance">
         <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.4"/>
@@ -266,7 +266,7 @@
     </instructions>
   </executionRules>
   <executionRules>
-    <event href="pathmap://XATKIT_CUSTOM_LIBRARY/OpenAPILibrary#//@eventDefinitions.6"/>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.6"/>
     <instructions xsi:type="common:VariableDeclaration" name="result">
       <value xsi:type="execution:ActionInstance">
         <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.5"/>
@@ -293,7 +293,7 @@
     </instructions>
   </executionRules>
   <executionRules>
-    <event href="pathmap://XATKIT_CUSTOM_LIBRARY/OpenAPILibrary#//@eventDefinitions.7"/>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.7"/>
     <instructions xsi:type="common:VariableDeclaration" name="result">
       <value xsi:type="execution:ActionInstance">
         <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.6"/>
@@ -414,7 +414,7 @@
     </instructions>
   </executionRules>
   <executionRules>
-    <event href="pathmap://XATKIT_CUSTOM_LIBRARY/OpenAPILibrary#//@eventDefinitions.8"/>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.8"/>
     <instructions xsi:type="common:VariableDeclaration" name="result">
       <value xsi:type="execution:ActionInstance">
         <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.7"/>
@@ -452,6 +452,86 @@
         <values>
           <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
           <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@elseInstructions.0"/>
+        </values>
+      </elseInstructions>
+    </instructions>
+  </executionRules>
+  <executionRules>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.9"/>
+    <instructions xsi:type="common:VariableDeclaration" name="result">
+      <value xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.8"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.8/@parameters.0"/>
+          <expression xsi:type="common:OperationCall" name="get">
+            <source xsi:type="common:ContextAccess" contextName="SecurityScheme"/>
+            <args xsi:type="common:StringLiteral" value="securitySchemeId"/>
+          </expression>
+        </values>
+      </value>
+    </instructions>
+    <instructions xsi:type="common:IfExpression">
+      <condition xsi:type="common:OperationCall" name="==">
+        <source xsi:type="common:OperationCall" name="get">
+          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.0/@instructions.1"/>
+          <args xsi:type="common:StringLiteral" value="found"/>
+        </source>
+        <args xsi:type="common:BooleanLiteral"/>
+      </condition>
+      <thenInstructions xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+          <expression xsi:type="common:OperationCall" name="+">
+            <source xsi:type="common:StringLiteral" value="Oops! I could not find the security scheme "/>
+            <args xsi:type="common:OperationCall" name="get">
+              <source xsi:type="common:ContextAccess" contextName="SecurityScheme"/>
+              <args xsi:type="common:StringLiteral" value="securitySchemeId"/>
+            </args>
+          </expression>
+        </values>
+      </thenInstructions>
+      <elseInstructions xsi:type="common:VariableDeclaration" name="securityScheme">
+        <value xsi:type="common:OperationCall" name="get">
+          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.0/@instructions.1"/>
+          <args xsi:type="common:StringLiteral" value="value"/>
+        </value>
+      </elseInstructions>
+      <elseInstructions xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+          <expression xsi:type="common:OperationCall" name="+">
+            <source xsi:type="common:StringLiteral" value="Here is the definition of the security scheme "/>
+            <args xsi:type="common:OperationCall" name="+">
+              <source xsi:type="common:OperationCall" name="get">
+                <source xsi:type="common:ContextAccess" contextName="SecurityScheme"/>
+                <args xsi:type="common:StringLiteral" value="securitySchemeId"/>
+              </source>
+              <args xsi:type="common:OperationCall" name="+">
+                <source xsi:type="common:StringLiteral" value=":  &#xA;Type: "/>
+                <args xsi:type="common:OperationCall" name="+">
+                  <source xsi:type="common:OperationCall" name="getType">
+                    <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.10/@instructions.1/@elseInstructions.0"/>
+                  </source>
+                  <args xsi:type="common:OperationCall" name="+">
+                    <source xsi:type="common:StringLiteral" value="  &#xA;Name: "/>
+                    <args xsi:type="common:OperationCall" name="+">
+                      <source xsi:type="common:OperationCall" name="getName">
+                        <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.10/@instructions.1/@elseInstructions.0"/>
+                      </source>
+                      <args xsi:type="common:OperationCall" name="+">
+                        <source xsi:type="common:StringLiteral" value="  &#xA;In: "/>
+                        <args xsi:type="common:OperationCall" name="getLocation">
+                          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.10/@instructions.1/@elseInstructions.0"/>
+                        </args>
+                      </args>
+                    </args>
+                  </args>
+                </args>
+              </args>
+            </args>
+          </expression>
         </values>
       </elseInstructions>
     </instructions>

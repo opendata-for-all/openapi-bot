@@ -75,3 +75,12 @@ intent SecuritySchemeList {
 		"What are the security schemes provided by this API?"
 	}
 }
+intent SecuritySchemeDetails {
+	inputs {
+		"Tell me more about the security scheme xxx"
+		"Tell me more about the authentication method xxx"
+	}
+		creates context SecurityScheme {
+		sets parameter securitySchemeId from fragment "xxx" (entity any)
+	}
+}

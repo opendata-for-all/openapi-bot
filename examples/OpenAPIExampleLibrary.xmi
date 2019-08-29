@@ -55,4 +55,15 @@
     <trainingSentences>What are the authentication methods declared by this API?</trainingSentences>
     <trainingSentences>What are the security schemes provided by this API?</trainingSentences>
   </eventDefinitions>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="SecuritySchemeDetails">
+    <outContexts name="SecurityScheme">
+      <parameters name="securitySchemeId" textFragment="xxx">
+        <entity xsi:type="intent:BaseEntityDefinitionReference">
+          <baseEntity/>
+        </entity>
+      </parameters>
+    </outContexts>
+    <trainingSentences>Tell me more about the security scheme xxx</trainingSentences>
+    <trainingSentences>Tell me more about the authentication method xxx</trainingSentences>
+  </eventDefinitions>
 </intent:Library>
