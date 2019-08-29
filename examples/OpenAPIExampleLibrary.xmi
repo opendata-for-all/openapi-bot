@@ -50,4 +50,9 @@
     </outContexts>
     <trainingSentences>Does the operation xxx require authentication?</trainingSentences>
   </eventDefinitions>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="SecuritySchemeList">
+    <trainingSentences>What are the authentication methods provided by this API?</trainingSentences>
+    <trainingSentences>What are the authentication methods declared by this API?</trainingSentences>
+    <trainingSentences>What are the security schemes provided by this API?</trainingSentences>
+  </eventDefinitions>
 </intent:Library>

@@ -400,7 +400,7 @@
           <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
           <values>
             <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
-            <expression xsi:type="common:StringLiteral" value="You should use one of the following:"/>
+            <expression xsi:type="common:StringLiteral" value="You should use one of the following authentication methods:"/>
           </values>
         </elseInstructions>
         <elseInstructions xsi:type="execution:ActionInstance">
@@ -410,6 +410,51 @@
             <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.8/@instructions.1/@elseInstructions.1/@elseInstructions.0"/>
           </values>
         </elseInstructions>
+      </elseInstructions>
+    </instructions>
+  </executionRules>
+  <executionRules>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.8"/>
+    <instructions xsi:type="common:VariableDeclaration" name="result">
+      <value xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.7"/>
+      </value>
+    </instructions>
+    <instructions xsi:type="common:IfExpression">
+      <condition xsi:type="common:OperationCall" name="isEmpty">
+        <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.0/@instructions.1"/>
+      </condition>
+      <thenInstructions xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+          <expression xsi:type="common:StringLiteral" value="No security schemes found"/>
+        </values>
+      </thenInstructions>
+      <elseInstructions xsi:type="common:VariableDeclaration" name="securitySchemeItemize">
+        <value xsi:type="execution:ActionInstance">
+          <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.1"/>
+          <values>
+            <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.1/@parameters.0"/>
+            <expression xsi:type="common:OperationCall" name="entrySet">
+              <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.0/@instructions.1"/>
+            </expression>
+          </values>
+        </value>
+      </elseInstructions>
+      <elseInstructions xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+          <expression xsi:type="common:StringLiteral" value="The security schemes provided by the API are: "/>
+        </values>
+      </elseInstructions>
+      <elseInstructions xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+          <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@elseInstructions.0"/>
+        </values>
       </elseInstructions>
     </instructions>
   </executionRules>

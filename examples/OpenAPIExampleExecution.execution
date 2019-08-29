@@ -81,11 +81,21 @@ else {
 		else {
 			def options = action ReactPlatform.ItemizeList(list : result.get("options"))
 			action ReactPlatform.Reply(message : "Yes, authentication is needed to execute operation "+ context(Operation).get("operationId"))
-			action ReactPlatform.Reply(message : "You should use one of the following:")
+			action ReactPlatform.Reply(message : "You should use one of the following authentication methods:")
 			action ReactPlatform.Reply(message : options)
 		}
 	}
 	
-	
+on intent SecuritySchemeList do 
+	def result = action OpenAPIPlatform.SecuritySchemeList
+	if(result.isEmpty()){
+		action ReactPlatform.Reply(message : "No security schemes found")
+	}
+	else {
+		def securitySchemeItemize = action ReactPlatform.ItemizeList(list : result.entrySet())
+		action ReactPlatform.Reply(message : "The security schemes provided by the API are: ")
+		action ReactPlatform.Reply(message : securitySchemeItemize)
+	}
+
 	
 	

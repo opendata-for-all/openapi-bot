@@ -13,4 +13,5 @@
   <actions name="IsAuthenticationRequiredOperation">
     <parameters key="operationId"/>
   </actions>
+  <actions name="SecuritySchemeList"/>
 </platform:PlatformDefinition>

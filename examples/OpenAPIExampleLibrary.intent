@@ -44,24 +44,34 @@ intent AskLicenseInfo {
 	}
 }
 
-
+//Security and authentication
 intent SupportedSchemes {
 	inputs {
 		"What are the transfer protocols supported by this API?"
 	}
 }
-//Security
+
 intent IsAuthenticationRequired {
+	//should check api.security and operation.security
 	inputs {
 		"Does this API require authentication?"
 	}
 }
 
 intent IsAuthenticationRequiredOperation {
+	//should check operation.security
 	inputs {
 		"Does the operation xxx require authentication?"
 	}
 	creates context Operation {
 		sets parameter operationId from fragment "xxx" (entity any)
+	}
+}
+intent SecuritySchemeList {
+	//should check api.securityDefinitions
+	inputs {
+		"What are the authentication methods provided by this API?"
+		"What are the authentication methods declared by this API?"
+		"What are the security schemes provided by this API?"
 	}
 }
