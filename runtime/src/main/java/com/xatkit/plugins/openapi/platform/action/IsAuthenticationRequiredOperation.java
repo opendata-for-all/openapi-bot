@@ -1,8 +1,7 @@
 package com.xatkit.plugins.openapi.platform.action;
 
+import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.collections4.map.HashedMap;
 
 import com.xatkit.core.platform.action.RuntimeAction;
 import com.xatkit.core.session.XatkitSession;
@@ -25,7 +24,7 @@ public class IsAuthenticationRequiredOperation extends RuntimeAction<OpenAPIPlat
 
 	@Override
 	protected Object compute() throws Exception {
-		Map<String, Object> result = new HashedMap<String, Object>();
+		Map<String, Object> result = new HashMap<String, Object>();
 		Operation operation = api.getOperationById(operationId);
 		if (operation == null) {
 			result.put("found", false);
