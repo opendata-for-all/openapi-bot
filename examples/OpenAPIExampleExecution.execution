@@ -5,6 +5,10 @@ import platform "ReactPlatform"
 
 use provider ReactPlatform.ReactIntentProvider
 
+
+on intent Default_Fallback_Intent do
+	action ReactPlatform.Reply(message : "An error occurred")
+
 //We load here a definition from a url. We need to add more messages to guide the user about the questions he could ask
 on intent ApiUrl do
 	action ReactPlatform.Reply(message : "Loading API from " + context(API).get("url"))
@@ -62,8 +66,7 @@ on intent SupportedSchemes do
 		action ReactPlatform.Reply(message : itemize)
 	}
 
-on intent Default_Fallback_Intent do
-	action ReactPlatform.Reply(message : "An error occurred")
+
 
 //Security actions	
 on intent IsAuthenticationRequired do 
