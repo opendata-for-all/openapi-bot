@@ -29,6 +29,15 @@ intent ListOperationsOnPathUsingRowNumber follows ListPaths {
 		sets parameter pathIdentifier from fragment "XXX" (entity number)
 	}
 }
+intent PathDetails {
+		inputs {
+		"Tell me more about the path xxx"
+		"Tell me more about the path with has the relative path XXX"
+	}
+	creates context RelativePath {
+		sets parameter relativePath from fragment "XXX" (entity any)
+	}
+}
 
 intent GetNumberOfPath {
 	inputs {

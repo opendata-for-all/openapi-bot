@@ -4,7 +4,9 @@ path "com.xatkit.plugins.openapi.platform.OpenAPIPlatform"
 
 actions {
 	LoadAPI("url")
+	//path
 	ListPaths
+	PathDetails(relativePath)
 	// pathIdentifier = Integer for now
 	ListOperationsOnPathUsingRowNumber(pathIdentifier)
 	GetLicense

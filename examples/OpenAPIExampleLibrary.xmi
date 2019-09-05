@@ -26,6 +26,17 @@
     </outContexts>
     <trainingSentences>List the operations of the path on the position XXX</trainingSentences>
   </eventDefinitions>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="PathDetails">
+    <outContexts name="RelativePath">
+      <parameters name="relativePath" textFragment="XXX">
+        <entity xsi:type="intent:BaseEntityDefinitionReference">
+          <baseEntity/>
+        </entity>
+      </parameters>
+    </outContexts>
+    <trainingSentences>Tell me more about the path xxx</trainingSentences>
+    <trainingSentences>Tell me more about the path with has the relative path XXX</trainingSentences>
+  </eventDefinitions>
   <eventDefinitions xsi:type="intent:IntentDefinition" name="GetNumberOfPath">
     <trainingSentences>Give me the number of paths</trainingSentences>
     <trainingSentences>How many paths are there in the API</trainingSentences>

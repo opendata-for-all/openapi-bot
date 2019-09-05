@@ -4,6 +4,9 @@
     <parameters key="url"/>
   </actions>
   <actions name="ListPaths"/>
+  <actions name="PathDetails">
+    <parameters key="relativePath"/>
+  </actions>
   <actions name="ListOperationsOnPathUsingRowNumber">
     <parameters key="pathIdentifier"/>
   </actions>

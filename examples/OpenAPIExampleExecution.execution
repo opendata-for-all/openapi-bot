@@ -19,11 +19,22 @@ on intent ApiUrl do
 		action ReactPlatform.Reply(message : "The API "+api.getInfo().getTitle()+", version "+api.getInfo().getVersion()+", was successfully loaded")
 		action ReactPlatform.Reply(message : "Ask me something")
 	}
-
+//Intents related to Path element
 on intent ListPaths do
 	def pathList = action OpenAPIPlatform.ListPaths
 	def pathEnum = action ReactPlatform.EnumerateList(list : pathList)
 	action ReactPlatform.Reply(message : pathEnum)
+
+
+on intent PathDetails do
+	def result = action OpenAPIPlatform.PathDetails(relativePath :  context(RelativePath).get("relativePath"))
+	if(result.get("found") == true){
+		def path = result.get("value")
+		action ReactPlatform.Reply(message : "found")
+	}
+	else {
+		action ReactPlatform.Reply(message : "Oops! I could not find the path " + context(RelativePath).get("relativePath"))
+	}
 
 on intent ListOperationsOnPathUsingRowNumber  do
 	def operationList = action OpenAPIPlatform.ListOperationsOnPathUsingRowNumber(pathIdentifier : context(Path).get("pathIdentifier"))
