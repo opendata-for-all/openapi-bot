@@ -16,7 +16,7 @@
     <trainingSentences>Display the relative paths</trainingSentences>
     <trainingSentences>What are the paths?</trainingSentences>
   </eventDefinitions>
-  <eventDefinitions xsi:type="intent:IntentDefinition" name="ListOperationForPath" follows="//@eventDefinitions.1">
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="ListOperationsOnPathUsingRowNumber" follows="//@eventDefinitions.1">
     <outContexts name="Path">
       <parameters name="pathIdentifier" textFragment="XXX">
         <entity xsi:type="intent:BaseEntityDefinitionReference">
@@ -24,7 +24,7 @@
         </entity>
       </parameters>
     </outContexts>
-    <trainingSentences>List the operations of XXX</trainingSentences>
+    <trainingSentences>List the operations of the path on the position XXX</trainingSentences>
   </eventDefinitions>
   <eventDefinitions xsi:type="intent:IntentDefinition" name="GetNumberOfPath">
     <trainingSentences>Give me the number of paths</trainingSentences>

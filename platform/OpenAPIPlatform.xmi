@@ -4,7 +4,7 @@
     <parameters key="url"/>
   </actions>
   <actions name="ListPaths"/>
-  <actions name="ListOperations">
+  <actions name="ListOperationsOnPathUsingRowNumber">
     <parameters key="pathIdentifier"/>
   </actions>
   <actions name="GetLicense"/>

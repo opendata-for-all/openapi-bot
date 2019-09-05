@@ -6,7 +6,7 @@ actions {
 	LoadAPI("url")
 	ListPaths
 	// pathIdentifier = Integer for now
-	ListOperations(pathIdentifier)
+	ListOperationsOnPathUsingRowNumber(pathIdentifier)
 	GetLicense
 	//Security
 	SupportedSchemes

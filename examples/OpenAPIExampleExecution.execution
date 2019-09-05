@@ -25,8 +25,8 @@ on intent ListPaths do
 	def pathEnum = action ReactPlatform.EnumerateList(list : pathList)
 	action ReactPlatform.Reply(message : pathEnum)
 
-on intent ListOperationForPath  do
-	def operationList = action OpenAPIPlatform.ListOperations(pathIdentifier : context(Path).get("pathIdentifier"))
+on intent ListOperationsOnPathUsingRowNumber  do
+	def operationList = action OpenAPIPlatform.ListOperationsOnPathUsingRowNumber(pathIdentifier : context(Path).get("pathIdentifier"))
 	def operationItemize = action ReactPlatform.ItemizeList(list : operationList)
 	action ReactPlatform.Reply(message : "Here are the operations I found for the path:")
 	action ReactPlatform.Reply(message : operationItemize)

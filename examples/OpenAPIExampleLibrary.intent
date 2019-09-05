@@ -20,9 +20,9 @@ intent ListPaths {
 	}
 }
 
-intent ListOperationForPath follows ListPaths {
+intent ListOperationsOnPathUsingRowNumber follows ListPaths {
 	inputs {
-		"List the operations of XXX"
+		"List the operations of the path on the position XXX"
 	}
 	creates context Path {
 		// Let's say it's an integer for now
