@@ -2,13 +2,15 @@
 <intent:Library xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intent="com.xatkit.intent" name="OpenAPIExampleLibrary">
   <eventDefinitions xsi:type="intent:IntentDefinition" name="ApiUrl">
     <outContexts name="API">
-      <parameters name="url" textFragment="URL">
+      <parameters name="url" textFragment="XXX">
         <entity xsi:type="intent:BaseEntityDefinitionReference">
           <baseEntity entityType="url"/>
         </entity>
       </parameters>
     </outContexts>
-    <trainingSentences>URL</trainingSentences>
+    <trainingSentences>Load the API XXX</trainingSentences>
+    <trainingSentences>Load the OpenAPI definition located at XXX</trainingSentences>
+    <trainingSentences>Load the API located at XXX</trainingSentences>
   </eventDefinitions>
   <eventDefinitions xsi:type="intent:IntentDefinition" name="ListPaths" followedBy="//@eventDefinitions.2">
     <trainingSentences>Show me the list of paths in the API</trainingSentences>

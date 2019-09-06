@@ -4,10 +4,12 @@ Library OpenAPIExampleLibrary
 
 intent ApiUrl {
 	inputs {
-		"URL"
+		"Load the API XXX"
+		"Load the OpenAPI definition located at XXX"
+		"Load the API located at XXX"
 	}
 	creates context API {
-		sets parameter "url" from fragment "URL" (entity url)
+		sets parameter "url" from fragment "XXX" (entity url)
 	}
 }
 
