@@ -9,6 +9,7 @@ use provider ReactPlatform.ReactIntentProvider
 on intent Default_Fallback_Intent do
 	action ReactPlatform.Reply(message : "An error occurred")
 
+////////// Load API /////////////////////
 //We load here a definition from a url. We need to add more messages to guide the user about the questions he could ask
 on intent ApiUrl do
 	action ReactPlatform.Reply(message : "Loading API from " + context(API).get("url"))
@@ -23,18 +24,46 @@ on intent ApiUrl do
 		action ReactPlatform.Reply(message : "The API "+api.getInfo().getTitle()+", version "+api.getInfo().getVersion()+", was successfully loaded")
 		action ReactPlatform.Reply(message : "Ask me something")
 	}
+
+////////// Path intent /////////////////////
 //Intents related to Path element
 on intent ListPaths do
-	def pathList = action OpenAPIPlatform.ListPaths
-	def pathEnum = action ReactPlatform.EnumerateList(list : pathList)
-	action ReactPlatform.Reply(message : pathEnum)
+	def loadedAPI = session.get("xatkit.plugins.openapi.api")
+	if(loadedAPI.isNull()) {
+		action ReactPlatform.Reply(message : "Can you give me an API?")
+	} else {
+		def pathList = action OpenAPIPlatform.ListPaths
+		def pathEnum = action ReactPlatform.EnumerateList(list : pathList)
+		action ReactPlatform.Reply(message : pathEnum)
+	}
+	
+on intent ListPathFallback do
+	action ReactPlatform.Reply(message : "Loading API from " + context(API).get("url"))
+	def result = action OpenAPIPlatform.LoadAPI(url : context(API).get("url"))
+	if(result.get("loaded") == false){
+		action ReactPlatform.Reply(message : "Oops, we could not parse the API. Make sure that you provided a valid API")
+		action ReactPlatform.Reply(message : "Here is the error message")
+		action ReactPlatform.Reply(message : result.get("error"))
+	}
+	else {
+		def api = result.get("api")
+		action ReactPlatform.Reply(message : "The API "+api.getInfo().getTitle()+", version "+api.getInfo().getVersion()+", was successfully loaded")
+		def loadedAPI = session.get("xatkit.plugins.openapi.api")
+		if(loadedAPI.isNull()) {
+			action ReactPlatform.Reply(message : "Can you give me an API?")
+		} else {
+			def pathList = action OpenAPIPlatform.ListPaths
+			def pathEnum = action ReactPlatform.EnumerateList(list : pathList)
+			action ReactPlatform.Reply(message : pathEnum)
+		}
+	}
 
 
 on intent PathDetails do
 	def result = action OpenAPIPlatform.PathDetails(relativePath :  context(RelativePath).get("relativePath"))
 	if(result.get("found") == true){
 		def path = result.get("value")
-		action ReactPlatform.Reply(message : "found")
+		action ReactPlatform.Reply(message : "The path found ")
 	}
 	else {
 		action ReactPlatform.Reply(message : "Oops! I could not find the path " + context(RelativePath).get("relativePath"))
