@@ -23,11 +23,24 @@
     <trainingSentences>Tell me more about the path xxx</trainingSentences>
     <trainingSentences>Tell me more about the path with has the relative path XXX</trainingSentences>
   </eventDefinitions>
-  <eventDefinitions xsi:type="intent:IntentDefinition" name="ListPaths" followedBy="//@eventDefinitions.3">
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="ListPaths" followedBy="//@eventDefinitions.4">
+    <outContexts name="error" lifeSpan="2"/>
     <trainingSentences>Show me the list of paths in the API</trainingSentences>
     <trainingSentences>Show me the list of paths</trainingSentences>
     <trainingSentences>Display the relative paths</trainingSentences>
     <trainingSentences>What are the paths?</trainingSentences>
+  </eventDefinitions>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="ListPathFallback">
+    <outContexts name="API">
+      <parameters name="url" textFragment="API">
+        <entity xsi:type="intent:BaseEntityDefinitionReference">
+          <baseEntity entityType="url"/>
+        </entity>
+      </parameters>
+    </outContexts>
+    <outContexts name="error" lifeSpan="2"/>
+    <inContexts name="error"/>
+    <trainingSentences>API</trainingSentences>
   </eventDefinitions>
   <eventDefinitions xsi:type="intent:IntentDefinition" name="ListOperationsOnPathUsingRowNumber" follows="//@eventDefinitions.2">
     <outContexts name="Path">

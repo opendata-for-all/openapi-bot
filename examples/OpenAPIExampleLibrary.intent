@@ -29,6 +29,18 @@ intent ListPaths {
 		"Display the relative paths"
 		"What are the paths?"
 	}
+	creates context error with lifespan 2
+}
+
+intent ListPathFallback {
+	requires context error
+	inputs {
+		"API"
+	}
+	creates context API {
+		sets parameter "url" from fragment "API" (entity url)
+	}
+	creates context error with lifespan 2
 }
 
 intent ListOperationsOnPathUsingRowNumber follows ListPaths {
