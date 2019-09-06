@@ -1,16 +1,16 @@
 package com.xatkit.plugins.openapi.platform;
 
-import com.xatkit.core.XatkitCore;
-import com.xatkit.core.platform.Formatter;
-import com.xatkit.core.platform.RuntimePlatform;
-import com.xatkit.core.session.XatkitSession;
-import edu.uoc.som.openapi2.API;
-import edu.uoc.som.openapi2.Operation;
-import edu.uoc.som.openapi2.Path;
-
 import java.util.Map;
 
 import org.apache.commons.configuration2.Configuration;
+
+import com.xatkit.core.XatkitCore;
+import com.xatkit.core.platform.RuntimePlatform;
+import com.xatkit.core.session.XatkitSession;
+
+import edu.uoc.som.openapi2.API;
+import edu.uoc.som.openapi2.Operation;
+import edu.uoc.som.openapi2.Path;
 
 public class OpenAPIPlatform extends RuntimePlatform {
 
