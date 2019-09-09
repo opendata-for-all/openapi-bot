@@ -2,7 +2,7 @@ Library OpenAPIExampleLibrary
 
 
 
-intent ApiUrl {
+intent LoadAPI {
 	inputs {
 		"Load the API XXX"
 		"Load the OpenAPI definition located at XXX"
@@ -12,10 +12,10 @@ intent ApiUrl {
 		sets parameter "url" from fragment "XXX" (entity url)
 	}
 }
-//Path related intent
-intent PathDetails {
+////////Path related intent///////////
+intent GetPathDetails {
 		inputs {
-		"Tell me more about the path xxx"
+		"Tell me more about the path XXX"
 		"Tell me more about the path with has the relative path XXX"
 	}
 	creates context RelativePath {
@@ -32,17 +32,18 @@ intent ListPaths {
 	creates context error with lifespan 2
 }
 
-intent ListPathFallback {
-	requires context error
-	inputs {
-		"API"
-	}
-	creates context API {
-		sets parameter "url" from fragment "API" (entity url)
-	}
-	creates context error with lifespan 2
-}
+//intent ListPathFallback {
+//	requires context error
+//	inputs {
+//		"API"
+//	}
+//	creates context API {
+//		sets parameter "url" from fragment "API" (entity url)
+//	}
+//	creates context error with lifespan 2
+//}
 
+////////Operation related intents
 intent ListOperationsOnPathUsingRowNumber follows ListPaths {
 	inputs {
 		"List the operations of the path on the position XXX"
@@ -55,6 +56,14 @@ intent ListOperationsOnPathUsingRowNumber follows ListPaths {
 	}
 }
 
+intent OperationOnPath follows GetPathDetails {
+	inputs {
+		"Show me its XXX operation"
+	}
+	creates context Operation {
+		sets parameter httpMethod from fragment "XXX" (entity any)
+	} 
+}
 
 intent GetNumberOfPath {
 	inputs {
