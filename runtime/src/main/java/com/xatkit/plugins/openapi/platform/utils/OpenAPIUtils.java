@@ -1,5 +1,7 @@
 package com.xatkit.plugins.openapi.platform.utils;
 
+import static java.util.Objects.nonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +62,31 @@ public class OpenAPIUtils {
 				return api.getSecurity();
 		} else
 			return operation.getSecurity();
+	}
+	public static List<Operation> getAllOperationsOnPath(Path path){
+		 List<Operation> operations = new ArrayList<>();
+	        if(nonNull(path.getGet())) {
+	            operations.add(path.getGet());
+	        }
+	        if(nonNull(path.getPost())) {
+	            operations.add(path.getPost());
+	        }
+	        if(nonNull(path.getDelete())) {
+	            operations.add(path.getDelete());
+	        }
+	        if(nonNull(path.getPatch())) {
+	            operations.add(path.getPatch());
+	        }
+	        if(nonNull(path.getOptions())) {
+	            operations.add(path.getOptions());
+	        }
+	        if(nonNull(path.getPut())) {
+	            operations.add(path.getPut());
+	        }
+	        if(nonNull(path.getHead())) {
+	            operations.add(path.getHead());
+	        }
+	        return operations;
 	}
 
 }
