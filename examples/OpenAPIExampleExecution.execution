@@ -11,7 +11,7 @@ on intent Default_Fallback_Intent do
 
 ////////// Load API /////////////////////
 //We load here a definition from a url. We need to add more messages to guide the user about the questions he could ask
-on intent ApiUrl do
+on intent LoadAPI do
 	action ReactPlatform.Reply(message : "Loading API from " + context(API).get("url"))
 	def result = action OpenAPIPlatform.LoadAPI(url : context(API).get("url"))
 	if(result.get("loaded") == false){
@@ -37,48 +37,48 @@ on intent ListPaths do
 		action ReactPlatform.Reply(message : pathEnum)
 	}
 	
-on intent ListPathFallback do
-	action ReactPlatform.Reply(message : "Loading API from " + context(API).get("url"))
-	def result = action OpenAPIPlatform.LoadAPI(url : context(API).get("url"))
-	if(result.get("loaded") == false){
-		action ReactPlatform.Reply(message : "Oops, we could not parse the API. Make sure that you provided a valid API")
-		action ReactPlatform.Reply(message : "Here is the error message")
-		action ReactPlatform.Reply(message : result.get("error"))
-	}
-	else {
-		def api = result.get("api")
-		action ReactPlatform.Reply(message : "The API "+api.getInfo().getTitle()+", version "+api.getInfo().getVersion()+", was successfully loaded")
-		def loadedAPI = session.get("xatkit.plugins.openapi.api")
-		if(loadedAPI.isNull()) {
-			action ReactPlatform.Reply(message : "Can you give me an API?")
-		} else {
-			def pathList = action OpenAPIPlatform.ListPaths
-			def pathEnum = action ReactPlatform.EnumerateList(list : pathList)
-			action ReactPlatform.Reply(message : pathEnum)
-		}
-	}
+//on intent ListPathFallback do
+//	action ReactPlatform.Reply(message : "Loading API from " + context(API).get("url"))
+//	def result = action OpenAPIPlatform.LoadAPI(url : context(API).get("url"))
+//	if(result.get("loaded") == false){
+//		action ReactPlatform.Reply(message : "Oops, we could not parse the API. Make sure that you provided a valid API")
+//		action ReactPlatform.Reply(message : "Here is the error message")
+//		action ReactPlatform.Reply(message : result.get("error"))
+//	}
+//	else {
+//		def api = result.get("api")
+//		action ReactPlatform.Reply(message : "The API "+api.getInfo().getTitle()+", version "+api.getInfo().getVersion()+", was successfully loaded")
+//		def loadedAPI = session.get("xatkit.plugins.openapi.api")
+//		if(loadedAPI.isNull()) {
+//			action ReactPlatform.Reply(message : "Can you give me an API?")
+//		} else {
+//			def pathList = action OpenAPIPlatform.ListPaths
+//			def pathEnum = action ReactPlatform.EnumerateList(list : pathList)
+//			action ReactPlatform.Reply(message : pathEnum)
+//		}
+//	}
 
 
-on intent PathDetails do
-	def result = action OpenAPIPlatform.PathDetails(relativePath :  context(RelativePath).get("relativePath"))
+on intent GetPathDetails do
+	def result = action OpenAPIPlatform.GetPathDetails(relativePath :  context(RelativePath).get("relativePath"))
 	if(result.get("found") == true){
-		def path = result.get("value")
-		action ReactPlatform.Reply(message : "The path found ")
+		action ReactPlatform.Reply(message : result.get("formattedValue"))		
 	}
 	else {
 		action ReactPlatform.Reply(message : "Oops! I could not find the path " + context(RelativePath).get("relativePath"))
 	}
-
+	
+on intent GetNumberOfPath do
+	def result = action OpenAPIPlatform.ListPaths
+	action ReactPlatform.Reply(message : "There are " + result.size() + " paths in the API")
+	
+////////// Operation intent /////////////////////
 on intent ListOperationsOnPathUsingRowNumber  do
 	def operationList = action OpenAPIPlatform.ListOperationsOnPathUsingRowNumber(pathIdentifier : context(Path).get("pathIdentifier"))
 	def operationItemize = action ReactPlatform.ItemizeList(list : operationList)
 	action ReactPlatform.Reply(message : "Here are the operations I found for the path:")
 	action ReactPlatform.Reply(message : operationItemize)
 
-on intent GetNumberOfPath do
-	def result = action OpenAPIPlatform.ListPaths
-	action ReactPlatform.Reply(message : "There are " + result.size() + " paths in the API")
-	
 on intent AskLicenseInfo do 
 	def result = action OpenAPIPlatform.GetLicense
 	action ReactPlatform.Reply(message : "The license is " + result)
