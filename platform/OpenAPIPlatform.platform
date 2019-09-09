@@ -6,7 +6,7 @@ actions {
 	LoadAPI("url")
 	//path
 	ListPaths
-	PathDetails(relativePath)
+	GetPathDetails(relativePath)
 	// pathIdentifier = Integer for now
 	ListOperationsOnPathUsingRowNumber(pathIdentifier)
 	GetLicense
