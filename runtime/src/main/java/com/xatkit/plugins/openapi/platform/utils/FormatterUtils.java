@@ -15,6 +15,13 @@ public class FormatterUtils {
 			formattedPath.append("\n");
 			formattedPath.append("There are no operations defined on this path.");
 		}
+		else {
+			formattedPath.append("There are"+operations.size()+" available on this path:");
+			for(Operation operation:operations)
+				formattedPath.append(" "+operation.getHTTPMethod().toUpperCase());
+			formattedPath.append(".");
+			
+		}
 	
 		return formattedPath.toString();
 		
