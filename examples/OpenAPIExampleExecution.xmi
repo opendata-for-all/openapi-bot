@@ -7,7 +7,14 @@
       <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
       <values>
         <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
-        <expression xsi:type="common:StringLiteral" value="An error occurred"/>
+        <expression xsi:type="common:StringLiteral" value="This is awkward. I could not treat request"/>
+      </values>
+    </instructions>
+    <instructions xsi:type="execution:ActionInstance">
+      <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+      <values>
+        <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+        <expression xsi:type="common:StringLiteral" value="Would you, please, rephrase"/>
       </values>
     </instructions>
   </executionRules>
@@ -50,7 +57,7 @@
         <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
         <values>
           <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
-          <expression xsi:type="common:StringLiteral" value="Oops, we could not parse the API. Make sure that you provided a valid API"/>
+          <expression xsi:type="common:StringLiteral" value="Oops, I could not parse the API. Make sure that you provided a valid API"/>
         </values>
       </thenInstructions>
       <thenInstructions xsi:type="execution:ActionInstance">
