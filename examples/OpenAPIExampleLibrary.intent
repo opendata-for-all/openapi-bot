@@ -58,7 +58,7 @@ intent ListOperationsOnPathUsingRowNumber follows ListPaths {
 
 intent OperationOnPath follows GetPathDetails {
 	inputs {
-		"Show me its XXX operation"
+		"Show me the XXX operation"
 	}
 	creates context Operation {
 		sets parameter httpMethod from fragment "XXX" (entity any)

@@ -50,7 +50,7 @@
         </entity>
       </parameters>
     </outContexts>
-    <trainingSentences>Show me its XXX operation</trainingSentences>
+    <trainingSentences>Show me the XXX operation</trainingSentences>
   </eventDefinitions>
   <eventDefinitions xsi:type="intent:IntentDefinition" name="GetNumberOfPath">
     <trainingSentences>Give me the number of paths</trainingSentences>
