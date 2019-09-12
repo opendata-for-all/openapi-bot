@@ -8,9 +8,9 @@ use provider ReactPlatform.ReactIntentProvider
 
 on intent Default_Fallback_Intent do
 	action ReactPlatform.Reply(message : "This is awkward. I could not treat request")
-	action ReactPlatform.Reply(message : "Would you, please, rephrase")
+	action ReactPlatform.Reply(message : "Would you please rephrase your question")
 
-////////// Load API /////////////////////
+////////// API /////////////////////
 //We load here a definition from a url. We need to add more messages to guide the user about the questions he could ask
 on intent LoadAPI do
 	action ReactPlatform.Reply(message : "Loading API from " + context(API).get("url"))
@@ -24,6 +24,26 @@ on intent LoadAPI do
 		def api = result.get("api")
 		action ReactPlatform.Reply(message : "The API "+api.getInfo().getTitle()+", version "+api.getInfo().getVersion()+", was successfully loaded")
 		action ReactPlatform.Reply(message : "Ask me something")
+	}
+	
+on intent GetAPIDetails do
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "Load an API first")
+		// TODO guide the user to load an API
+	}
+	else {
+		action ReactPlatform.Reply(message : "The host serving the API is `"+api.getHost()+"`")
+		action ReactPlatform.Reply(message : "The base path on which the API is served is `"+api.getBasePath()+"`")
+		if(api.getSchemes().size()== 1){
+			action ReactPlatform.Reply(message : "The transfer protocol of the API is `"+api.getSchemes().get(0)+"`")
+		}
+		if(api.getSchemes().size()>1){
+			action ReactPlatform.Reply(message : "The transfer protocols of the API are:")
+			action ReactPlatform.ItemizeList(list : "`"+api.getSchemes()+"`")
+		}
+		action ReactPlatform.Reply(message : "The API includes "+api.getPaths().size()+ " paths and a total of "+api.getAllOperations().size()+ " operations")
+		action ReactPlatform.Reply(message : "It also includes "+api.getDefinitions().size()+" definitions")
 	}
 
 ////////// Path intent /////////////////////

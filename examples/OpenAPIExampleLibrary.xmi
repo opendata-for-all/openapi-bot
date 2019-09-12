@@ -12,7 +12,11 @@
     <trainingSentences>Load the OpenAPI definition located at XXX</trainingSentences>
     <trainingSentences>Load the API located at XXX</trainingSentences>
   </eventDefinitions>
-  <eventDefinitions xsi:type="intent:IntentDefinition" name="GetPathDetails" followedBy="//@eventDefinitions.4">
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="GetAPIDetails">
+    <trainingSentences>Tell me about this API</trainingSentences>
+    <trainingSentences>Tell me more about this API</trainingSentences>
+  </eventDefinitions>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="GetPathDetails" followedBy="//@eventDefinitions.5">
     <outContexts name="RelativePath">
       <parameters name="relativePath" textFragment="XXX">
         <entity xsi:type="intent:BaseEntityDefinitionReference">
@@ -23,14 +27,14 @@
     <trainingSentences>Tell me more about the path XXX</trainingSentences>
     <trainingSentences>Tell me more about the path with has the relative path XXX</trainingSentences>
   </eventDefinitions>
-  <eventDefinitions xsi:type="intent:IntentDefinition" name="ListPaths" followedBy="//@eventDefinitions.3">
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="ListPaths" followedBy="//@eventDefinitions.4">
     <outContexts name="error" lifeSpan="2"/>
     <trainingSentences>Show me the list of paths in the API</trainingSentences>
     <trainingSentences>Show me the list of paths</trainingSentences>
     <trainingSentences>Display the relative paths</trainingSentences>
     <trainingSentences>What are the paths?</trainingSentences>
   </eventDefinitions>
-  <eventDefinitions xsi:type="intent:IntentDefinition" name="ListOperationsOnPathUsingRowNumber" follows="//@eventDefinitions.2">
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="ListOperationsOnPathUsingRowNumber" follows="//@eventDefinitions.3">
     <outContexts name="Path">
       <parameters name="pathIdentifier" textFragment="XXX">
         <entity xsi:type="intent:BaseEntityDefinitionReference">
@@ -42,7 +46,7 @@
     <trainingSentences>What are the operations of the path located at XXX</trainingSentences>
     <trainingSentences>What are the operation of the path located at the position XXX</trainingSentences>
   </eventDefinitions>
-  <eventDefinitions xsi:type="intent:IntentDefinition" name="OperationOnPath" follows="//@eventDefinitions.1">
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="OperationOnPath" follows="//@eventDefinitions.2">
     <outContexts name="Operation">
       <parameters name="httpMethod" textFragment="XXX">
         <entity xsi:type="intent:BaseEntityDefinitionReference">

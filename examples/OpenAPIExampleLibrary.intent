@@ -1,7 +1,7 @@
 Library OpenAPIExampleLibrary
 
 
-
+////////// API //////////////
 intent LoadAPI {
 	inputs {
 		"Load the API XXX"
@@ -10,6 +10,12 @@ intent LoadAPI {
 	}
 	creates context API {
 		sets parameter "url" from fragment "XXX" (entity url)
+	}
+}
+intent GetAPIDetails {
+	inputs {
+		"Tell me about this API"
+		"Tell me more about this API"
 	}
 }
 ////////Path related intent///////////

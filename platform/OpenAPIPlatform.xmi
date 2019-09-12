@@ -3,6 +3,7 @@
   <actions name="LoadAPI">
     <parameters key="url"/>
   </actions>
+  <actions name="GetAPIDetails"/>
   <actions name="ListPaths"/>
   <actions name="GetPathDetails">
     <parameters key="relativePath"/>
