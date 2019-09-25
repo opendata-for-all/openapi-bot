@@ -63,30 +63,43 @@ public class OpenAPIUtils {
 		} else
 			return operation.getSecurity();
 	}
-	public static List<Operation> getAllOperationsOnPath(Path path){
-		 List<Operation> operations = new ArrayList<>();
-	        if(nonNull(path.getGet())) {
-	            operations.add(path.getGet());
-	        }
-	        if(nonNull(path.getPost())) {
-	            operations.add(path.getPost());
-	        }
-	        if(nonNull(path.getDelete())) {
-	            operations.add(path.getDelete());
-	        }
-	        if(nonNull(path.getPatch())) {
-	            operations.add(path.getPatch());
-	        }
-	        if(nonNull(path.getOptions())) {
-	            operations.add(path.getOptions());
-	        }
-	        if(nonNull(path.getPut())) {
-	            operations.add(path.getPut());
-	        }
-	        if(nonNull(path.getHead())) {
-	            operations.add(path.getHead());
-	        }
-	        return operations;
+
+	public static List<Operation> getAllOperationsOnPath(Path path) {
+		List<Operation> operations = new ArrayList<>();
+		if (nonNull(path.getGet())) {
+			operations.add(path.getGet());
+		}
+		if (nonNull(path.getPost())) {
+			operations.add(path.getPost());
+		}
+		if (nonNull(path.getDelete())) {
+			operations.add(path.getDelete());
+		}
+		if (nonNull(path.getPatch())) {
+			operations.add(path.getPatch());
+		}
+		if (nonNull(path.getOptions())) {
+			operations.add(path.getOptions());
+		}
+		if (nonNull(path.getPut())) {
+			operations.add(path.getPut());
+		}
+		if (nonNull(path.getHead())) {
+			operations.add(path.getHead());
+		}
+		return operations;
 	}
 
+	public static Operation getOperationByPathandHTTPMethod(String relativePath, String httpMethod, API api) {
+		Path path = api.getPathByRelativePath(relativePath);
+		if (nonNull(path)) {
+			return getOperationByPathandHTTPMethod(path, httpMethod);
+		}
+		return null;
+
+	}
+
+	public static Operation getOperationByPathandHTTPMethod(Path path, String httpMethod) {
+		return path.getOperationByHTTPMethod(httpMethod);
+	}
 }
