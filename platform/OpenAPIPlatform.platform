@@ -3,14 +3,18 @@ Platform OpenAPIPlatform
 path "com.xatkit.plugins.openapi.platform.OpenAPIPlatform"
 
 actions {
-	//
+	///////API and global
 	LoadAPI("url")
 	GetAPIDetails
-	//path
+	/////////path
 	ListPaths
 	GetPathDetails(relativePath)
+	/////////operation
 	// pathIdentifier = Integer for now
 	ListOperationsOnPathUsingRowNumber(pathIdentifier)
+	GetOperationByhttpMethodUsingPathContext(httpMethod)
+	GetOperationById(operationId)
+	GetOperationByPathAndHttpMethod(operationPath,operationHttpMethod)
 	GetLicense
 	//Security
 	SupportedSchemes

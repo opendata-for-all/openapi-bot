@@ -44,6 +44,7 @@ on intent GetAPIDetails do
 		}
 		action ReactPlatform.Reply(message : "The API includes "+api.getPaths().size()+ " paths and a total of "+api.getAllOperations().size()+ " operations")
 		action ReactPlatform.Reply(message : "It also includes "+api.getDefinitions().size()+" definitions")
+		action ReactPlatform.Reply(message : "What else do you want to know?")
 	}
 
 ////////// Path intent /////////////////////
@@ -52,6 +53,7 @@ on intent ListPaths do
 	def loadedAPI = session.get("xatkit.plugins.openapi.api")
 	if(loadedAPI.isNull()) {
 		action ReactPlatform.Reply(message : "Can you give me an API?")
+		// TODO guide the user to load an API
 	} else {
 		def pathList = action OpenAPIPlatform.ListPaths
 		def pathEnum = action ReactPlatform.EnumerateList(list : pathList)
@@ -83,7 +85,17 @@ on intent ListPaths do
 on intent GetPathDetails do
 	def result = action OpenAPIPlatform.GetPathDetails(relativePath :  context(RelativePath).get("relativePath"))
 	if(result.get("found") == true){
-		action ReactPlatform.Reply(message : result.get("formattedValue"))		
+		def path = result.get("value")
+		def operations = result.get("operations")
+		if(operations.isEmpty()){
+			action ReactPlatform.Reply(message: "There are no operations defined on this path")
+		}
+		else {
+			action ReactPlatform.Reply(message: "There are "+operations.size()+" available on the path "+path.getRelativePath())
+			def operationItemize = action ReactPlatform.ItemizeList(list : operations)
+			action ReactPlatform.Reply(message : operationItemize)
+		}
+
 	}
 	else {
 		action ReactPlatform.Reply(message : "Oops! I could not find the path " + context(RelativePath).get("relativePath"))
@@ -99,6 +111,101 @@ on intent ListOperationsOnPathUsingRowNumber  do
 	def operationItemize = action ReactPlatform.ItemizeList(list : operationList)
 	action ReactPlatform.Reply(message : "Here are the operations I found for the path:")
 	action ReactPlatform.Reply(message : operationItemize)
+
+
+on intent GetOperationById do 
+	def result = action OpenAPIPlatform.GetOperationById(operationId : context(Operation).get("operationId"))
+	if(result.get("found") == false){
+		def operationItemize = action ReactPlatform.ItemizeList(list : result.get("operations"))
+		action ReactPlatform.Reply(message : "Oops! I could not find the operation `"+context(Operation).get("operationId")+"`")
+		action ReactPlatform.Reply(message : "The operations provided by the API are: ")
+		action ReactPlatform.Reply(message : operationItemize)
+	}
+	else {
+		action ReactPlatform.Reply(message : result.get("value").getSummary())
+	}
+
+
+on intent GetOperationByhttpMethodUsingPathContext do 
+	def result = action OpenAPIPlatform.GetOperationByhttpMethodUsingPathContext(httpMethod : context(Operation).get("httpMethod"))
+	if(result.get("found") == false){
+		def operationItemize = action ReactPlatform.ItemizeList(list : result.get("operations"))
+		action ReactPlatform.Reply(message : "Oops! I could not find a `"+context(Operation).get("httpMethod")+"` operation on the path `"+session.get("xatkit.plugins.openapi.path").getRelativePath()+"`")
+		action ReactPlatform.Reply(message : "The operations available on this path are: ")
+		action ReactPlatform.Reply(message : operationItemize)
+	}
+	else {
+		action ReactPlatform.Reply(message : result.get("value").getSummary())
+	}
+
+
+on intent GetOperationByPathAndHttpMethod do 
+	def result = action OpenAPIPlatform.GetOperationByPathAndHttpMethod(operationPath : context(Operation).get("operationPath"), operationHttpMethod : context(Operation).get("operationHttpMethod"))
+	if(result.get("found") == false){
+		def reason = result.get("reason")
+		//operation not found 
+		if(reason.equals("OperationNotFound")){
+		def operationItemize = action ReactPlatform.ItemizeList(list : result.get("options"))
+		action ReactPlatform.Reply(message : "Oops! I could not find the operation "+context(Operation).get("operationHttpMethod")+" on the path "+context(Operation).get("operationPath"))
+		action ReactPlatform.Reply(message : "The available operations on this path are: ")
+		action ReactPlatform.Reply(message : operationItemize)
+		}
+		if(reason.equals("PathNotFound")){
+			def pathItemize = action ReactPlatform.ItemizeList(list : result.get("options"))
+			action ReactPlatform.Reply(message : "Oops! I could not find the path "+context(Operation).get("operationPath"))
+			action ReactPlatform.Reply(message : "The available paths on this API are: ")
+			action ReactPlatform.Reply(message : pathItemize)
+		}
+	}
+	else {
+		//Display the details of an operation
+		def operation = result.get("value")
+//		if(operation.getOperationId().isNull()){
+//			action ReactPlatform.Reply(message : "The operation `"+context(Operation).get("operationHttpMethod")+"` on the path `"+context(Operation).get("operationPath")+ "` does not have id")
+//			}
+//			else {
+//				action ReactPlatform.Reply(message : "The operation `"+context(Operation).get("operationHttpMethod")+"` on the path `"+context(Operation).get("operationPath")+ "` has the the id `"+ operation.getOperationId()+"`")
+//			}
+		action ReactPlatform.Reply(message : "`"+context(Operation).get("operationHttpMethod")+": "+context(Operation).get("operationPath")+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
+		def parameters = operation.getParameters()
+		def responses = result.get("responses")
+		if(parameters.isEmpty()){
+			action ReactPlatform.Reply(message: "The operation does not declare any parameters")
+			
+		}
+		else {
+			if(parameters.size() == 1){
+				action ReactPlatform.Reply(message : "The operation has "+parameters.size()+" parameter:")
+			}
+			else {
+				action ReactPlatform.Reply(message : "The operation has "+parameters.size()+" parameters:")
+			}
+			
+			def parameterItemize = action ReactPlatform.ItemizeList(list : parameters)
+			action ReactPlatform.Reply(message : parameterItemize)
+			
+		}
+		if(responses.isEmpty()){
+			action ReactPlatform.Reply(message: "The operation does not declare any responses")
+			
+		}
+		else {
+			if(parameters.size() == 1){
+				action ReactPlatform.Reply(message : "The operation has "+responses.size()+" response:")
+			}
+			else {
+				action ReactPlatform.Reply(message : "The operation has "+responses.size()+" responses:")
+			}
+			
+			def responsesItemize = action ReactPlatform.ItemizeList(list : responses)
+			action ReactPlatform.Reply(message : responsesItemize)
+			
+		}
+		
+		
+	}
+	
+
 
 on intent AskLicenseInfo do 
 	def result = action OpenAPIPlatform.GetLicense

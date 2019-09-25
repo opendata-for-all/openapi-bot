@@ -11,6 +11,16 @@
   <actions name="ListOperationsOnPathUsingRowNumber">
     <parameters key="pathIdentifier"/>
   </actions>
+  <actions name="GetOperationByhttpMethodUsingPathContext">
+    <parameters key="httpMethod"/>
+  </actions>
+  <actions name="GetOperationById">
+    <parameters key="operationId"/>
+  </actions>
+  <actions name="GetOperationByPathAndHttpMethod">
+    <parameters key="operationPath"/>
+    <parameters key="operationHttpMethod"/>
+  </actions>
   <actions name="GetLicense"/>
   <actions name="SupportedSchemes"/>
   <actions name="IsAuthenticationRequired"/>

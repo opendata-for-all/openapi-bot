@@ -272,10 +272,17 @@
           </expression>
         </values>
       </elseInstructions>
+      <elseInstructions xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+          <expression xsi:type="common:StringLiteral" value="What else do you want to know?"/>
+        </values>
+      </elseInstructions>
     </instructions>
   </executionRules>
   <executionRules>
-    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.3"/>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.4"/>
     <instructions xsi:type="common:VariableDeclaration" name="loadedAPI">
       <value xsi:type="common:OperationCall" name="get">
         <source xsi:type="common:SessionAccess"/>
@@ -317,7 +324,7 @@
     </instructions>
   </executionRules>
   <executionRules>
-    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.2"/>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.3"/>
     <instructions xsi:type="common:VariableDeclaration" name="result">
       <value xsi:type="execution:ActionInstance">
         <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.3"/>
@@ -338,15 +345,65 @@
         </source>
         <args xsi:type="common:BooleanLiteral" value="true"/>
       </condition>
-      <thenInstructions xsi:type="execution:ActionInstance">
-        <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
-        <values>
-          <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
-          <expression xsi:type="common:OperationCall" name="get">
-            <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.1/@instructions.1"/>
-            <args xsi:type="common:StringLiteral" value="formattedValue"/>
-          </expression>
-        </values>
+      <thenInstructions xsi:type="common:VariableDeclaration" name="path">
+        <value xsi:type="common:OperationCall" name="get">
+          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.1/@instructions.1"/>
+          <args xsi:type="common:StringLiteral" value="value"/>
+        </value>
+      </thenInstructions>
+      <thenInstructions xsi:type="common:VariableDeclaration" name="operations">
+        <value xsi:type="common:OperationCall" name="get">
+          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.1/@instructions.1"/>
+          <args xsi:type="common:StringLiteral" value="operations"/>
+        </value>
+      </thenInstructions>
+      <thenInstructions xsi:type="common:IfExpression">
+        <condition xsi:type="common:OperationCall" name="isEmpty">
+          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.4/@instructions.1/@thenInstructions.1"/>
+        </condition>
+        <thenInstructions xsi:type="execution:ActionInstance">
+          <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+          <values>
+            <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+            <expression xsi:type="common:StringLiteral" value="There are no operations defined on this path"/>
+          </values>
+        </thenInstructions>
+        <elseInstructions xsi:type="execution:ActionInstance">
+          <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+          <values>
+            <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+            <expression xsi:type="common:OperationCall" name="+">
+              <source xsi:type="common:StringLiteral" value="There are "/>
+              <args xsi:type="common:OperationCall" name="+">
+                <source xsi:type="common:OperationCall" name="size">
+                  <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.4/@instructions.1/@thenInstructions.1"/>
+                </source>
+                <args xsi:type="common:OperationCall" name="+">
+                  <source xsi:type="common:StringLiteral" value=" available on the path "/>
+                  <args xsi:type="common:OperationCall" name="getRelativePath">
+                    <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.4/@instructions.1/@thenInstructions.0"/>
+                  </args>
+                </args>
+              </args>
+            </expression>
+          </values>
+        </elseInstructions>
+        <elseInstructions xsi:type="common:VariableDeclaration" name="operationItemize">
+          <value xsi:type="execution:ActionInstance">
+            <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.1"/>
+            <values>
+              <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.1/@parameters.0"/>
+              <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.4/@instructions.1/@thenInstructions.1"/>
+            </values>
+          </value>
+        </elseInstructions>
+        <elseInstructions xsi:type="execution:ActionInstance">
+          <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+          <values>
+            <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+            <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.4/@instructions.1/@thenInstructions.2/@elseInstructions.1"/>
+          </values>
+        </elseInstructions>
       </thenInstructions>
       <elseInstructions xsi:type="execution:ActionInstance">
         <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
@@ -364,7 +421,7 @@
     </instructions>
   </executionRules>
   <executionRules>
-    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.6"/>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.2"/>
     <instructions xsi:type="common:VariableDeclaration" name="result">
       <value xsi:type="execution:ActionInstance">
         <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.2"/>
@@ -387,7 +444,7 @@
     </instructions>
   </executionRules>
   <executionRules>
-    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.4"/>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.5"/>
     <instructions xsi:type="common:VariableDeclaration" name="operationList">
       <value xsi:type="execution:ActionInstance">
         <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.4"/>
@@ -420,7 +477,7 @@
       <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
       <values>
         <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
-        <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.6/@instructions.1"/>
+        <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.4/@instructions.1/@thenInstructions.2/@elseInstructions.1"/>
       </values>
     </instructions>
   </executionRules>
@@ -428,7 +485,497 @@
     <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.7"/>
     <instructions xsi:type="common:VariableDeclaration" name="result">
       <value xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.6"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.6/@parameters.0"/>
+          <expression xsi:type="common:OperationCall" name="get">
+            <source xsi:type="common:ContextAccess" contextName="Operation"/>
+            <args xsi:type="common:StringLiteral" value="operationId"/>
+          </expression>
+        </values>
+      </value>
+    </instructions>
+    <instructions xsi:type="common:IfExpression">
+      <condition xsi:type="common:OperationCall" name="==">
+        <source xsi:type="common:OperationCall" name="get">
+          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.1/@instructions.1"/>
+          <args xsi:type="common:StringLiteral" value="found"/>
+        </source>
+        <args xsi:type="common:BooleanLiteral"/>
+      </condition>
+      <thenInstructions xsi:type="common:VariableDeclaration" name="operationItemize">
+        <value xsi:type="execution:ActionInstance">
+          <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.1"/>
+          <values>
+            <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.1/@parameters.0"/>
+            <expression xsi:type="common:OperationCall" name="get">
+              <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.1/@instructions.1"/>
+              <args xsi:type="common:StringLiteral" value="operations"/>
+            </expression>
+          </values>
+        </value>
+      </thenInstructions>
+      <thenInstructions xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+          <expression xsi:type="common:OperationCall" name="+">
+            <source xsi:type="common:StringLiteral" value="Oops! I could not find the operation `"/>
+            <args xsi:type="common:OperationCall" name="+">
+              <source xsi:type="common:OperationCall" name="get">
+                <source xsi:type="common:ContextAccess" contextName="Operation"/>
+                <args xsi:type="common:StringLiteral" value="operationId"/>
+              </source>
+              <args xsi:type="common:StringLiteral" value="`"/>
+            </args>
+          </expression>
+        </values>
+      </thenInstructions>
+      <thenInstructions xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+          <expression xsi:type="common:StringLiteral" value="The operations provided by the API are: "/>
+        </values>
+      </thenInstructions>
+      <thenInstructions xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+          <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.4/@instructions.1/@thenInstructions.2/@elseInstructions.1"/>
+        </values>
+      </thenInstructions>
+      <elseInstructions xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+          <expression xsi:type="common:OperationCall" name="getSummary">
+            <source xsi:type="common:OperationCall" name="get">
+              <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.1/@instructions.1"/>
+              <args xsi:type="common:StringLiteral" value="value"/>
+            </source>
+          </expression>
+        </values>
+      </elseInstructions>
+    </instructions>
+  </executionRules>
+  <executionRules>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.6"/>
+    <instructions xsi:type="common:VariableDeclaration" name="result">
+      <value xsi:type="execution:ActionInstance">
         <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.5"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.5/@parameters.0"/>
+          <expression xsi:type="common:OperationCall" name="get">
+            <source xsi:type="common:ContextAccess" contextName="Operation"/>
+            <args xsi:type="common:StringLiteral" value="httpMethod"/>
+          </expression>
+        </values>
+      </value>
+    </instructions>
+    <instructions xsi:type="common:IfExpression">
+      <condition xsi:type="common:OperationCall" name="==">
+        <source xsi:type="common:OperationCall" name="get">
+          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.1/@instructions.1"/>
+          <args xsi:type="common:StringLiteral" value="found"/>
+        </source>
+        <args xsi:type="common:BooleanLiteral"/>
+      </condition>
+      <thenInstructions xsi:type="common:VariableDeclaration" name="operationItemize">
+        <value xsi:type="execution:ActionInstance">
+          <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.1"/>
+          <values>
+            <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.1/@parameters.0"/>
+            <expression xsi:type="common:OperationCall" name="get">
+              <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.1/@instructions.1"/>
+              <args xsi:type="common:StringLiteral" value="operations"/>
+            </expression>
+          </values>
+        </value>
+      </thenInstructions>
+      <thenInstructions xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+          <expression xsi:type="common:OperationCall" name="+">
+            <source xsi:type="common:StringLiteral" value="Oops! I could not find a `"/>
+            <args xsi:type="common:OperationCall" name="+">
+              <source xsi:type="common:OperationCall" name="get">
+                <source xsi:type="common:ContextAccess" contextName="Operation"/>
+                <args xsi:type="common:StringLiteral" value="httpMethod"/>
+              </source>
+              <args xsi:type="common:OperationCall" name="+">
+                <source xsi:type="common:StringLiteral" value="` operation on the path `"/>
+                <args xsi:type="common:OperationCall" name="+">
+                  <source xsi:type="common:OperationCall" name="getRelativePath">
+                    <source xsi:type="common:OperationCall" name="get">
+                      <source xsi:type="common:SessionAccess"/>
+                      <args xsi:type="common:StringLiteral" value="xatkit.plugins.openapi.path"/>
+                    </source>
+                  </source>
+                  <args xsi:type="common:StringLiteral" value="`"/>
+                </args>
+              </args>
+            </args>
+          </expression>
+        </values>
+      </thenInstructions>
+      <thenInstructions xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+          <expression xsi:type="common:StringLiteral" value="The operations available on this path are: "/>
+        </values>
+      </thenInstructions>
+      <thenInstructions xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+          <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.4/@instructions.1/@thenInstructions.2/@elseInstructions.1"/>
+        </values>
+      </thenInstructions>
+      <elseInstructions xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+          <expression xsi:type="common:OperationCall" name="getSummary">
+            <source xsi:type="common:OperationCall" name="get">
+              <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.1/@instructions.1"/>
+              <args xsi:type="common:StringLiteral" value="value"/>
+            </source>
+          </expression>
+        </values>
+      </elseInstructions>
+    </instructions>
+  </executionRules>
+  <executionRules>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.8"/>
+    <instructions xsi:type="common:VariableDeclaration" name="result">
+      <value xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.7"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.7/@parameters.0"/>
+          <expression xsi:type="common:OperationCall" name="get">
+            <source xsi:type="common:ContextAccess" contextName="Operation"/>
+            <args xsi:type="common:StringLiteral" value="operationPath"/>
+          </expression>
+        </values>
+        <values>
+          <parameter href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.7/@parameters.1"/>
+          <expression xsi:type="common:OperationCall" name="get">
+            <source xsi:type="common:ContextAccess" contextName="Operation"/>
+            <args xsi:type="common:StringLiteral" value="operationHttpMethod"/>
+          </expression>
+        </values>
+      </value>
+    </instructions>
+    <instructions xsi:type="common:IfExpression">
+      <condition xsi:type="common:OperationCall" name="==">
+        <source xsi:type="common:OperationCall" name="get">
+          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.1/@instructions.1"/>
+          <args xsi:type="common:StringLiteral" value="found"/>
+        </source>
+        <args xsi:type="common:BooleanLiteral"/>
+      </condition>
+      <thenInstructions xsi:type="common:VariableDeclaration" name="reason">
+        <value xsi:type="common:OperationCall" name="get">
+          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.1/@instructions.1"/>
+          <args xsi:type="common:StringLiteral" value="reason"/>
+        </value>
+      </thenInstructions>
+      <thenInstructions xsi:type="common:IfExpression">
+        <condition xsi:type="common:OperationCall" name="equals">
+          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@thenInstructions.0"/>
+          <args xsi:type="common:StringLiteral" value="OperationNotFound"/>
+        </condition>
+        <thenInstructions xsi:type="common:VariableDeclaration" name="operationItemize">
+          <value xsi:type="execution:ActionInstance">
+            <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.1"/>
+            <values>
+              <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.1/@parameters.0"/>
+              <expression xsi:type="common:OperationCall" name="get">
+                <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.1/@instructions.1"/>
+                <args xsi:type="common:StringLiteral" value="options"/>
+              </expression>
+            </values>
+          </value>
+        </thenInstructions>
+        <thenInstructions xsi:type="execution:ActionInstance">
+          <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+          <values>
+            <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+            <expression xsi:type="common:OperationCall" name="+">
+              <source xsi:type="common:StringLiteral" value="Oops! I could not find the operation "/>
+              <args xsi:type="common:OperationCall" name="+">
+                <source xsi:type="common:OperationCall" name="get">
+                  <source xsi:type="common:ContextAccess" contextName="Operation"/>
+                  <args xsi:type="common:StringLiteral" value="operationHttpMethod"/>
+                </source>
+                <args xsi:type="common:OperationCall" name="+">
+                  <source xsi:type="common:StringLiteral" value=" on the path "/>
+                  <args xsi:type="common:OperationCall" name="get">
+                    <source xsi:type="common:ContextAccess" contextName="Operation"/>
+                    <args xsi:type="common:StringLiteral" value="operationPath"/>
+                  </args>
+                </args>
+              </args>
+            </expression>
+          </values>
+        </thenInstructions>
+        <thenInstructions xsi:type="execution:ActionInstance">
+          <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+          <values>
+            <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+            <expression xsi:type="common:StringLiteral" value="The available operations on this path are: "/>
+          </values>
+        </thenInstructions>
+        <thenInstructions xsi:type="execution:ActionInstance">
+          <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+          <values>
+            <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+            <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.4/@instructions.1/@thenInstructions.2/@elseInstructions.1"/>
+          </values>
+        </thenInstructions>
+      </thenInstructions>
+      <thenInstructions xsi:type="common:IfExpression">
+        <condition xsi:type="common:OperationCall" name="equals">
+          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@thenInstructions.0"/>
+          <args xsi:type="common:StringLiteral" value="PathNotFound"/>
+        </condition>
+        <thenInstructions xsi:type="common:VariableDeclaration" name="pathItemize">
+          <value xsi:type="execution:ActionInstance">
+            <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.1"/>
+            <values>
+              <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.1/@parameters.0"/>
+              <expression xsi:type="common:OperationCall" name="get">
+                <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.1/@instructions.1"/>
+                <args xsi:type="common:StringLiteral" value="options"/>
+              </expression>
+            </values>
+          </value>
+        </thenInstructions>
+        <thenInstructions xsi:type="execution:ActionInstance">
+          <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+          <values>
+            <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+            <expression xsi:type="common:OperationCall" name="+">
+              <source xsi:type="common:StringLiteral" value="Oops! I could not find the path "/>
+              <args xsi:type="common:OperationCall" name="get">
+                <source xsi:type="common:ContextAccess" contextName="Operation"/>
+                <args xsi:type="common:StringLiteral" value="operationPath"/>
+              </args>
+            </expression>
+          </values>
+        </thenInstructions>
+        <thenInstructions xsi:type="execution:ActionInstance">
+          <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+          <values>
+            <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+            <expression xsi:type="common:StringLiteral" value="The available paths on this API are: "/>
+          </values>
+        </thenInstructions>
+        <thenInstructions xsi:type="execution:ActionInstance">
+          <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+          <values>
+            <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+            <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@thenInstructions.2/@thenInstructions.0"/>
+          </values>
+        </thenInstructions>
+      </thenInstructions>
+      <elseInstructions xsi:type="common:VariableDeclaration" name="operation">
+        <value xsi:type="common:OperationCall" name="get">
+          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.1/@instructions.1"/>
+          <args xsi:type="common:StringLiteral" value="value"/>
+        </value>
+      </elseInstructions>
+      <elseInstructions xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+          <expression xsi:type="common:OperationCall" name="+">
+            <source xsi:type="common:StringLiteral" value="`"/>
+            <args xsi:type="common:OperationCall" name="+">
+              <source xsi:type="common:OperationCall" name="get">
+                <source xsi:type="common:ContextAccess" contextName="Operation"/>
+                <args xsi:type="common:StringLiteral" value="operationHttpMethod"/>
+              </source>
+              <args xsi:type="common:OperationCall" name="+">
+                <source xsi:type="common:StringLiteral" value=": "/>
+                <args xsi:type="common:OperationCall" name="+">
+                  <source xsi:type="common:OperationCall" name="get">
+                    <source xsi:type="common:ContextAccess" contextName="Operation"/>
+                    <args xsi:type="common:StringLiteral" value="operationPath"/>
+                  </source>
+                  <args xsi:type="common:OperationCall" name="+">
+                    <source xsi:type="common:OperationCall" name="getSummary">
+                      <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@elseInstructions.0"/>
+                    </source>
+                    <args xsi:type="common:OperationCall" name="+">
+                      <source xsi:type="common:StringLiteral" value=" (`"/>
+                      <args xsi:type="common:OperationCall" name="+">
+                        <source xsi:type="common:OperationCall" name="getOperationId">
+                          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@elseInstructions.0"/>
+                        </source>
+                        <args xsi:type="common:StringLiteral" value="`)"/>
+                      </args>
+                    </args>
+                  </args>
+                </args>
+              </args>
+            </args>
+          </expression>
+        </values>
+      </elseInstructions>
+      <elseInstructions xsi:type="common:VariableDeclaration" name="parameters">
+        <value xsi:type="common:OperationCall" name="getParameters">
+          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@elseInstructions.0"/>
+        </value>
+      </elseInstructions>
+      <elseInstructions xsi:type="common:VariableDeclaration" name="responses">
+        <value xsi:type="common:OperationCall" name="get">
+          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.1/@instructions.1"/>
+          <args xsi:type="common:StringLiteral" value="responses"/>
+        </value>
+      </elseInstructions>
+      <elseInstructions xsi:type="common:IfExpression">
+        <condition xsi:type="common:OperationCall" name="isEmpty">
+          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@elseInstructions.2"/>
+        </condition>
+        <thenInstructions xsi:type="execution:ActionInstance">
+          <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+          <values>
+            <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+            <expression xsi:type="common:StringLiteral" value="The operation does not declare any parameters"/>
+          </values>
+        </thenInstructions>
+        <elseInstructions xsi:type="common:IfExpression">
+          <condition xsi:type="common:OperationCall" name="==">
+            <source xsi:type="common:OperationCall" name="size">
+              <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@elseInstructions.2"/>
+            </source>
+            <args xsi:type="common:IntegerLiteral" value="1"/>
+          </condition>
+          <thenInstructions xsi:type="execution:ActionInstance">
+            <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+            <values>
+              <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+              <expression xsi:type="common:OperationCall" name="+">
+                <source xsi:type="common:StringLiteral" value="The operation has "/>
+                <args xsi:type="common:OperationCall" name="+">
+                  <source xsi:type="common:OperationCall" name="size">
+                    <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@elseInstructions.2"/>
+                  </source>
+                  <args xsi:type="common:StringLiteral" value=" parameter:"/>
+                </args>
+              </expression>
+            </values>
+          </thenInstructions>
+          <elseInstructions xsi:type="execution:ActionInstance">
+            <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+            <values>
+              <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+              <expression xsi:type="common:OperationCall" name="+">
+                <source xsi:type="common:StringLiteral" value="The operation has "/>
+                <args xsi:type="common:OperationCall" name="+">
+                  <source xsi:type="common:OperationCall" name="size">
+                    <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@elseInstructions.2"/>
+                  </source>
+                  <args xsi:type="common:StringLiteral" value=" parameters:"/>
+                </args>
+              </expression>
+            </values>
+          </elseInstructions>
+        </elseInstructions>
+        <elseInstructions xsi:type="common:VariableDeclaration" name="parameterItemize">
+          <value xsi:type="execution:ActionInstance">
+            <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.1"/>
+            <values>
+              <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.1/@parameters.0"/>
+              <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@elseInstructions.2"/>
+            </values>
+          </value>
+        </elseInstructions>
+        <elseInstructions xsi:type="execution:ActionInstance">
+          <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+          <values>
+            <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+            <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@elseInstructions.4/@elseInstructions.1"/>
+          </values>
+        </elseInstructions>
+      </elseInstructions>
+      <elseInstructions xsi:type="common:IfExpression">
+        <condition xsi:type="common:OperationCall" name="isEmpty">
+          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@elseInstructions.3"/>
+        </condition>
+        <thenInstructions xsi:type="execution:ActionInstance">
+          <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+          <values>
+            <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+            <expression xsi:type="common:StringLiteral" value="The operation does not declare any responses"/>
+          </values>
+        </thenInstructions>
+        <elseInstructions xsi:type="common:IfExpression">
+          <condition xsi:type="common:OperationCall" name="==">
+            <source xsi:type="common:OperationCall" name="size">
+              <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@elseInstructions.2"/>
+            </source>
+            <args xsi:type="common:IntegerLiteral" value="1"/>
+          </condition>
+          <thenInstructions xsi:type="execution:ActionInstance">
+            <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+            <values>
+              <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+              <expression xsi:type="common:OperationCall" name="+">
+                <source xsi:type="common:StringLiteral" value="The operation has "/>
+                <args xsi:type="common:OperationCall" name="+">
+                  <source xsi:type="common:OperationCall" name="size">
+                    <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@elseInstructions.3"/>
+                  </source>
+                  <args xsi:type="common:StringLiteral" value=" response:"/>
+                </args>
+              </expression>
+            </values>
+          </thenInstructions>
+          <elseInstructions xsi:type="execution:ActionInstance">
+            <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+            <values>
+              <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+              <expression xsi:type="common:OperationCall" name="+">
+                <source xsi:type="common:StringLiteral" value="The operation has "/>
+                <args xsi:type="common:OperationCall" name="+">
+                  <source xsi:type="common:OperationCall" name="size">
+                    <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@elseInstructions.3"/>
+                  </source>
+                  <args xsi:type="common:StringLiteral" value=" responses:"/>
+                </args>
+              </expression>
+            </values>
+          </elseInstructions>
+        </elseInstructions>
+        <elseInstructions xsi:type="common:VariableDeclaration" name="responsesItemize">
+          <value xsi:type="execution:ActionInstance">
+            <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.1"/>
+            <values>
+              <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.1/@parameters.0"/>
+              <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@elseInstructions.3"/>
+            </values>
+          </value>
+        </elseInstructions>
+        <elseInstructions xsi:type="execution:ActionInstance">
+          <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+          <values>
+            <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+            <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.9/@instructions.1/@elseInstructions.5/@elseInstructions.1"/>
+          </values>
+        </elseInstructions>
+      </elseInstructions>
+    </instructions>
+  </executionRules>
+  <executionRules>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.9"/>
+    <instructions xsi:type="common:VariableDeclaration" name="result">
+      <value xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.8"/>
       </value>
     </instructions>
     <instructions xsi:type="execution:ActionInstance">
@@ -443,10 +990,10 @@
     </instructions>
   </executionRules>
   <executionRules>
-    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.8"/>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.10"/>
     <instructions xsi:type="common:VariableDeclaration" name="result">
       <value xsi:type="execution:ActionInstance">
-        <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.6"/>
+        <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.9"/>
       </value>
     </instructions>
     <instructions xsi:type="common:IfExpression">
@@ -487,16 +1034,16 @@
         <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
         <values>
           <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
-          <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.8/@instructions.1/@elseInstructions.1"/>
+          <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.11/@instructions.1/@elseInstructions.1"/>
         </values>
       </elseInstructions>
     </instructions>
   </executionRules>
   <executionRules>
-    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.9"/>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.11"/>
     <instructions xsi:type="common:VariableDeclaration" name="result">
       <value xsi:type="execution:ActionInstance">
-        <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.7"/>
+        <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.10"/>
       </value>
     </instructions>
     <instructions xsi:type="common:IfExpression">
@@ -520,12 +1067,12 @@
     </instructions>
   </executionRules>
   <executionRules>
-    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.10"/>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.12"/>
     <instructions xsi:type="common:VariableDeclaration" name="result">
       <value xsi:type="execution:ActionInstance">
-        <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.8"/>
+        <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.11"/>
         <values>
-          <parameter href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.8/@parameters.0"/>
+          <parameter href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.11/@parameters.0"/>
           <expression xsi:type="common:OperationCall" name="get">
             <source xsi:type="common:ContextAccess" contextName="Operation"/>
             <args xsi:type="common:StringLiteral" value="operationId"/>
@@ -577,7 +1124,7 @@
         <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
         <values>
           <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
-          <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.6/@instructions.1"/>
+          <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.4/@instructions.1/@thenInstructions.2/@elseInstructions.1"/>
         </values>
       </thenInstructions>
       <elseInstructions xsi:type="common:VariableDeclaration" name="answer">
@@ -588,7 +1135,7 @@
       </elseInstructions>
       <elseInstructions xsi:type="common:IfExpression">
         <condition xsi:type="common:OperationCall" name="==">
-          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.10/@instructions.1/@elseInstructions.0"/>
+          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.13/@instructions.1/@elseInstructions.0"/>
           <args xsi:type="common:BooleanLiteral"/>
         </condition>
         <thenInstructions xsi:type="execution:ActionInstance">
@@ -634,17 +1181,17 @@
           <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
           <values>
             <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
-            <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.10/@instructions.1/@elseInstructions.1/@elseInstructions.0"/>
+            <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.13/@instructions.1/@elseInstructions.1/@elseInstructions.0"/>
           </values>
         </elseInstructions>
       </elseInstructions>
     </instructions>
   </executionRules>
   <executionRules>
-    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.11"/>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.13"/>
     <instructions xsi:type="common:VariableDeclaration" name="result">
       <value xsi:type="execution:ActionInstance">
-        <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.9"/>
+        <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.12"/>
       </value>
     </instructions>
     <instructions xsi:type="common:IfExpression">
@@ -678,18 +1225,18 @@
         <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
         <values>
           <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
-          <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.11/@instructions.1/@elseInstructions.0"/>
+          <expression xsi:type="common:VariableAccess" referredVariable="//@executionRules.14/@instructions.1/@elseInstructions.0"/>
         </values>
       </elseInstructions>
     </instructions>
   </executionRules>
   <executionRules>
-    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.12"/>
+    <event href="OpenAPIExampleLibrary.xmi#//@eventDefinitions.14"/>
     <instructions xsi:type="common:VariableDeclaration" name="result">
       <value xsi:type="execution:ActionInstance">
-        <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.10"/>
+        <action href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.13"/>
         <values>
-          <parameter href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.10/@parameters.0"/>
+          <parameter href="pathmap://XATKIT_CUSTOM_PLATFORM/OpenAPIPlatform#//@actions.13/@parameters.0"/>
           <expression xsi:type="common:OperationCall" name="get">
             <source xsi:type="common:ContextAccess" contextName="SecurityScheme"/>
             <args xsi:type="common:StringLiteral" value="securitySchemeId"/>
@@ -739,18 +1286,18 @@
                 <source xsi:type="common:StringLiteral" value=":  &#xA;Type: "/>
                 <args xsi:type="common:OperationCall" name="+">
                   <source xsi:type="common:OperationCall" name="getType">
-                    <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.12/@instructions.1/@elseInstructions.0"/>
+                    <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.15/@instructions.1/@elseInstructions.0"/>
                   </source>
                   <args xsi:type="common:OperationCall" name="+">
                     <source xsi:type="common:StringLiteral" value="  &#xA;Name: "/>
                     <args xsi:type="common:OperationCall" name="+">
                       <source xsi:type="common:OperationCall" name="getName">
-                        <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.12/@instructions.1/@elseInstructions.0"/>
+                        <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.15/@instructions.1/@elseInstructions.0"/>
                       </source>
                       <args xsi:type="common:OperationCall" name="+">
                         <source xsi:type="common:StringLiteral" value="  &#xA;In: "/>
                         <args xsi:type="common:OperationCall" name="getLocation">
-                          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.12/@instructions.1/@elseInstructions.0"/>
+                          <source xsi:type="common:VariableAccess" referredVariable="//@executionRules.15/@instructions.1/@elseInstructions.0"/>
                         </args>
                       </args>
                     </args>

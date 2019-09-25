@@ -7,6 +7,7 @@ intent LoadAPI {
 		"Load the API XXX"
 		"Load the OpenAPI definition located at XXX"
 		"Load the API located at XXX"
+		"XXX"
 	}
 	creates context API {
 		sets parameter "url" from fragment "XXX" (entity url)
@@ -19,6 +20,14 @@ intent GetAPIDetails {
 	}
 }
 ////////Path related intent///////////
+intent GetNumberOfPath {
+	inputs{
+		"How many endpoints are exposed by the API?"
+		"How many paths are exposed by the API?"
+	}
+}
+
+
 intent GetPathDetails {
 		inputs {
 		"Tell me more about the path XXX"
@@ -62,20 +71,32 @@ intent ListOperationsOnPathUsingRowNumber follows ListPaths {
 	}
 }
 
-intent OperationOnPath follows GetPathDetails {
+intent GetOperationByhttpMethodUsingPathContext follows GetPathDetails {
 	inputs {
 		"Show me the XXX operation"
+		"Show me the operation XXX"
 	}
 	creates context Operation {
 		sets parameter httpMethod from fragment "XXX" (entity any)
 	} 
 }
 
-intent GetNumberOfPath {
+intent GetOperationById {
 	inputs {
-		"Give me the number of paths"
-		"How many paths are there in the API"
-		"How many paths?"
+		"Show me the operation which has the ID XXX"
+	}
+	creates context Operation {
+		sets parameter operationId from fragment "XXX" (entity any)
+	}
+}
+
+intent GetOperationByPathAndHttpMethod {
+	inputs {
+		"Show me the OOO operation on the path PPP"
+	}
+	creates context Operation {
+		sets parameter operationPath from fragment "PPP" (entity any)
+		sets parameter operationHttpMethod from fragment "OOO" (entity any)
 	}
 }
 
