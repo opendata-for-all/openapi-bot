@@ -146,3 +146,14 @@ intent SecuritySchemeDetails {
 		sets parameter securitySchemeId from fragment "xxx" (entity any)
 	}
 }
+////////Definitions related intents
+intent GetSchemaDetails {
+	inputs {
+		"Tell me about the schema definition XXX"
+		"Tell me about the schema XXX"
+		"Tell me about the definition XXX"
+	}
+	creates context Schema {
+		sets parameter schemaName from fragment "XXX" (entity any)
+	}
+}

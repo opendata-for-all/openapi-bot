@@ -105,7 +105,7 @@ on intent GetNumberOfPath do
 	def result = action OpenAPIPlatform.ListPaths
 	action ReactPlatform.Reply(message : "There are " + result.size() + " paths in the API")
 	
-////////// Operation intent /////////////////////
+////////// Operation intents /////////////////////
 on intent ListOperationsOnPathUsingRowNumber  do
 	def operationList = action OpenAPIPlatform.ListOperationsOnPathUsingRowNumber(pathIdentifier : context(Path).get("pathIdentifier"))
 	def operationItemize = action ReactPlatform.ItemizeList(list : operationList)
@@ -384,5 +384,19 @@ on intent SecuritySchemeDetails do
 		action  ReactPlatform.Reply(message : "Here is the definition of the security scheme "+context(SecurityScheme).get("securitySchemeId")+":  \nType: "+securityScheme.getType()+"  \nName: "+securityScheme.getName()+"  \nIn: "+securityScheme.getLocation())
 		}
 
+////////// Schema intents /////////////////////
+on intent GetSchemaDetails do
+ 	def result = action OpenAPIPlatform.GetSchemaDetails(schemaName : context(Schema).get("schemaName"))
+ 	if(result.get("found") == false){
+ 		action ReactPlatform.Reply(message : "Oops! I could not find the schema "+ context(Schema).get("schemaName"))
+ 		def schemaItemize = action ReactPlatform.ItemizeList(list : result.get("options"))
+		action ReactPlatform.Reply(message : "The available schema definitions are: ")
+		action ReactPlatform.Reply(message : schemaItemize)
+ 	}
+ 	else {
+ 		def schema = result.get("value")
+ 		def propertiesItems = action ReactPlatform.ItemizeList(list : schema.getProperties)
+ 		action ReactPlatform.Reply(message : propertiesItems)
+ 	}
 	
 	

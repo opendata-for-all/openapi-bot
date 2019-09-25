@@ -122,4 +122,16 @@
     <trainingSentences>Tell me more about the security scheme xxx</trainingSentences>
     <trainingSentences>Tell me more about the authentication method xxx</trainingSentences>
   </eventDefinitions>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="GetSchemaDetails">
+    <outContexts name="Schema">
+      <parameters name="schemaName" textFragment="XXX">
+        <entity xsi:type="intent:BaseEntityDefinitionReference">
+          <baseEntity/>
+        </entity>
+      </parameters>
+    </outContexts>
+    <trainingSentences>Tell me about the schema definition XXX</trainingSentences>
+    <trainingSentences>Tell me about the schema XXX</trainingSentences>
+    <trainingSentences>Tell me about the definition XXX</trainingSentences>
+  </eventDefinitions>
 </intent:Library>
