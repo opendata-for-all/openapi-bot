@@ -122,8 +122,65 @@ on intent GetOperationById do
 		action ReactPlatform.Reply(message : operationItemize)
 	}
 	else {
-		action ReactPlatform.Reply(message : result.get("value").getSummary())
+		//Display the details of an operation
+		def operation = result.get("value")
+		action ReactPlatform.Reply(message : "`"+context(Operation).get("operationHttpMethod")+": "+context(Operation).get("operationPath")+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
+		def parameters = operation.getParameters()
+		def responses = result.get("responses")
+		if(parameters.isEmpty()){
+			action ReactPlatform.Reply(message: "The operation does not declare any parameters")
+			
+		}
+		else {
+			if(parameters.size() == 1){
+				action ReactPlatform.Reply(message : "The operation has "+parameters.size()+" parameter:")
+			}
+			else {
+				action ReactPlatform.Reply(message : "The operation has "+parameters.size()+" parameters:")
+			}
+			
+			def parameterItemize = action ReactPlatform.ItemizeList(list : parameters)
+			action ReactPlatform.Reply(message : parameterItemize)
+			
+		}
+		if(responses.isEmpty()){
+			action ReactPlatform.Reply(message: "The operation does not declare any responses")
+			
+		}
+		else {
+			if(parameters.size() == 1){
+				action ReactPlatform.Reply(message : "The operation has "+responses.size()+" response:")
+			}
+			else {
+				action ReactPlatform.Reply(message : "The operation has "+responses.size()+" responses:")
+			}
+			
+			def responsesItemize = action ReactPlatform.ItemizeList(list : responses)
+			action ReactPlatform.Reply(message : responsesItemize)
+			
+		}
+		
+		
 	}
+	
+
+
+on intent AskLicenseInfo do 
+	def result = action OpenAPIPlatform.GetLicense
+	action ReactPlatform.Reply(message : "The license is " + result)
+
+	
+on intent SupportedSchemes do
+	def result = action OpenAPIPlatform.SupportedSchemes
+	if(result.isEmpty()) {
+		action ReactPlatform.Reply(message : "No transfer protocols found.")
+		action ReactPlatform.Reply(message : "This means that the default scheme to be used is the one used to access the OpenAPI definition itself.")
+	} else {
+		action ReactPlatform.Reply(message : "This API supports: ")
+		def itemize = action ReactPlatform.ItemizeList(list : result)
+		action ReactPlatform.Reply(message : itemize)
+	}
+
 
 
 on intent GetOperationByhttpMethodUsingPathContext do 
@@ -135,7 +192,63 @@ on intent GetOperationByhttpMethodUsingPathContext do
 		action ReactPlatform.Reply(message : operationItemize)
 	}
 	else {
-		action ReactPlatform.Reply(message : result.get("value").getSummary())
+		//Display the details of an operation
+		def operation = result.get("value")
+		action ReactPlatform.Reply(message : "`"+context(Operation).get("operationHttpMethod")+": "+context(Operation).get("operationPath")+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
+		def parameters = operation.getParameters()
+		def responses = result.get("responses")
+		if(parameters.isEmpty()){
+			action ReactPlatform.Reply(message: "The operation does not declare any parameters")
+			
+		}
+		else {
+			if(parameters.size() == 1){
+				action ReactPlatform.Reply(message : "The operation has "+parameters.size()+" parameter:")
+			}
+			else {
+				action ReactPlatform.Reply(message : "The operation has "+parameters.size()+" parameters:")
+			}
+			
+			def parameterItemize = action ReactPlatform.ItemizeList(list : parameters)
+			action ReactPlatform.Reply(message : parameterItemize)
+			
+		}
+		if(responses.isEmpty()){
+			action ReactPlatform.Reply(message: "The operation does not declare any responses")
+			
+		}
+		else {
+			if(parameters.size() == 1){
+				action ReactPlatform.Reply(message : "The operation has "+responses.size()+" response:")
+			}
+			else {
+				action ReactPlatform.Reply(message : "The operation has "+responses.size()+" responses:")
+			}
+			
+			def responsesItemize = action ReactPlatform.ItemizeList(list : responses)
+			action ReactPlatform.Reply(message : responsesItemize)
+			
+		}
+		
+		
+	}
+	
+
+
+on intent AskLicenseInfo do 
+	def result = action OpenAPIPlatform.GetLicense
+	action ReactPlatform.Reply(message : "The license is " + result)
+
+	
+on intent SupportedSchemes do
+	def result = action OpenAPIPlatform.SupportedSchemes
+	if(result.isEmpty()) {
+		action ReactPlatform.Reply(message : "No transfer protocols found.")
+		action ReactPlatform.Reply(message : "This means that the default scheme to be used is the one used to access the OpenAPI definition itself.")
+	} else {
+		action ReactPlatform.Reply(message : "This API supports: ")
+		def itemize = action ReactPlatform.ItemizeList(list : result)
+		action ReactPlatform.Reply(message : itemize)
 	}
 
 
@@ -160,12 +273,6 @@ on intent GetOperationByPathAndHttpMethod do
 	else {
 		//Display the details of an operation
 		def operation = result.get("value")
-//		if(operation.getOperationId().isNull()){
-//			action ReactPlatform.Reply(message : "The operation `"+context(Operation).get("operationHttpMethod")+"` on the path `"+context(Operation).get("operationPath")+ "` does not have id")
-//			}
-//			else {
-//				action ReactPlatform.Reply(message : "The operation `"+context(Operation).get("operationHttpMethod")+"` on the path `"+context(Operation).get("operationPath")+ "` has the the id `"+ operation.getOperationId()+"`")
-//			}
 		action ReactPlatform.Reply(message : "`"+context(Operation).get("operationHttpMethod")+": "+context(Operation).get("operationPath")+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
 		def parameters = operation.getParameters()
 		def responses = result.get("responses")
