@@ -31,4 +31,7 @@
   <actions name="SecuritySchemeDetails">
     <parameters key="securitySchemeId"/>
   </actions>
+  <actions name="GetSchemaDetails">
+    <parameters key="schemaName"/>
+  </actions>
 </platform:PlatformDefinition>

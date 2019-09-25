@@ -22,4 +22,6 @@ actions {
 	IsAuthenticationRequiredOperation(operationId)
 	SecuritySchemeList
 	SecuritySchemeDetails(securitySchemeId)
+	//////Schema
+	GetSchemaDetails(schemaName)
 }

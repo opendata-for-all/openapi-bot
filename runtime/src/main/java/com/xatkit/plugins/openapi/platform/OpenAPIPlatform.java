@@ -15,6 +15,7 @@ import edu.uoc.som.openapi2.API;
 import edu.uoc.som.openapi2.Operation;
 import edu.uoc.som.openapi2.Parameter;
 import edu.uoc.som.openapi2.Path;
+import edu.uoc.som.openapi2.Property;
 
 public class OpenAPIPlatform extends RuntimePlatform {
 
@@ -40,6 +41,7 @@ public class OpenAPIPlatform extends RuntimePlatform {
                  append (o.getSummary()).
                  toString());
          this.xatkitCore.getFormatter("Default").registerFormatFunction(Map.Entry.class, e -> e.getKey()+"");
+         this.xatkitCore.getFormatter("Default").registerFormatFunction(Property.class, p -> p.getName());
          this.xatkitCore.getFormatter("Default").registerFormatFunction(Parameter.class,
         		 p -> p.getName());
          Formatter formatter = new Formatter();
