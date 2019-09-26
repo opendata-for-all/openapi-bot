@@ -91,7 +91,7 @@ on intent GetPathDetails do
 			action ReactPlatform.Reply(message: "There are no operations defined on this path")
 		}
 		else {
-			action ReactPlatform.Reply(message: "There are "+operations.size()+" available on the path "+path.getRelativePath())
+			action ReactPlatform.Reply(message: "There are "+operations.size()+" available operations on the path "+path.getRelativePath())
 			def operationItemize = action ReactPlatform.ItemizeList(list : operations)
 			action ReactPlatform.Reply(message : operationItemize)
 		}
@@ -385,6 +385,17 @@ on intent SecuritySchemeDetails do
 		}
 
 ////////// Schema intents /////////////////////
+ on intent listSchemaDefinitions do 
+ 	def result = action OpenAPIPlatform.ListSchemaDefinitions
+ 	if(result.isEmpty()){
+ 			action ReactPlatform.Reply(message : "No schema definitions found")
+ 	}
+ 	else {
+ 		def schemaItems = action ReactPlatform.EnumerateList(list : result)
+ 		action  ReactPlatform.Reply(message : schemaItems)
+ 	}
+ 	
+
 on intent GetSchemaDetails do
  	def result = action OpenAPIPlatform.GetSchemaDetails(schemaName : context(Schema).get("schemaName"))
  	if(result.get("found") == false){
@@ -395,8 +406,12 @@ on intent GetSchemaDetails do
  	}
  	else {
  		def schema = result.get("value")
- 		def propertiesItems = action ReactPlatform.ItemizeList(list : schema.getProperties)
+ 		def propertiesItems = action ReactPlatform.ItemizeList(list : schema.getProperties())
  		action ReactPlatform.Reply(message : propertiesItems)
  	}
+ 
+ 	
+
+ 	
 	
 	

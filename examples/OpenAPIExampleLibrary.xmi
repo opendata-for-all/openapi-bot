@@ -31,6 +31,8 @@
     </outContexts>
     <trainingSentences>Tell me more about the path XXX</trainingSentences>
     <trainingSentences>Tell me more about the path with has the relative path XXX</trainingSentences>
+    <trainingSentences>Tell me about the path XXX</trainingSentences>
+    <trainingSentences>Show me the path XXX</trainingSentences>
   </eventDefinitions>
   <eventDefinitions xsi:type="intent:IntentDefinition" name="ListPaths" followedBy="//@eventDefinitions.5">
     <outContexts name="error" lifeSpan="2"/>
@@ -133,5 +135,10 @@
     <trainingSentences>Tell me about the schema definition XXX</trainingSentences>
     <trainingSentences>Tell me about the schema XXX</trainingSentences>
     <trainingSentences>Tell me about the definition XXX</trainingSentences>
+  </eventDefinitions>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="listSchemaDefinitions">
+    <trainingSentences>Show me the schema definitions</trainingSentences>
+    <trainingSentences>List the schema definitions</trainingSentences>
+    <trainingSentences>Show me all definitions</trainingSentences>
   </eventDefinitions>
 </intent:Library>

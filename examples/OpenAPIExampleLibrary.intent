@@ -32,6 +32,8 @@ intent GetPathDetails {
 		inputs {
 		"Tell me more about the path XXX"
 		"Tell me more about the path with has the relative path XXX"
+		"Tell me about the path XXX"
+		"Show me the path XXX"
 	}
 	creates context RelativePath {
 		sets parameter relativePath from fragment "XXX" (entity any)
@@ -155,5 +157,13 @@ intent GetSchemaDetails {
 	}
 	creates context Schema {
 		sets parameter schemaName from fragment "XXX" (entity any)
+	}
+}
+
+intent listSchemaDefinitions {
+	inputs {
+		"Show me the schema definitions"
+		"List the schema definitions"
+		"Show me all definitions"
 	}
 }

@@ -34,4 +34,5 @@
   <actions name="GetSchemaDetails">
     <parameters key="schemaName"/>
   </actions>
+  <actions name="ListSchemaDefinitions"/>
 </platform:PlatformDefinition>
