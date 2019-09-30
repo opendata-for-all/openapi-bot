@@ -40,6 +40,10 @@ public class OpenAPIPlatform extends RuntimePlatform {
                  append(": ").
                  append (o.getSummary()).
                  toString());
+         this.xatkitCore.getFormatter("Default").registerFormatFunction(Property.class, p -> new StringBuffer().append(p.getName())
+        		 .append(p.getRequired()?"(required)":"")
+        		 .toString());
+         
          this.xatkitCore.getFormatter("Default").registerFormatFunction(Map.Entry.class, e -> e.getKey()+"");
          this.xatkitCore.getFormatter("Default").registerFormatFunction(Property.class, p -> p.getName());
          this.xatkitCore.getFormatter("Default").registerFormatFunction(Parameter.class,
