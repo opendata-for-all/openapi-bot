@@ -25,4 +25,6 @@ actions {
 	//////Schema
 	GetSchemaDetails(schemaName)
 	ListSchemaDefinitions
+	GetOperationsConsumingSchema(schemaName)
+	GetOperationsReturningSchema(schemaName)
 }

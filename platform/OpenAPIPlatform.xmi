@@ -35,4 +35,10 @@
     <parameters key="schemaName"/>
   </actions>
   <actions name="ListSchemaDefinitions"/>
+  <actions name="GetOperationsConsumingSchema">
+    <parameters key="schemaName"/>
+  </actions>
+  <actions name="GetOperationsReturningSchema">
+    <parameters key="schemaName"/>
+  </actions>
 </platform:PlatformDefinition>
