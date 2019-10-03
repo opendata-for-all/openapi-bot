@@ -29,7 +29,7 @@ public class GetOperationByhttpMethodUsingPathContext extends RuntimeAction<Open
     @Override
     protected Object compute() throws Exception {
     	
-    	Operation operation = OpenAPIUtils.getOperationByPathandHTTPMethod(path, httpMethod);
+    	Operation operation = OpenAPIUtils.getOperationByPathAndHTTPMethod(path, httpMethod);
     	
     
     	Map<String, Object> result = new HashMap<String, Object>();
