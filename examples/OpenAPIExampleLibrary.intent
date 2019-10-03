@@ -5,6 +5,7 @@ Library OpenAPIExampleLibrary
 intent LoadAPI {
 	inputs {
 		"Load the API XXX"
+		"Load the OpenAPI definition XXX"
 		"Load the OpenAPI definition located at XXX"
 		"Load the API located at XXX"
 		"XXX"
@@ -17,6 +18,9 @@ intent GetAPIDetails {
 	inputs {
 		"Tell me about this API"
 		"Tell me more about this API"
+		"What can you tell me about this API?"
+		"What do you know about this API?"
+		"Give me a summary of this API"
 	}
 }
 ////////Path related intent///////////
@@ -160,10 +164,34 @@ intent GetSchemaDetails {
 	}
 }
 
-intent listSchemaDefinitions {
+intent ListSchemaDefinitions {
 	inputs {
 		"Show me the schema definitions"
 		"List the schema definitions"
 		"Show me all definitions"
+	}
+}
+
+intent GetOperationsConsumingSchema {
+	inputs {
+		"What are the Operations which consume the schema definition XXX?"
+		"Which operations consume XXX?"
+		"Which operation consume the definition XXX?"
+		"What can I do with a XXX instance?"
+		"Where can I use a XXX instance?"
+	}
+	creates context Schema {
+		sets parameter schemaName from fragment "XXX" (entity any)
+	}
+}
+
+intent GetOperationsReturningSchema {
+	inputs {
+		"Which operations return a XXX instance?"
+		"Which operations return a XXX?"
+		"What are the operations which return a XXX?"
+	}
+	creates context Schema {
+		sets parameter schemaName from fragment "XXX" (entity any)
 	}
 }

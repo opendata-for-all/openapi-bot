@@ -8,7 +8,7 @@ use provider ReactPlatform.ReactIntentProvider
 
 on intent Default_Fallback_Intent do
 	action ReactPlatform.Reply(message : "This is awkward. I could not treat request")
-	action ReactPlatform.Reply(message : "Would you please rephrase your question")
+	action ReactPlatform.Reply(message : "Would you please try again")
 
 ////////// API /////////////////////
 //We load here a definition from a url. We need to add more messages to guide the user about the questions he could ask
@@ -29,8 +29,8 @@ on intent LoadAPI do
 on intent GetAPIDetails do
 	def api = session.get("xatkit.plugins.openapi.api")
 	if(api.isNull()){
-		action ReactPlatform.Reply(message : "Load an API first")
-		// TODO guide the user to load an API
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
 	}
 	else {
 		action ReactPlatform.Reply(message : "The host serving the API is `"+api.getHost()+"`")
