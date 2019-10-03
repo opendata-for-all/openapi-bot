@@ -385,7 +385,7 @@ on intent SecuritySchemeDetails do
 		}
 
 ////////// Schema intents /////////////////////
- on intent listSchemaDefinitions do 
+ on intent ListSchemaDefinitions do 
  	def result = action OpenAPIPlatform.ListSchemaDefinitions
  	if(result.isEmpty()){
  			action ReactPlatform.Reply(message : "No schema definitions found")
@@ -409,6 +409,48 @@ on intent GetSchemaDetails do
  		def propertiesItems = action ReactPlatform.ItemizeList(list : schema.getProperties())
  		action ReactPlatform.Reply(message : propertiesItems)
  	}
+ 	
+on intent GetOperationsConsumingSchema do 
+	def result = action OpenAPIPlatform.GetOperationsConsumingSchema(schemaName : context(Schema).get("schemaName"))
+	if(result.get("found")== false){
+		def reason = result.get("reason")
+		//the schema could not found on the definition
+		if(reason.equals("SchemaNotFound")){
+			action ReactPlatform.Reply(message : "Oops! I could not find the schema "+ context(Schema).get("schemaName"))
+ 			def schemaItemize = action ReactPlatform.ItemizeList(list : result.get("options"))
+			action ReactPlatform.Reply(message : "The available schema definitions are: ")
+			action ReactPlatform.Reply(message : schemaItemize)
+		}
+		if(reason.equals("Empty")){
+			action ReactPlatform.Reply(message : "No operations found")
+		}
+	}
+	else {
+		def operationItemize = action ReactPlatform.ItemizeList(list : result.get("value"))
+		action ReactPlatform.Reply(message : "The operations which consume instances of "+context(Schema).get("schemaName")+" are:")
+		action ReactPlatform.Reply(message : operationItemize)
+	}
+	
+on intent GetOperationsReturningSchema do 
+	def result = action OpenAPIPlatform.GetOperationsReturningSchema(schemaName : context(Schema).get("schemaName"))
+	if(result.get("found")== false){
+		def reason = result.get("reason")
+		//the schema could not found on the definition
+		if(reason.equals("SchemaNotFound")){
+			action ReactPlatform.Reply(message : "Oops! I could not find the schema "+ context(Schema).get("schemaName"))
+ 			def schemaItemize = action ReactPlatform.ItemizeList(list : result.get("options"))
+			action ReactPlatform.Reply(message : "The available schema definitions are: ")
+			action ReactPlatform.Reply(message : schemaItemize)
+		}
+		if(reason.equals("Empty")){
+			action ReactPlatform.Reply(message : "No operations found")
+		}
+	}
+	else {
+		def operationItemize = action ReactPlatform.ItemizeList(list : result.get("value"))
+		action ReactPlatform.Reply(message : "The operations which return instances of "+context(Schema).get("schemaName")+" are:")
+		action ReactPlatform.Reply(message : operationItemize)
+	}
  
  	
 
