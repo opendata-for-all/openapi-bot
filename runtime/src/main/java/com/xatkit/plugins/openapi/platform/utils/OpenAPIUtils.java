@@ -4,11 +4,20 @@ import static java.util.Objects.nonNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import edu.uoc.som.openapi2.API;
+import edu.uoc.som.openapi2.JSONDataType;
 import edu.uoc.som.openapi2.Operation;
+import edu.uoc.som.openapi2.Parameter;
+import edu.uoc.som.openapi2.ParameterLocation;
 import edu.uoc.som.openapi2.Path;
+import edu.uoc.som.openapi2.Property;
+import edu.uoc.som.openapi2.Response;
+import edu.uoc.som.openapi2.Schema;
 import edu.uoc.som.openapi2.SecurityRequirement;
+import edu.uoc.som.openapi2.SecurityScheme;
+import edu.uoc.som.openapi2.SecurityScope;
 
 public class OpenAPIUtils {
 
@@ -93,13 +102,174 @@ public class OpenAPIUtils {
 	public static Operation getOperationByPathandHTTPMethod(String relativePath, String httpMethod, API api) {
 		Path path = api.getPathByRelativePath(relativePath);
 		if (nonNull(path)) {
-			return getOperationByPathandHTTPMethod(path, httpMethod);
+			return getOperationByPathAndHTTPMethod(path, httpMethod);
 		}
 		return null;
 
 	}
 
-	public static Operation getOperationByPathandHTTPMethod(Path path, String httpMethod) {
+	public static Operation getOperationByPathAndHTTPMethod(Path path, String httpMethod) {
 		return path.getOperationByHTTPMethod(httpMethod);
 	}
+	
+	public static List<Operation> getAllOperationsReturningSchema(API api,Schema schema) {
+		List<Operation> operationList = new ArrayList<Operation>();
+		for(Operation operation: api.getAllOperations()) {
+			Schema s = getReturnedSchema(operation);
+			if(s!= null && s.equals(schema))
+			operationList.add(operation);
+		}
+		return operationList;
+		
+	}
+	
+	public static List<Operation> getAllOperationsConsumingSchema(API api,Schema schema) {
+		List<Operation> operationList = new ArrayList<Operation>();
+		for(Operation operation: api.getAllOperations()) {
+			Schema s = getConsumedSchema(operation);
+			if(s!= null && s.equals(schema))
+			operationList.add(operation);
+		}
+		return operationList;
+		
+	}
+	
+
+
+
+	public static List<Operation> getAccessibleOperationsReturningSchema(API api,Schema schema){
+		List<Operation> accessibileOperations = new ArrayList<Operation>();
+		List<Operation> allProducingOperations = getAllOperationsReturningSchema(api, schema);
+		for(Operation operation: allProducingOperations) {
+			if(operation.getParameters().isEmpty())
+				accessibileOperations.add(operation);
+		}
+		return accessibileOperations;
+	}
+
+
+
+	public static String getOperationName(Operation operation) {
+		if(operation.getOperationId() != null && !operation.getOperationId().equals(""))
+			return operation.getOperationId();
+		else {
+		
+			return operation.getHTTPMethod();
+		}
+		
+	}
+	
+
+
+
+
+	
+	public static SecurityScope getSecurityScopeByName(String scope, SecurityScheme securityScheme) {
+		for(SecurityScope s : securityScheme.getScopes())
+				if(scope.equals(s.getName()))
+					return s;
+		return null;
+	}
+	
+	public static Schema getConsumedSchema(Operation operation) {
+		for(Parameter parameter: operation.getParameters()) {
+			if(parameter.getLocation().equals(ParameterLocation.BODY))
+				if(parameter.getSchema().getType().equals(JSONDataType.ARRAY))
+					return parameter.getSchema().getItems();
+					else
+						return parameter.getSchema();
+			}
+		return null;
+	}
+
+
+	public static Schema getReturnedSchema(Operation operation) {
+		for(Entry<String, Response> response: operation.getResponses()) {
+			if(((response.getKey().equals("200") || response.getKey().equals("200") ))   && response.getValue()!=null && response.getValue().getSchema()!= null && response.getValue().getSchema().getType().equals(JSONDataType.ARRAY)) {
+				return response.getValue().getSchema().getItems();
+			
+			}
+			if(((response.getKey().equals("200") || response.getKey().equals("200") ))  &&  response.getValue()!=null  && response.getValue().getSchema()!= null && response.getValue().getSchema().getType().equals(JSONDataType.OBJECT)) {
+				return response.getValue().getSchema();
+			}
+		}
+		return null;
+	}
+
+
+	public static String getDecoratedName(Schema schema) {
+		if( schema.getType().equals(JSONDataType.OBJECT)) {
+			if(schema.getName()!= null)
+				return schema.getName();
+			else 
+				return "undefined";
+		}
+		if(schema.getType().equals(JSONDataType.ARRAY))
+			return getDecoratedName(schema.getItems())+" [*]";
+		return "undefined";
+	
+	}
+	public static boolean isObject(Schema schema) {
+		if (schema.getType().equals(JSONDataType.OBJECT))
+			return true;
+
+		if (!schema.getProperties().isEmpty())
+			return true;
+
+		if (!schema.getAllOf().isEmpty())
+			return true;
+
+		return false;
+	}
+
+	public static boolean isArrayOfObjects(Schema schema) {
+
+		if (schema.getType().equals(JSONDataType.ARRAY) && isObject(schema.getItems()))
+			return true;
+
+		return false;
+	}
+	public static boolean isPrimitive(Schema property) {
+		if (property.getType().equals(JSONDataType.BOOLEAN) || property.getType().equals(JSONDataType.INTEGER)
+				|| property.getType().equals(JSONDataType.NUMBER) || property.getType().equals(JSONDataType.STRING))
+			return true;
+		if (property.getType().equals(JSONDataType.ARRAY) && (property.getItems().getType().equals(JSONDataType.BOOLEAN)
+				|| property.getItems().getType().equals(JSONDataType.INTEGER)
+				|| property.getItems().getType().equals(JSONDataType.NUMBER)
+				|| property.getItems().getType().equals(JSONDataType.STRING)))
+			return true;
+		return false;
+	}
+	public static boolean isSingleValuedPrimitive(Schema schema) {
+		if (schema.getType().equals(JSONDataType.BOOLEAN) || schema.getType().equals(JSONDataType.INTEGER)
+				|| schema.getType().equals(JSONDataType.NUMBER) || schema.getType().equals(JSONDataType.STRING))
+			return true;
+		return false;
+	}
+	public static boolean isMultiValuedPrimitive(Schema schema) {
+		if (schema.getType().equals(JSONDataType.ARRAY) && (schema.getItems().getType().equals(JSONDataType.BOOLEAN)
+				|| schema.getItems().getType().equals(JSONDataType.INTEGER)
+				|| schema.getItems().getType().equals(JSONDataType.NUMBER)
+				|| schema.getItems().getType().equals(JSONDataType.STRING)))
+			return true;
+		return false;
+	}
+	
+	public static List<Property> getSingleValuedPrimitiveProperties(Schema schema){
+		List<Property> properties = new ArrayList<Property>();
+		for(Property property: schema.getProperties()) 
+			if(isSingleValuedPrimitive(property.getSchema()))
+				properties.add(property);
+			return properties;	
+	}
+	
+	public static List<Property> getMultiValuedPrimitiveProperties(Schema schema){
+		List<Property> properties = new ArrayList<Property>();
+		for(Property property: schema.getProperties()) 
+			if(isMultiValuedPrimitive(property.getSchema()))
+				properties.add(property);
+			return properties;	
+		
+	}
+
 }
