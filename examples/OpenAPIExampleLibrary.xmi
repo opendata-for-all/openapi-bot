@@ -9,6 +9,7 @@
       </parameters>
     </outContexts>
     <trainingSentences>Load the API XXX</trainingSentences>
+    <trainingSentences>Load the OpenAPI definition XXX</trainingSentences>
     <trainingSentences>Load the OpenAPI definition located at XXX</trainingSentences>
     <trainingSentences>Load the API located at XXX</trainingSentences>
     <trainingSentences>XXX</trainingSentences>
@@ -16,6 +17,9 @@
   <eventDefinitions xsi:type="intent:IntentDefinition" name="GetAPIDetails">
     <trainingSentences>Tell me about this API</trainingSentences>
     <trainingSentences>Tell me more about this API</trainingSentences>
+    <trainingSentences>What can you tell me about this API?</trainingSentences>
+    <trainingSentences>What do you know about this API?</trainingSentences>
+    <trainingSentences>Give me a summary of this API</trainingSentences>
   </eventDefinitions>
   <eventDefinitions xsi:type="intent:IntentDefinition" name="GetNumberOfPath">
     <trainingSentences>How many endpoints are exposed by the API?</trainingSentences>
@@ -136,9 +140,36 @@
     <trainingSentences>Tell me about the schema XXX</trainingSentences>
     <trainingSentences>Tell me about the definition XXX</trainingSentences>
   </eventDefinitions>
-  <eventDefinitions xsi:type="intent:IntentDefinition" name="listSchemaDefinitions">
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="ListSchemaDefinitions">
     <trainingSentences>Show me the schema definitions</trainingSentences>
     <trainingSentences>List the schema definitions</trainingSentences>
     <trainingSentences>Show me all definitions</trainingSentences>
+  </eventDefinitions>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="GetOperationsConsumingSchema">
+    <outContexts name="Schema">
+      <parameters name="schemaName" textFragment="XXX">
+        <entity xsi:type="intent:BaseEntityDefinitionReference">
+          <baseEntity/>
+        </entity>
+      </parameters>
+    </outContexts>
+    <trainingSentences>What are the Operations which consume the schema definition XXX?</trainingSentences>
+    <trainingSentences>Which operations consume XXX?</trainingSentences>
+    <trainingSentences>Which operation consume the definition XXX?</trainingSentences>
+    <trainingSentences>What can I do with a XXX instance?</trainingSentences>
+    <trainingSentences>Where can I use a XXX instance?</trainingSentences>
+  </eventDefinitions>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="GetOperationsReturningSchema">
+    <outContexts name="Schema">
+      <parameters name="schemaName" textFragment="XXX">
+        <entity xsi:type="intent:BaseEntityDefinitionReference">
+          <baseEntity/>
+        </entity>
+      </parameters>
+    </outContexts>
+    <trainingSentences>Which operations return a XXX instance?</trainingSentences>
+    <trainingSentences>Which operations return a XXX?</trainingSentences>
+    <trainingSentences>What are the operations which return a XXX?</trainingSentences>
+    <trainingSentences>How can I get an instance of XXX?</trainingSentences>
   </eventDefinitions>
 </intent:Library>

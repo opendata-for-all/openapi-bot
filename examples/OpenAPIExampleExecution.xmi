@@ -7,14 +7,14 @@
       <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
       <values>
         <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
-        <expression xsi:type="common:StringLiteral" value="This is awkward. I could not treat request"/>
+        <expression xsi:type="common:StringLiteral" value="This is awkward. I could not treat your request"/>
       </values>
     </instructions>
     <instructions xsi:type="execution:ActionInstance">
       <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
       <values>
         <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
-        <expression xsi:type="common:StringLiteral" value="Would you please rephrase your question"/>
+        <expression xsi:type="common:StringLiteral" value="Would you please try again"/>
       </values>
     </instructions>
   </executionRules>
@@ -57,14 +57,14 @@
         <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
         <values>
           <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
-          <expression xsi:type="common:StringLiteral" value="Oops, I could not parse the API. Make sure that you provided a valid API"/>
+          <expression xsi:type="common:StringLiteral" value="Oops, I could not parse the API"/>
         </values>
       </thenInstructions>
       <thenInstructions xsi:type="execution:ActionInstance">
         <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
         <values>
           <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
-          <expression xsi:type="common:StringLiteral" value="Here is the error message"/>
+          <expression xsi:type="common:StringLiteral" value="Here is the error message:"/>
         </values>
       </thenInstructions>
       <thenInstructions xsi:type="execution:ActionInstance">
@@ -135,7 +135,14 @@
         <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
         <values>
           <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
-          <expression xsi:type="common:StringLiteral" value="Load an API first"/>
+          <expression xsi:type="common:StringLiteral" value="You need to load an API first"/>
+        </values>
+      </thenInstructions>
+      <thenInstructions xsi:type="execution:ActionInstance">
+        <action href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0"/>
+        <values>
+          <parameter href="pathmap://XATKIT_CORE_PLATFORM/ReactPlatform.xmi#//@actions.0/@parameters.0"/>
+          <expression xsi:type="common:StringLiteral" value="What is the URL of the API you want to know about?"/>
         </values>
       </thenInstructions>
       <elseInstructions xsi:type="execution:ActionInstance">

@@ -190,6 +190,7 @@ intent GetOperationsReturningSchema {
 		"Which operations return a XXX instance?"
 		"Which operations return a XXX?"
 		"What are the operations which return a XXX?"
+		"How can I get an instance of XXX?"
 	}
 	creates context Schema {
 		sets parameter schemaName from fragment "XXX" (entity any)

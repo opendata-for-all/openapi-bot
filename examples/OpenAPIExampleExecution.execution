@@ -7,7 +7,7 @@ use provider ReactPlatform.ReactIntentProvider
 
 
 on intent Default_Fallback_Intent do
-	action ReactPlatform.Reply(message : "This is awkward. I could not treat request")
+	action ReactPlatform.Reply(message : "This is awkward. I could not treat your request")
 	action ReactPlatform.Reply(message : "Would you please try again")
 
 ////////// API /////////////////////
@@ -16,8 +16,8 @@ on intent LoadAPI do
 	action ReactPlatform.Reply(message : "Loading API from " + context(API).get("url"))
 	def result = action OpenAPIPlatform.LoadAPI(url : context(API).get("url"))
 	if(result.get("loaded") == false){
-		action ReactPlatform.Reply(message : "Oops, I could not parse the API. Make sure that you provided a valid API")
-		action ReactPlatform.Reply(message : "Here is the error message")
+		action ReactPlatform.Reply(message : "Oops, I could not parse the API")
+		action ReactPlatform.Reply(message : "Here is the error message:")
 		action ReactPlatform.Reply(message : result.get("error"))
 	}
 	else {
