@@ -6,10 +6,10 @@ import java.util.Map;
 import com.xatkit.core.platform.action.RuntimeAction;
 import com.xatkit.core.session.XatkitSession;
 import com.xatkit.plugins.openapi.platform.OpenAPIPlatform;
-import com.xatkit.plugins.openapi.platform.utils.OpenAPIUtils;
 
 import edu.uoc.som.openapi2.API;
 import edu.uoc.som.openapi2.Operation;
+import edu.uoc.som.openapi2.commons.OpenAPIUtils;
 
 public class IsAuthenticationRequiredOperation extends RuntimeAction<OpenAPIPlatform> {
 
