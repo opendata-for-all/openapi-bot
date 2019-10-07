@@ -1,6 +1,5 @@
 package com.xatkit.plugins.openapi.platform.action;
 
-import com.google.gson.stream.MalformedJsonException;
 import com.xatkit.core.platform.action.RuntimeAction;
 import com.xatkit.core.session.XatkitSession;
 import com.xatkit.plugins.openapi.platform.OpenAPIPlatform;
@@ -8,20 +7,10 @@ import edu.uoc.som.openapi2.API;
 import edu.uoc.som.openapi2.io.OpenAPI2Builder;
 import edu.uoc.som.openapi2.io.exceptions.OpenAPIProcessingException;
 import edu.uoc.som.openapi2.io.exceptions.OpenAPIValidationException;
-import edu.uoc.som.openapi2.io.model.SerializationFormat;
-
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.io.IOUtils;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
 
 public class LoadAPI extends RuntimeAction<OpenAPIPlatform> {
 
@@ -38,16 +27,8 @@ public class LoadAPI extends RuntimeAction<OpenAPIPlatform> {
 
 		API api = null;
 		try {
-			InputStream inputStream = new URL(url).openStream();
-			Reader reader = new InputStreamReader(inputStream);
-			String defintion = IOUtils.toString(reader);
-			DumperOptions options = new DumperOptions();
-			options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-			options.setPrettyFlow(true);
-			Yaml yaml = new Yaml(options);
-			Map<String, Object> map = (Map<String, Object>) yaml.load(defintion);
-			// we assume for now that the specification is in JSON format
-			api = new OpenAPI2Builder().setSerializationFormat(SerializationFormat.JSON).fromText(defintion);
+			
+			api = new OpenAPI2Builder().fromURL(url);
 			result.put("loaded", true);
 			result.put("api", api);
 			// we store the loaded API in the session.
@@ -55,13 +36,21 @@ public class LoadAPI extends RuntimeAction<OpenAPIPlatform> {
 
 		} catch (MalformedURLException e) {
 			result.put("loaded", false);
-			result.put("error", e.getMessage());
+			result.put("reason", "MalformedURLException");
+			result.put("errorMessage", e.getMessage());
 		}  catch (OpenAPIValidationException e) {
-			e.printStackTrace();
+			result.put("loaded", false);
+			result.put("reason", "OpenAPIValidationException");
+			result.put("report", e.getReport().getError());
+			result.put("errorMessage", e.getMessage());
 		} catch (OpenAPIProcessingException e) {
-			e.printStackTrace();
+			result.put("loaded", false);
+			result.put("reason", "OpenAPIProcessingException");
+			result.put("errorMessage", e.getMessage());
 		} catch (IOException e) {
-			e.printStackTrace();
+			result.put("loaded", false);
+			result.put("reason", "IOException");
+			result.put("errorMessage", e.getMessage());
 		}
 		return result;
 	}
