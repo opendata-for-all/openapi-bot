@@ -59,140 +59,146 @@ on intent GetAPIDetails do
 ////////// Path intent /////////////////////
 //Intents related to Path element
 on intent ListPaths do
-	def loadedAPI = session.get("xatkit.plugins.openapi.api")
-	if(loadedAPI.isNull()) {
-		action ReactPlatform.Reply(message : "Can you give me an API?")
-		// TODO guide the user to load an API
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
 	} else {
 		def pathList = action OpenAPIPlatform.ListPaths
 		def pathEnum = action ReactPlatform.EnumerateList(list : pathList)
 		action ReactPlatform.Reply(message : pathEnum)
 	}
 	
-//on intent ListPathFallback do
-//	action ReactPlatform.Reply(message : "Loading API from " + context(API).get("url"))
-//	def result = action OpenAPIPlatform.LoadAPI(url : context(API).get("url"))
-//	if(result.get("loaded") == false){
-//		action ReactPlatform.Reply(message : "Oops, we could not parse the API. Make sure that you provided a valid API")
-//		action ReactPlatform.Reply(message : "Here is the error message")
-//		action ReactPlatform.Reply(message : result.get("error"))
-//	}
-//	else {
-//		def api = result.get("api")
-//		action ReactPlatform.Reply(message : "The API "+api.getInfo().getTitle()+", version "+api.getInfo().getVersion()+", was successfully loaded")
-//		def loadedAPI = session.get("xatkit.plugins.openapi.api")
-//		if(loadedAPI.isNull()) {
-//			action ReactPlatform.Reply(message : "Can you give me an API?")
-//		} else {
-//			def pathList = action OpenAPIPlatform.ListPaths
-//			def pathEnum = action ReactPlatform.EnumerateList(list : pathList)
-//			action ReactPlatform.Reply(message : pathEnum)
-//		}
-//	}
 
 
 on intent GetPathDetails do
-	def result = action OpenAPIPlatform.GetPathDetails(relativePath :  context(RelativePath).get("relativePath"))
-	if(result.get("found") == true){
-		def path = result.get("value")
-		def operations = result.get("operations")
-		if(operations.isEmpty()){
-			action ReactPlatform.Reply(message: "There are no operations defined on this path")
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
+	} else {
+		def result = action OpenAPIPlatform.GetPathDetails(relativePath :  context(RelativePath).get("relativePath"))
+		if(result.get("found") == true){
+			def path = result.get("value")
+			def operations = result.get("operations")
+			if(operations.isEmpty()){
+				action ReactPlatform.Reply(message: "There are no operations defined on this path")
+			}
+			else {
+				action ReactPlatform.Reply(message: "There are "+operations.size()+" available operations on the path "+path.getRelativePath())
+				def operationItemize = action ReactPlatform.ItemizeList(list : operations)
+				action ReactPlatform.Reply(message : operationItemize)
+			}
 		}
 		else {
-			action ReactPlatform.Reply(message: "There are "+operations.size()+" available operations on the path "+path.getRelativePath())
-			def operationItemize = action ReactPlatform.ItemizeList(list : operations)
-			action ReactPlatform.Reply(message : operationItemize)
+			action ReactPlatform.Reply(message : "Oops! I could not find the path " + context(RelativePath).get("relativePath"))
+			}
 		}
-
-	}
-	else {
-		action ReactPlatform.Reply(message : "Oops! I could not find the path " + context(RelativePath).get("relativePath"))
-	}
-	
 on intent GetNumberOfPath do
-	def result = action OpenAPIPlatform.ListPaths
-	action ReactPlatform.Reply(message : "There are " + result.size() + " paths in the API")
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
+	} else {
+		def result = action OpenAPIPlatform.ListPaths
+		action ReactPlatform.Reply(message : "There are " + result.size() + " paths in the API")
+	}
 	
 ////////// Operation intents /////////////////////
 on intent ListOperationsOnPathUsingRowNumber  do
-	def operationList = action OpenAPIPlatform.ListOperationsOnPathUsingRowNumber(pathIdentifier : context(Path).get("pathIdentifier"))
-	def operationItemize = action ReactPlatform.ItemizeList(list : operationList)
-	action ReactPlatform.Reply(message : "Here are the operations I found for the path:")
-	action ReactPlatform.Reply(message : operationItemize)
-
-
-on intent GetOperationById do 
-	def result = action OpenAPIPlatform.GetOperationById(operationId : context(Operation).get("operationId"))
-	if(result.get("found") == false){
-		def operationItemize = action ReactPlatform.ItemizeList(list : result.get("operations"))
-		action ReactPlatform.Reply(message : "Oops! I could not find the operation `"+context(Operation).get("operationId")+"`")
-		action ReactPlatform.Reply(message : "The operations provided by the API are: ")
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
+	} else {
+		def operationList = action OpenAPIPlatform.ListOperationsOnPathUsingRowNumber(pathIdentifier : context(Path).get("pathIdentifier"))
+		def operationItemize = action ReactPlatform.ItemizeList(list : operationList)
+		action ReactPlatform.Reply(message : "Here are the operations I found for the path:")
 		action ReactPlatform.Reply(message : operationItemize)
-	}
-	else {
-		//Display the details of an operation
-		def operation = result.get("value")
-		action ReactPlatform.Reply(message : "`"+context(Operation).get("operationHttpMethod")+": "+context(Operation).get("operationPath")+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
-		def parameters = operation.getParameters()
-		def responses = result.get("responses")
-		if(parameters.isEmpty()){
-			action ReactPlatform.Reply(message: "The operation does not declare any parameters")
-			
+		}
+
+
+on intent GetOperationById do
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
+	} else {
+		def result = action OpenAPIPlatform.GetOperationById(operationId : context(Operation).get("operationId"))
+			if(result.get("found") == false){
+				def operationItemize = action ReactPlatform.ItemizeList(list : result.get("operations"))
+				action ReactPlatform.Reply(message : "Oops! I could not find the operation `"+context(Operation).get("operationId")+"`")
+				action ReactPlatform.Reply(message : "The operations provided by the API are: ")
+				action ReactPlatform.Reply(message : operationItemize)
 		}
 		else {
-			if(parameters.size() == 1){
-				action ReactPlatform.Reply(message : "The operation has "+parameters.size()+" parameter:")
+			//Display the details of an operation
+			def operation = result.get("value")
+			action ReactPlatform.Reply(message : "`"+context(Operation).get("operationHttpMethod")+": "+context(Operation).get("operationPath")+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
+			def parameters = operation.getParameters()
+			def responses = result.get("responses")
+			if(parameters.isEmpty()){
+				action ReactPlatform.Reply(message: "The operation does not declare any parameters")
 			}
 			else {
-				action ReactPlatform.Reply(message : "The operation has "+parameters.size()+" parameters:")
+				if(parameters.size() == 1){
+					action ReactPlatform.Reply(message : "The operation has "+parameters.size()+" parameter:")
+				}
+				else {
+					action ReactPlatform.Reply(message : "The operation has "+parameters.size()+" parameters:")
+				}
+				def parameterItemize = action ReactPlatform.ItemizeList(list : parameters)
+				action ReactPlatform.Reply(message : parameterItemize)
 			}
-			
-			def parameterItemize = action ReactPlatform.ItemizeList(list : parameters)
-			action ReactPlatform.Reply(message : parameterItemize)
-			
-		}
-		if(responses.isEmpty()){
-			action ReactPlatform.Reply(message: "The operation does not declare any responses")
-			
-		}
-		else {
-			if(parameters.size() == 1){
-				action ReactPlatform.Reply(message : "The operation has "+responses.size()+" response:")
+			if(responses.isEmpty()){
+				action ReactPlatform.Reply(message: "The operation does not declare any responses")
 			}
 			else {
-				action ReactPlatform.Reply(message : "The operation has "+responses.size()+" responses:")
+				if(parameters.size() == 1){
+					action ReactPlatform.Reply(message : "The operation has "+responses.size()+" response:")
+				}
+				else {
+					action ReactPlatform.Reply(message : "The operation has "+responses.size()+" responses:")
+				}
+			
+				def responsesItemize = action ReactPlatform.ItemizeList(list : responses)
+				action ReactPlatform.Reply(message : responsesItemize)
 			}
-			
-			def responsesItemize = action ReactPlatform.ItemizeList(list : responses)
-			action ReactPlatform.Reply(message : responsesItemize)
-			
 		}
-		
-		
 	}
 	
 
 
-on intent AskLicenseInfo do 
-	def result = action OpenAPIPlatform.GetLicense
-	action ReactPlatform.Reply(message : "The license is " + result)
-
+on intent AskLicenseInfo do
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
+	} else {
+		def result = action OpenAPIPlatform.GetLicense
+		action ReactPlatform.Reply(message : "The license is " + result)
+		}
 	
 on intent SupportedSchemes do
-	def result = action OpenAPIPlatform.SupportedSchemes
-	if(result.isEmpty()) {
-		action ReactPlatform.Reply(message : "No transfer protocols found.")
-		action ReactPlatform.Reply(message : "This means that the default scheme to be used is the one used to access the OpenAPI definition itself.")
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
 	} else {
-		action ReactPlatform.Reply(message : "This API supports: ")
-		def itemize = action ReactPlatform.ItemizeList(list : result)
-		action ReactPlatform.Reply(message : itemize)
+		def result = action OpenAPIPlatform.SupportedSchemes
+		if(result.isEmpty()) {
+			action ReactPlatform.Reply(message : "No transfer protocols found.")
+			action ReactPlatform.Reply(message : "This means that the default scheme to be used is the one used to access the OpenAPI definition itself.")
+		} else {
+			action ReactPlatform.Reply(message : "This API supports: ")
+			def itemize = action ReactPlatform.ItemizeList(list : result)
+			action ReactPlatform.Reply(message : itemize)
+		}
 	}
 
 
 
-on intent GetOperationByhttpMethodUsingPathContext do 
+on intent GetOperationByhttpMethodUsingPathContext do
 	def result = action OpenAPIPlatform.GetOperationByhttpMethodUsingPathContext(httpMethod : context(Operation).get("httpMethod"))
 	if(result.get("found") == false){
 		def operationItemize = action ReactPlatform.ItemizeList(list : result.get("operations"))
@@ -237,228 +243,290 @@ on intent GetOperationByhttpMethodUsingPathContext do
 			def responsesItemize = action ReactPlatform.ItemizeList(list : responses)
 			action ReactPlatform.Reply(message : responsesItemize)
 			
-		}
-		
-		
-	}
-	
-
-
-on intent AskLicenseInfo do 
-	def result = action OpenAPIPlatform.GetLicense
-	action ReactPlatform.Reply(message : "The license is " + result)
-
-	
-on intent SupportedSchemes do
-	def result = action OpenAPIPlatform.SupportedSchemes
-	if(result.isEmpty()) {
-		action ReactPlatform.Reply(message : "No transfer protocols found.")
-		action ReactPlatform.Reply(message : "This means that the default scheme to be used is the one used to access the OpenAPI definition itself.")
-	} else {
-		action ReactPlatform.Reply(message : "This API supports: ")
-		def itemize = action ReactPlatform.ItemizeList(list : result)
-		action ReactPlatform.Reply(message : itemize)
-	}
-
-
-on intent GetOperationByPathAndHttpMethod do 
-	def result = action OpenAPIPlatform.GetOperationByPathAndHttpMethod(operationPath : context(Operation).get("operationPath"), operationHttpMethod : context(Operation).get("operationHttpMethod"))
-	if(result.get("found") == false){
-		def reason = result.get("reason")
-		//operation not found 
-		if(reason.equals("OperationNotFound")){
-		def operationItemize = action ReactPlatform.ItemizeList(list : result.get("options"))
-		action ReactPlatform.Reply(message : "Oops! I could not find the operation "+context(Operation).get("operationHttpMethod")+" on the path "+context(Operation).get("operationPath"))
-		action ReactPlatform.Reply(message : "The available operations on this path are: ")
-		action ReactPlatform.Reply(message : operationItemize)
-		}
-		if(reason.equals("PathNotFound")){
-			def pathItemize = action ReactPlatform.ItemizeList(list : result.get("options"))
-			action ReactPlatform.Reply(message : "Oops! I could not find the path "+context(Operation).get("operationPath"))
-			action ReactPlatform.Reply(message : "The available paths on this API are: ")
-			action ReactPlatform.Reply(message : pathItemize)
-		}
-	}
-	else {
-		//Display the details of an operation
-		def operation = result.get("value")
-		action ReactPlatform.Reply(message : "`"+context(Operation).get("operationHttpMethod")+": "+context(Operation).get("operationPath")+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
-		def parameters = operation.getParameters()
-		def responses = result.get("responses")
-		if(parameters.isEmpty()){
-			action ReactPlatform.Reply(message: "The operation does not declare any parameters")
-			
-		}
-		else {
-			if(parameters.size() == 1){
-				action ReactPlatform.Reply(message : "The operation has "+parameters.size()+" parameter:")
-			}
-			else {
-				action ReactPlatform.Reply(message : "The operation has "+parameters.size()+" parameters:")
-			}
-			
-			def parameterItemize = action ReactPlatform.ItemizeList(list : parameters)
-			action ReactPlatform.Reply(message : parameterItemize)
-			
-		}
-		if(responses.isEmpty()){
-			action ReactPlatform.Reply(message: "The operation does not declare any responses")
-			
-		}
-		else {
-			if(parameters.size() == 1){
-				action ReactPlatform.Reply(message : "The operation has "+responses.size()+" response:")
-			}
-			else {
-				action ReactPlatform.Reply(message : "The operation has "+responses.size()+" responses:")
-			}
-			
-			def responsesItemize = action ReactPlatform.ItemizeList(list : responses)
-			action ReactPlatform.Reply(message : responsesItemize)
-			
-		}
-		
+		}	
 		
 	}
 	
 
 
 on intent AskLicenseInfo do 
-	def result = action OpenAPIPlatform.GetLicense
-	action ReactPlatform.Reply(message : "The license is " + result)
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
+	} else {
+		def result = action OpenAPIPlatform.GetLicense
+		action ReactPlatform.Reply(message : "The license is " + result)
+		}
 
 	
 on intent SupportedSchemes do
-	def result = action OpenAPIPlatform.SupportedSchemes
-	if(result.isEmpty()) {
-		action ReactPlatform.Reply(message : "No transfer protocols found.")
-		action ReactPlatform.Reply(message : "This means that the default scheme to be used is the one used to access the OpenAPI definition itself.")
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
 	} else {
-		action ReactPlatform.Reply(message : "This API supports: ")
-		def itemize = action ReactPlatform.ItemizeList(list : result)
-		action ReactPlatform.Reply(message : itemize)
+		def result = action OpenAPIPlatform.SupportedSchemes
+		if(result.isEmpty()) {
+			action ReactPlatform.Reply(message : "No transfer protocols found.")
+			action ReactPlatform.Reply(message : "This means that the default scheme to be used is the one used to access the OpenAPI definition itself.")
+		} else {
+			action ReactPlatform.Reply(message : "This API supports: ")
+			def itemize = action ReactPlatform.ItemizeList(list : result)
+			action ReactPlatform.Reply(message : itemize)
+		}	
+	}
+
+
+on intent GetOperationByPathAndHttpMethod do
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
+	} else { 
+		def result = action OpenAPIPlatform.GetOperationByPathAndHttpMethod(operationPath : context(Operation).get("operationPath"), operationHttpMethod : context(Operation).get("operationHttpMethod"))
+		if(result.get("found") == false){
+			def reason = result.get("reason")
+			//operation not found 
+			if(reason.equals("OperationNotFound")){
+				def operationItemize = action ReactPlatform.ItemizeList(list : result.get("options"))
+				action ReactPlatform.Reply(message : "Oops! I could not find the operation "+context(Operation).get("operationHttpMethod")+" on the path "+context(Operation).get("operationPath"))
+				action ReactPlatform.Reply(message : "The available operations on this path are: ")
+				action ReactPlatform.Reply(message : operationItemize)
+			}
+			if(reason.equals("PathNotFound")){
+				def pathItemize = action ReactPlatform.ItemizeList(list : result.get("options"))
+				action ReactPlatform.Reply(message : "Oops! I could not find the path "+context(Operation).get("operationPath"))
+				action ReactPlatform.Reply(message : "The available paths on this API are: ")
+				action ReactPlatform.Reply(message : pathItemize)
+			}
+		}
+		else {
+			//Display the details of an operation
+			def operation = result.get("value")
+			action ReactPlatform.Reply(message : "`"+context(Operation).get("operationHttpMethod")+": "+context(Operation).get("operationPath")+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
+			def parameters = operation.getParameters()
+			def responses = result.get("responses")
+			if(parameters.isEmpty()){
+				action ReactPlatform.Reply(message: "The operation does not declare any parameters")
+				
+			}
+			else {
+				if(parameters.size() == 1){
+					action ReactPlatform.Reply(message : "The operation has "+parameters.size()+" parameter:")
+				}
+				else {
+					action ReactPlatform.Reply(message : "The operation has "+parameters.size()+" parameters:")
+				}
+			
+				def parameterItemize = action ReactPlatform.ItemizeList(list : parameters)
+				action ReactPlatform.Reply(message : parameterItemize)
+			
+			}
+			if(responses.isEmpty()){
+				action ReactPlatform.Reply(message: "The operation does not declare any responses")	
+			}
+			else {
+				if(parameters.size() == 1){
+					action ReactPlatform.Reply(message : "The operation has "+responses.size()+" response:")
+				}
+				else {
+					action ReactPlatform.Reply(message : "The operation has "+responses.size()+" responses:")
+				}
+			
+				def responsesItemize = action ReactPlatform.ItemizeList(list : responses)
+				action ReactPlatform.Reply(message : responsesItemize)
+			}
+		}	
+	}
+	
+
+
+	
+on intent SupportedSchemes do
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
+	} else { 
+		def result = action OpenAPIPlatform.SupportedSchemes
+		if(result.isEmpty()) {
+			action ReactPlatform.Reply(message : "No transfer protocols found.")
+			action ReactPlatform.Reply(message : "This means that the default scheme to be used is the one used to access the OpenAPI definition itself.")
+		} else {
+			action ReactPlatform.Reply(message : "This API supports: ")
+			def itemize = action ReactPlatform.ItemizeList(list : result)
+			action ReactPlatform.Reply(message : itemize)
+		}
 	}
 
 
 
 //Security actions	
-on intent IsAuthenticationRequired do 
-	def result = action OpenAPIPlatform.IsAuthenticationRequired
-	if(result.isEmpty()) {
-		action ReactPlatform.Reply(message : "No")
-	}
-	else {
-		action ReactPlatform.Reply(message : "Yes")
-	}
-	
-on intent IsAuthenticationRequiredOperation do 
-	def result = action OpenAPIPlatform.IsAuthenticationRequiredOperation(operationId : context(Operation).get("operationId"))
-	if(result.get("found") == false){
-		def operationItemize = action ReactPlatform.ItemizeList(list : result.get("operations"))
-		action ReactPlatform.Reply(message : "Oops! I could not find the operation "+context(Operation).get("operationId"))
-		action ReactPlatform.Reply(message : "The operations provided by the API are: ")
-		action ReactPlatform.Reply(message : operationItemize)
-	}
-
-else {
-	def answer = result.get("answer")
-	if(answer == false){
-		action ReactPlatform.Reply(message : "No authentication required to execute this operation.")
+on intent IsAuthenticationRequired do
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
+	} else {  
+		def result = action OpenAPIPlatform.IsAuthenticationRequired
+		if(result.isEmpty()) {
+			action ReactPlatform.Reply(message : "No")
 		}
 		else {
-			def options = action ReactPlatform.ItemizeList(list : result.get("options"))
-			action ReactPlatform.Reply(message : "Yes, authentication is needed to execute operation "+ context(Operation).get("operationId"))
-			action ReactPlatform.Reply(message : "You should use one of the following authentication methods:")
-			action ReactPlatform.Reply(message : options)
+			action ReactPlatform.Reply(message : "Yes")
 		}
 	}
 	
-on intent SecuritySchemeList do 
-	def result = action OpenAPIPlatform.SecuritySchemeList
-	if(result.isEmpty()){
-		action ReactPlatform.Reply(message : "No security schemes found")
-	}
+on intent IsAuthenticationRequiredOperation do
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
+	} else {  
+		def result = action OpenAPIPlatform.IsAuthenticationRequiredOperation(operationId : context(Operation).get("operationId"))
+		if(result.get("found") == false){
+			def operationItemize = action ReactPlatform.ItemizeList(list : result.get("operations"))
+			action ReactPlatform.Reply(message : "Oops! I could not find the operation "+context(Operation).get("operationId"))
+			action ReactPlatform.Reply(message : "The operations provided by the API are: ")
+			action ReactPlatform.Reply(message : operationItemize)
+		}
 	else {
-		def securitySchemeItemize = action ReactPlatform.ItemizeList(list : result)
-		action ReactPlatform.Reply(message : "The security schemes provided by the API are: ")
-		action ReactPlatform.Reply(message : securitySchemeItemize)
+		def answer = result.get("answer")
+		if(answer == false){
+			action ReactPlatform.Reply(message : "No authentication required to execute this operation.")
+			}
+			else {
+				def options = action ReactPlatform.ItemizeList(list : result.get("options"))
+				action ReactPlatform.Reply(message : "Yes, authentication is needed to execute operation "+ context(Operation).get("operationId"))
+				action ReactPlatform.Reply(message : "You should use one of the following authentication methods:")
+				action ReactPlatform.Reply(message : options)
+			}
+		}
+	}
+	
+on intent SecuritySchemeList do
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
+	} else {  
+		def result = action OpenAPIPlatform.SecuritySchemeList
+		if(result.isEmpty()){
+			action ReactPlatform.Reply(message : "No security schemes found")
+		}
+		else {
+			def securitySchemeItemize = action ReactPlatform.ItemizeList(list : result)
+			action ReactPlatform.Reply(message : "The security schemes provided by the API are: ")
+			action ReactPlatform.Reply(message : securitySchemeItemize)
+		}
 	}
 	
 on intent SecuritySchemeDetails do
-	def result = action OpenAPIPlatform.SecuritySchemeDetails(securitySchemeId : context(SecurityScheme).get("securitySchemeId"))
-	if(result.get("found") == false){
-		action ReactPlatform.Reply(message : "Oops! I could not find the security scheme "+context(SecurityScheme).get("securitySchemeId"))
-	}else {
-		def securityScheme = result.get("value")
-		action  ReactPlatform.Reply(message : "Here is the definition of the security scheme "+context(SecurityScheme).get("securitySchemeId")+":  \nType: "+securityScheme.getType()+"  \nName: "+securityScheme.getName()+"  \nIn: "+securityScheme.getLocation())
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
+	} else { 
+		def result = action OpenAPIPlatform.SecuritySchemeDetails(securitySchemeId : context(SecurityScheme).get("securitySchemeId"))
+		if(result.get("found") == false){
+			action ReactPlatform.Reply(message : "Oops! I could not find the security scheme "+context(SecurityScheme).get("securitySchemeId"))
+		} else {
+			def securityScheme = result.get("value")
+			action  ReactPlatform.Reply(message : "Here is the definition of the security scheme "+context(SecurityScheme).get("securitySchemeId")+":  \nType: "+securityScheme.getType()+"  \nName: "+securityScheme.getName()+"  \nIn: "+securityScheme.getLocation())
+			}
 		}
 
 ////////// Schema intents /////////////////////
  on intent ListSchemaDefinitions do 
- 	def result = action OpenAPIPlatform.ListSchemaDefinitions
- 	if(result.isEmpty()){
+ 	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
+	} else { 
+ 		def result = action OpenAPIPlatform.ListSchemaDefinitions
+ 		if(result.isEmpty()){
  			action ReactPlatform.Reply(message : "No schema definitions found")
- 	}
- 	else {
- 		def schemaItems = action ReactPlatform.EnumerateList(list : result)
- 		action  ReactPlatform.Reply(message : schemaItems)
+ 		}
+ 		else {
+ 			def schemaItems = action ReactPlatform.EnumerateList(list : result)
+ 			action  ReactPlatform.Reply(message : schemaItems)
+ 		}
  	}
  	
 
 on intent GetSchemaDetails do
- 	def result = action OpenAPIPlatform.GetSchemaDetails(schemaName : context(Schema).get("schemaName"))
- 	if(result.get("found") == false){
- 		action ReactPlatform.Reply(message : "Oops! I could not find the schema "+ context(Schema).get("schemaName"))
- 		def schemaItemize = action ReactPlatform.ItemizeList(list : result.get("options"))
-		action ReactPlatform.Reply(message : "The available schema definitions are: ")
-		action ReactPlatform.Reply(message : schemaItemize)
- 	}
- 	else {
- 		def schema = result.get("value")
- 		def propertiesItems = action ReactPlatform.ItemizeList(list : schema.getProperties())
- 		action ReactPlatform.Reply(message : propertiesItems)
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
+	} else { 
+ 		def result = action OpenAPIPlatform.GetSchemaDetails(schemaName : context(Schema).get("schemaName"))
+ 		if(result.get("found") == false){
+ 			action ReactPlatform.Reply(message : "Oops! I could not find the schema "+ context(Schema).get("schemaName"))
+ 			def schemaItemize = action ReactPlatform.ItemizeList(list : result.get("options"))
+			action ReactPlatform.Reply(message : "The available schema definitions are: ")
+			action ReactPlatform.Reply(message : schemaItemize)
+ 		}
+ 		else {
+ 			def schema = result.get("value")
+ 			def propertiesItems = action ReactPlatform.ItemizeList(list : schema.getProperties())
+ 			action ReactPlatform.Reply(message : propertiesItems)
+ 		}
  	}
  	
 on intent GetOperationsConsumingSchema do 
-	def result = action OpenAPIPlatform.GetOperationsConsumingSchema(schemaName : context(Schema).get("schemaName"))
-	if(result.get("found")== false){
-		def reason = result.get("reason")
-		//the schema could not found on the definition
-		if(reason.equals("SchemaNotFound")){
-			action ReactPlatform.Reply(message : "Oops! I could not find the schema "+ context(Schema).get("schemaName"))
- 			def schemaItemize = action ReactPlatform.ItemizeList(list : result.get("options"))
-			action ReactPlatform.Reply(message : "The available schema definitions are: ")
-			action ReactPlatform.Reply(message : schemaItemize)
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
+	} else { 
+		def result = action OpenAPIPlatform.GetOperationsConsumingSchema(schemaName : context(Schema).get("schemaName"))
+		if(result.get("found")== false){
+			def reason = result.get("reason")
+			//the schema could not found on the definition
+			if(reason.equals("SchemaNotFound")){
+				action ReactPlatform.Reply(message : "Oops! I could not find the schema "+ context(Schema).get("schemaName"))
+ 				def schemaItemize = action ReactPlatform.ItemizeList(list : result.get("options"))
+				action ReactPlatform.Reply(message : "The available schema definitions are: ")
+				action ReactPlatform.Reply(message : schemaItemize)
+			}
+			if(reason.equals("Empty")){
+				action ReactPlatform.Reply(message : "No operations found")
+			}
 		}
-		if(reason.equals("Empty")){
-			action ReactPlatform.Reply(message : "No operations found")
+		else {
+			def operationItemize = action ReactPlatform.ItemizeList(list : result.get("value"))
+			action ReactPlatform.Reply(message : "The operations which consume instances of "+context(Schema).get("schemaName")+" are:")
+			action ReactPlatform.Reply(message : operationItemize)
 		}
-	}
-	else {
-		def operationItemize = action ReactPlatform.ItemizeList(list : result.get("value"))
-		action ReactPlatform.Reply(message : "The operations which consume instances of "+context(Schema).get("schemaName")+" are:")
-		action ReactPlatform.Reply(message : operationItemize)
 	}
 	
-on intent GetOperationsReturningSchema do 
-	def result = action OpenAPIPlatform.GetOperationsReturningSchema(schemaName : context(Schema).get("schemaName"))
-	if(result.get("found")== false){
-		def reason = result.get("reason")
-		//the schema could not found on the definition
-		if(reason.equals("SchemaNotFound")){
-			action ReactPlatform.Reply(message : "Oops! I could not find the schema "+ context(Schema).get("schemaName"))
- 			def schemaItemize = action ReactPlatform.ItemizeList(list : result.get("options"))
-			action ReactPlatform.Reply(message : "The available schema definitions are: ")
-			action ReactPlatform.Reply(message : schemaItemize)
+on intent GetOperationsReturningSchema do
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
+	} else { 
+		def result = action OpenAPIPlatform.GetOperationsReturningSchema(schemaName : context(Schema).get("schemaName"))
+		if(result.get("found")== false){
+			def reason = result.get("reason")
+			//the schema could not found on the definition
+			if(reason.equals("SchemaNotFound")){
+				action ReactPlatform.Reply(message : "Oops! I could not find the schema "+ context(Schema).get("schemaName"))
+ 				def schemaItemize = action ReactPlatform.ItemizeList(list : result.get("options"))
+				action ReactPlatform.Reply(message : "The available schema definitions are: ")
+				action ReactPlatform.Reply(message : schemaItemize)
+			}
+			if(reason.equals("Empty")){
+				action ReactPlatform.Reply(message : "No operations found")
+			}
 		}
-		if(reason.equals("Empty")){
-			action ReactPlatform.Reply(message : "No operations found")
-		}
-	}
-	else {
-		def operationItemize = action ReactPlatform.ItemizeList(list : result.get("value"))
-		action ReactPlatform.Reply(message : "The operations which return instances of "+context(Schema).get("schemaName")+" are:")
-		action ReactPlatform.Reply(message : operationItemize)
+		else {
+			def operationItemize = action ReactPlatform.ItemizeList(list : result.get("value"))
+			action ReactPlatform.Reply(message : "The operations which return instances of "+context(Schema).get("schemaName")+" are:")
+			action ReactPlatform.Reply(message : operationItemize)
+		}	
 	}
  
  	
