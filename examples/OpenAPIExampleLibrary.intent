@@ -208,3 +208,12 @@ intent GetOperationsReusingSchemaParts {
 	}
 }
 
+intent GetSchemasReusingSchemaParts {
+	inputs {
+		"Are there links between XXX and other definitions?"
+	}
+	creates context Schema {
+		sets parameter schemaName from fragment "XXX" (entity any)
+	}
+}
+

@@ -44,4 +44,7 @@
   <actions name="GetOperationsReusingSchemaParts">
     <parameters key="schemaName"/>
   </actions>
+  <actions name="GetSchemasReusingSchemaParts">
+    <parameters key="schemaName"/>
+  </actions>
 </platform:PlatformDefinition>

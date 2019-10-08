@@ -28,4 +28,5 @@ actions {
 	GetOperationsConsumingSchema(schemaName)
 	GetOperationsReturningSchema(schemaName)
 	GetOperationsReusingSchemaParts(schemaName)
+	GetSchemasReusingSchemaParts(schemaName)
 }

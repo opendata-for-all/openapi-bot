@@ -17,6 +17,7 @@ import edu.uoc.som.openapi2.Path;
 import edu.uoc.som.openapi2.Property;
 import edu.uoc.som.openapi2.commons.OpenAPIUtils;
 import edu.uoc.som.openapi2.mapping.PropertyToParameter;
+import edu.uoc.som.openapi2.mapping.PropertyToProperty;
 
 /**
  * A {@link RuntimePlatform} class that interacts with an OpenAPI definition.
@@ -53,7 +54,9 @@ public class OpenAPIPlatform extends RuntimePlatform {
         this.xatkitCore.getFormatter("Default").registerFormatFunction(Parameter.class,
        		 p -> p.getName());
         this.xatkitCore.getFormatter("Default").registerFormatFunction(PropertyToParameter.class, p -> p.getSource().getName()+": the parameter "+p.getTarget().getName()+" of the operation "+ FormattingUtils.formatOperation(OpenAPIUtils.getOperation(p.getTarget())));
+        this.xatkitCore.getFormatter("Default").registerFormatFunction(PropertyToProperty.class, p -> p.getSource().getName()+": the property "+p.getTarget().getName()+" of the definition "+ OpenAPIUtils.getDefinition(p.getTarget()).getName());
     }
+    
 
     
    

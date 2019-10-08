@@ -184,4 +184,14 @@
     <trainingSentences>Where can I use the attributes of an instance of XXX?</trainingSentences>
     <trainingSentences>Are there operations which use the properties of XXX?</trainingSentences>
   </eventDefinitions>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="GetSchemasReusingSchemaParts">
+    <outContexts name="Schema">
+      <parameters name="schemaName" textFragment="XXX">
+        <entity xsi:type="intent:BaseEntityDefinitionReference">
+          <baseEntity/>
+        </entity>
+      </parameters>
+    </outContexts>
+    <trainingSentences>Are there links between XXX and other definitions?</trainingSentences>
+  </eventDefinitions>
 </intent:Library>
