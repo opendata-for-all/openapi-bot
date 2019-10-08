@@ -196,3 +196,15 @@ intent GetOperationsReturningSchema {
 		sets parameter schemaName from fragment "XXX" (entity any)
 	}
 }
+
+intent GetOperationsReusingSchemaParts {
+	inputs {
+		"Is there any operation that reuses parts of XXX?"
+		"Where can I use the attributes of an instance of XXX?"
+		"Are there operations which use the properties of XXX?"
+	}
+	creates context Schema {
+		sets parameter schemaName from fragment "XXX" (entity any)
+	}
+}
+

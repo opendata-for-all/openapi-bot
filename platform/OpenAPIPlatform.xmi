@@ -41,4 +41,7 @@
   <actions name="GetOperationsReturningSchema">
     <parameters key="schemaName"/>
   </actions>
+  <actions name="GetOperationsReusingSchemaParts">
+    <parameters key="schemaName"/>
+  </actions>
 </platform:PlatformDefinition>

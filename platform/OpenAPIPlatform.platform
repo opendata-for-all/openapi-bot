@@ -27,4 +27,5 @@ actions {
 	ListSchemaDefinitions
 	GetOperationsConsumingSchema(schemaName)
 	GetOperationsReturningSchema(schemaName)
+	GetOperationsReusingSchemaParts(schemaName)
 }

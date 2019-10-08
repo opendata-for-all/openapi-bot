@@ -529,6 +529,32 @@ on intent GetOperationsReturningSchema do
 		}	
 	}
  
+ on intent GetOperationsReusingSchemaParts do
+	def api = session.get("xatkit.plugins.openapi.api")
+	if(api.isNull()){
+		action ReactPlatform.Reply(message : "You need to load an API first")
+		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
+	} else { 
+		def result = action OpenAPIPlatform.GetOperationsReusingSchemaParts(schemaName : context(Schema).get("schemaName"))
+		if(result.get("found")== false){
+			def reason = result.get("reason")
+			//the schema could not found on the definition
+			if(reason.equals("SchemaNotFound")){
+				action ReactPlatform.Reply(message : "Oops! I could not find the schema "+ context(Schema).get("schemaName"))
+ 				def schemaItemize = action ReactPlatform.ItemizeList(list : result.get("options"))
+				action ReactPlatform.Reply(message : "The available schema definitions are: ")
+				action ReactPlatform.Reply(message : schemaItemize)
+			}
+			if(reason.equals("Empty")){
+				action ReactPlatform.Reply(message : "No operations found")
+			}
+		}
+		else {
+			def operationItemize = action ReactPlatform.ItemizeList(list : result.get("value"))
+			action ReactPlatform.Reply(message : "The operations which reuse the properties of "+context(Schema).get("schemaName")+" are:")
+			action ReactPlatform.Reply(message : operationItemize)
+		}	
+	}
  	
 
  	

@@ -172,4 +172,16 @@
     <trainingSentences>What are the operations which return a XXX?</trainingSentences>
     <trainingSentences>How can I get an instance of XXX?</trainingSentences>
   </eventDefinitions>
+  <eventDefinitions xsi:type="intent:IntentDefinition" name="GetOperationsReusingSchemaParts">
+    <outContexts name="Schema">
+      <parameters name="schemaName" textFragment="XXX">
+        <entity xsi:type="intent:BaseEntityDefinitionReference">
+          <baseEntity/>
+        </entity>
+      </parameters>
+    </outContexts>
+    <trainingSentences>Is there any operation that reuses parts of XXX?</trainingSentences>
+    <trainingSentences>Where can I use the attributes of an instance of XXX?</trainingSentences>
+    <trainingSentences>Are there operations which use the properties of XXX?</trainingSentences>
+  </eventDefinitions>
 </intent:Library>
