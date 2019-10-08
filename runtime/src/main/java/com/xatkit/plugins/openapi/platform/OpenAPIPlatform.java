@@ -8,12 +8,15 @@ import static java.util.Objects.nonNull;
 import com.xatkit.core.XatkitCore;
 import com.xatkit.core.platform.RuntimePlatform;
 import com.xatkit.core.session.XatkitSession;
+import com.xatkit.plugins.openapi.platform.utils.FormattingUtils;
 
 import edu.uoc.som.openapi2.API;
 import edu.uoc.som.openapi2.Operation;
 import edu.uoc.som.openapi2.Parameter;
 import edu.uoc.som.openapi2.Path;
 import edu.uoc.som.openapi2.Property;
+import edu.uoc.som.openapi2.commons.OpenAPIUtils;
+import edu.uoc.som.openapi2.mapping.PropertyToParameter;
 
 /**
  * A {@link RuntimePlatform} class that interacts with an OpenAPI definition.
@@ -37,14 +40,10 @@ public class OpenAPIPlatform extends RuntimePlatform {
      */
     public OpenAPIPlatform(XatkitCore xatkitCore, Configuration configuration) {
         super(xatkitCore, configuration);
+        
+        //We register here some formatters. We may need to move this to another place
         this.xatkitCore.getFormatter("Default").registerFormatFunction(Path.class, Path::getRelativePath);
-        this.xatkitCore.getFormatter("Default").registerFormatFunction(Operation.class,
-                o -> new StringBuilder().append(o.getHTTPMethod()).
-                append(" ").
-                append((nonNull(o.getOperationId()) && !o.getOperationId().equals(""))?"("+o.getOperationId()+")":"").
-                append(": ").
-                append (o.getSummary()).
-                toString());
+        this.xatkitCore.getFormatter("Default").registerFormatFunction(Operation.class,o -> FormattingUtils.formatOperation(o));
         this.xatkitCore.getFormatter("Default").registerFormatFunction(Property.class, p -> new StringBuffer().append(p.getName())
        		 .append(p.getRequired()?"(required)":"")
        		 .toString());
@@ -53,6 +52,7 @@ public class OpenAPIPlatform extends RuntimePlatform {
         this.xatkitCore.getFormatter("Default").registerFormatFunction(Property.class, p -> p.getName());
         this.xatkitCore.getFormatter("Default").registerFormatFunction(Parameter.class,
        		 p -> p.getName());
+        this.xatkitCore.getFormatter("Default").registerFormatFunction(PropertyToParameter.class, p -> p.getSource().getName()+": the parameter "+p.getTarget().getName()+" of the operation "+ FormattingUtils.formatOperation(OpenAPIUtils.getOperation(p.getTarget())));
     }
 
     
