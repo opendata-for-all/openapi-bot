@@ -33,6 +33,7 @@ public class GetPathDetails extends RuntimeAction<OpenAPIPlatform> {
 	    		 }
 	    		 else {
 	    			 result.put("found", false);
+	    			 result.put("options", api.getPaths());
 	    		 }
 	    			 
 	    	return result;
