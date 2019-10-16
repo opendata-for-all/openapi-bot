@@ -44,7 +44,7 @@ public class GetOperationsReturningSchema extends RuntimeAction<OpenAPIPlatform>
 				 result.put("value", operations);
 			 }
 		 }
-		return null;
+		return result;
 	}
 	
 	
