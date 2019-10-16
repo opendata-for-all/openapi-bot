@@ -11,6 +11,7 @@ import com.xatkit.core.session.XatkitSession;
 import com.xatkit.plugins.openapi.platform.OpenAPIPlatform;
 import edu.uoc.som.openapi2.API;
 import edu.uoc.som.openapi2.Operation;
+import edu.uoc.som.openapi2.Path;
 
 public class GetOperationById extends RuntimeAction<OpenAPIPlatform> {
 	
@@ -31,6 +32,7 @@ public class GetOperationById extends RuntimeAction<OpenAPIPlatform> {
     	if(nonNull(operation)) {
     		result.put("found", true);
     		result.put("value", operation);
+    		result.put("path",((Path) operation.eContainer()).getRelativePath());
     		result.put("responses",operation.getResponses().entrySet().stream().collect(Collectors.toList()));
     	}
     	else {
