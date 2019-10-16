@@ -69,7 +69,7 @@ intent ListOperationsOnPathUsingRowNumber follows ListPaths {
 	inputs {
 		"List the operations of the path on the position XXX"
 		"What are the operations of the path located at XXX"
-		"What are the operation of the path located at the position XXX"
+		"What are the operations of the path located at the position XXX"
 	}
 	creates context Path {
 		// Let's say it's an integer for now
@@ -86,7 +86,6 @@ intent GetOperationByhttpMethodUsingPathContext follows GetPathDetails {
 		sets parameter httpMethod from fragment "XXX" (entity any)
 	} 
 }
-
 intent GetOperationById {
 	inputs {
 		"Show me the operation which has the ID XXX"
