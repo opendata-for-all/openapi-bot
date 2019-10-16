@@ -92,7 +92,10 @@ on intent GetPathDetails do
 		}
 		else {
 			action ReactPlatform.Reply(message : "Oops! I could not find the path " + context(RelativePath).get("relativePath"))
-			}
+			def pathItemize = action ReactPlatform.ItemizeList(list : result.get("options"))
+				action ReactPlatform.Reply(message : "The available paths on this API are: ")
+				action ReactPlatform.Reply(message : pathItemize)
+			 }
 		}
 on intent GetNumberOfPath do
 	def api = session.get("xatkit.plugins.openapi.api")
@@ -134,7 +137,7 @@ on intent GetOperationById do
 		else {
 			//Display the details of an operation
 			def operation = result.get("value")
-			action ReactPlatform.Reply(message : "`"+context(Operation).get("operationHttpMethod")+": "+context(Operation).get("operationPath")+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
+			action ReactPlatform.Reply(message : "`"+result.get("path")+"`: "+operation.getHTTPMethod()+" "+operation.getSummary()+" ("+operation.getOperationId()+"`)")
 			def parameters = operation.getParameters()
 			def responses = result.get("responses")
 			if(parameters.isEmpty()){
@@ -169,15 +172,7 @@ on intent GetOperationById do
 	
 
 
-on intent AskLicenseInfo do
-	def api = session.get("xatkit.plugins.openapi.api")
-	if(api.isNull()){
-		action ReactPlatform.Reply(message : "You need to load an API first")
-		action ReactPlatform.Reply(message : "What is the URL of the API you want to know about?")
-	} else {
-		def result = action OpenAPIPlatform.GetLicense
-		action ReactPlatform.Reply(message : "The license is " + result)
-		}
+
 	
 on intent SupportedSchemes do
 	def api = session.get("xatkit.plugins.openapi.api")
@@ -196,57 +191,6 @@ on intent SupportedSchemes do
 		}
 	}
 
-
-
-on intent GetOperationByhttpMethodUsingPathContext do
-	def result = action OpenAPIPlatform.GetOperationByhttpMethodUsingPathContext(httpMethod : context(Operation).get("httpMethod"))
-	if(result.get("found") == false){
-		def operationItemize = action ReactPlatform.ItemizeList(list : result.get("operations"))
-		action ReactPlatform.Reply(message : "Oops! I could not find a `"+context(Operation).get("httpMethod")+"` operation on the path `"+session.get("xatkit.plugins.openapi.path").getRelativePath()+"`")
-		action ReactPlatform.Reply(message : "The operations available on this path are: ")
-		action ReactPlatform.Reply(message : operationItemize)
-	}
-	else {
-		//Display the details of an operation
-		def operation = result.get("value")
-		action ReactPlatform.Reply(message : "`"+context(Operation).get("operationHttpMethod")+": "+context(Operation).get("operationPath")+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
-		def parameters = operation.getParameters()
-		def responses = result.get("responses")
-		if(parameters.isEmpty()){
-			action ReactPlatform.Reply(message: "The operation does not declare any parameters")
-			
-		}
-		else {
-			if(parameters.size() == 1){
-				action ReactPlatform.Reply(message : "The operation has "+parameters.size()+" parameter:")
-			}
-			else {
-				action ReactPlatform.Reply(message : "The operation has "+parameters.size()+" parameters:")
-			}
-			
-			def parameterItemize = action ReactPlatform.ItemizeList(list : parameters)
-			action ReactPlatform.Reply(message : parameterItemize)
-			
-		}
-		if(responses.isEmpty()){
-			action ReactPlatform.Reply(message: "The operation does not declare any responses")
-			
-		}
-		else {
-			if(parameters.size() == 1){
-				action ReactPlatform.Reply(message : "The operation has "+responses.size()+" response:")
-			}
-			else {
-				action ReactPlatform.Reply(message : "The operation has "+responses.size()+" responses:")
-			}
-			
-			def responsesItemize = action ReactPlatform.ItemizeList(list : responses)
-			action ReactPlatform.Reply(message : responsesItemize)
-			
-		}	
-		
-	}
-	
 
 
 on intent AskLicenseInfo do 
@@ -398,9 +342,8 @@ on intent IsAuthenticationRequiredOperation do
 			}
 			else {
 				def options = action ReactPlatform.ItemizeList(list : result.get("options"))
-				action ReactPlatform.Reply(message : "Yes, authentication is needed to execute operation "+ context(Operation).get("operationId"))
-				action ReactPlatform.Reply(message : "You should use one of the following authentication methods:")
-				action ReactPlatform.Reply(message : options)
+				action ReactPlatform.Reply(message : "Yes, authentication is needed to execute the operation "+ context(Operation).get("operationId"))
+			
 			}
 		}
 	}
@@ -501,6 +444,7 @@ on intent GetOperationsConsumingSchema do
 			action ReactPlatform.Reply(message : operationItemize)
 		}
 	}
+	
 	
 on intent GetOperationsReturningSchema do
 	def api = session.get("xatkit.plugins.openapi.api")

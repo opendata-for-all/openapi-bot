@@ -55,7 +55,7 @@
     </outContexts>
     <trainingSentences>List the operations of the path on the position XXX</trainingSentences>
     <trainingSentences>What are the operations of the path located at XXX</trainingSentences>
-    <trainingSentences>What are the operation of the path located at the position XXX</trainingSentences>
+    <trainingSentences>What are the operations of the path located at the position XXX</trainingSentences>
   </eventDefinitions>
   <eventDefinitions xsi:type="intent:IntentDefinition" name="GetOperationByhttpMethodUsingPathContext" follows="//@eventDefinitions.3">
     <outContexts name="Operation">
