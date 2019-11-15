@@ -1,0 +1,32 @@
+Platform OpenAPIPlatform
+
+path "com.xatkit.plugins.openapi.platform.OpenAPIPlatform"
+
+actions {
+	///////API and global
+	LoadAPI(_url : String): java.util.Map<String, Object>
+	/////////path
+	ListPaths: Object
+	GetPathDetails(relativePath): Object
+	/////////operation
+	// pathIdentifier = Integer for now
+	ListOperationsOnPathUsingRowNumber(pathIdentifier: String): Object
+	GetOperationByhttpMethodUsingPathContext(httpMethod: String): Object
+	GetOperationById(operationId: String): Object
+	GetOperationByPathAndHttpMethod(operationPath: String, operationHttpMethod: String): Object
+	GetLicense: Object
+	//Security
+	SupportedSchemes: Object
+	IsAuthenticationRequired: Object
+	IsAuthenticationRequiredOperation(operationId: String): Object
+	SecuritySchemeList
+	SecuritySchemeDetails(securitySchemeId)
+	//////Schema
+	GetSchemaDetails(schemaName)
+	ListSchemaDefinitions
+	GetOperationsConsumingSchema(schemaName)
+	GetOperationsReturningSchema(schemaName)
+	GetOperationsReusingSchemaParts(schemaName)
+
+	GetSchemasReusingSchemaParts(schemaName)
+}
