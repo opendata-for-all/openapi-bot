@@ -25,7 +25,7 @@ public class GetSchemaDetails extends RuntimeAction<OpenAPIPlatform> {
     }
 
     @Override
-    protected Object compute() throws Exception {
+    protected Map<String, Object> compute() throws Exception {
     	Schema schema = api.getDefinitions().get(schemaName);
     	Map<String, Object> result = new HashMap<String, Object>();
     	if(nonNull(schema)) {

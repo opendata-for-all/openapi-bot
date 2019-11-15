@@ -12,8 +12,8 @@ public class GetNumberOfPaths extends RuntimeAction<OpenAPIPlatform> {
     }
 
     @Override
-    protected Object compute() throws Exception {
+    protected Integer compute() throws Exception {
         API api = runtimePlatform.getApi(session);
-        return Integer.toString(api.getPaths().size());
+        return Integer.valueOf(api.getPaths().size());
     }
 }

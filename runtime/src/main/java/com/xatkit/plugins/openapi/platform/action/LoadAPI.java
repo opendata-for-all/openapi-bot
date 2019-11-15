@@ -16,13 +16,13 @@ public class LoadAPI extends RuntimeAction<OpenAPIPlatform> {
 
 	private String url;
 
-	public LoadAPI(OpenAPIPlatform platform, XatkitSession session, String url) {
+	public LoadAPI(OpenAPIPlatform platform, XatkitSession session, String _url) {
 		super(platform, session);
-		this.url = url;
+		this.url = _url;
 	}
 
 	@Override
-	protected Object compute() {
+	protected Map<String,Object> compute() {
 		Map<String, Object> result = new HashMap<String, Object>();
 
 		API api = null;

@@ -23,7 +23,7 @@ public class IsAuthenticationRequiredOperation extends RuntimeAction<OpenAPIPlat
 	}
 
 	@Override
-	protected Object compute() throws Exception {
+	protected Map<String, Object> compute() throws Exception {
 		Map<String, Object> result = new HashMap<String, Object>();
 		Operation operation = api.getOperationById(operationId);
 		if (operation == null) {

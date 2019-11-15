@@ -21,11 +21,10 @@ public class ListOperationsOnPathUsingRowNumber extends RuntimeAction<OpenAPIPla
 	}
 
 	@Override
-	protected Object compute() throws Exception {
+	protected List<Operation> compute() throws Exception {
 		List<Path> storedPaths = (List<Path>) session.get(FormatList.LAST_FORMATTED_LIST);
 		Path path = storedPaths.get(pathId);
-		List<Operation> operations = OpenAPIUtils.getAllOperationsOnPath(path);
-		return operations;
+		return  OpenAPIUtils.getAllOperationsOnPath(path);
 	}
 
 }

@@ -26,7 +26,7 @@ public class GetOperationById extends RuntimeAction<OpenAPIPlatform> {
     }
 
     @Override
-    protected Object compute() throws Exception {
+    protected Map<String, Object> compute() throws Exception {
     	Operation operation = api.getOperationById(operationId);
     	Map<String, Object> result = new HashMap<String, Object>();
     	if(nonNull(operation)) {

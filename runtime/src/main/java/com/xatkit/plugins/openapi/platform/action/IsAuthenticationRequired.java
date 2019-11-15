@@ -17,7 +17,7 @@ public class IsAuthenticationRequired extends RuntimeAction<OpenAPIPlatform> {
     }
 
     @Override
-    protected Object compute() throws Exception {
+    protected Map<String, Object> compute() throws Exception {
         API api = (API) session.get(OpenAPIPlatform.LOADED_API_KEY);
         Map<String, Object> results = new HashMap<String, Object> ();
         results.put("securityDefinitions", api.getSecurityDefinitions());

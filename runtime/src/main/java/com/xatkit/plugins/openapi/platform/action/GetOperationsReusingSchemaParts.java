@@ -23,7 +23,7 @@ public class GetOperationsReusingSchemaParts extends RuntimeAction<OpenAPIPlatfo
 	}
 
 	@Override
-	protected Object compute() throws Exception {
+	protected Map<String, Object> compute() throws Exception {
 		 API api = runtimePlatform.getApi(session);
 		 Schema schema = api.getDefinitions().get(schemaName);
 		 Map<String, Object> result = new HashMap<String, Object>();

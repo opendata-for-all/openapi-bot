@@ -30,7 +30,7 @@ public class GetOperationByPathAndHttpMethod extends RuntimeAction<OpenAPIPlatfo
     }
 
     @Override
-    protected Object compute() throws Exception {
+    protected Map<String, Object> compute() throws Exception {
     	Map<String, Object> result = new HashMap<String, Object>();
     	Path path = api.getPathByRelativePath(relativePath);
     	if(nonNull(path)) {
@@ -52,6 +52,6 @@ public class GetOperationByPathAndHttpMethod extends RuntimeAction<OpenAPIPlatfo
     		result.put("options",api.getPaths());
     	}
     
-    	        return result;
+		return result;
     }
 }

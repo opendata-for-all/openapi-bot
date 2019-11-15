@@ -27,7 +27,7 @@ public class GetOperationByhttpMethodUsingPathContext extends RuntimeAction<Open
     }
 
     @Override
-    protected Object compute() throws Exception {
+    protected Map<String, Object> compute() throws Exception {
     	
     	Operation operation = path.getOperationByHTTPMethod( httpMethod);
     	

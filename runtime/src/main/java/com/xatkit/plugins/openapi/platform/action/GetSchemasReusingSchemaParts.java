@@ -11,7 +11,6 @@ import com.xatkit.plugins.openapi.platform.OpenAPIPlatform;
 import edu.uoc.som.openapi2.API;
 import edu.uoc.som.openapi2.Schema;
 import edu.uoc.som.openapi2.commons.Heuristics;
-import edu.uoc.som.openapi2.mapping.PropertyToParameter;
 import edu.uoc.som.openapi2.mapping.PropertyToProperty;
 
 public class GetSchemasReusingSchemaParts extends RuntimeAction<OpenAPIPlatform>{
@@ -24,7 +23,7 @@ public class GetSchemasReusingSchemaParts extends RuntimeAction<OpenAPIPlatform>
 	}
 
 	@Override
-	protected Object compute() throws Exception {
+	protected Map<String, Object> compute() throws Exception {
 		 API api = runtimePlatform.getApi(session);
 		 Schema schema = api.getDefinitions().get(schemaName);
 		 Map<String, Object> result = new HashMap<String, Object>();

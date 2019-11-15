@@ -20,7 +20,7 @@ public class GetPathDetails extends RuntimeAction<OpenAPIPlatform> {
 	    }
 
 	    @Override
-	    protected Object compute() throws Exception {
+	    protected Map<String,Object> compute() throws Exception {
 	        
 	    	 API api = runtimePlatform.getApi(session);
 	    	 Path path = api.getPathByRelativePath(relativePath);

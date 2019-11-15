@@ -18,7 +18,7 @@ public class SecuritySchemeDetails extends RuntimeAction<OpenAPIPlatform>{
 	}
 
 	@Override
-	protected Object compute() throws Exception {
+	protected Map<String, Object> compute() throws Exception {
 		API api = (API) session.get(OpenAPIPlatform.LOADED_API_KEY);
 		SecurityScheme securityScheme = api.getSecurityDefinitions().get(securityDefinitionId);
 		Map<String, Object> result = new HashMap<String, Object>();

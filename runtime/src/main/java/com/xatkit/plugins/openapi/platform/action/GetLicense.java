@@ -12,7 +12,7 @@ public class GetLicense extends RuntimeAction<OpenAPIPlatform> {
     }
 
     @Override
-    protected Object compute() throws Exception {
+    protected String compute() throws Exception {
         API api = (API) session.get(OpenAPIPlatform.LOADED_API_KEY);
         return api.getInfo().getLicense().getName();
     }
