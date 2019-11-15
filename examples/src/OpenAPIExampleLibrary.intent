@@ -11,7 +11,7 @@ intent LoadAPI {
 		"XXX"
 	}
 	creates context API {
-		sets parameter "url" from fragment "XXX" (entity url)
+		sets parameter "_url" from fragment "XXX" (entity url)
 	}
 }
 intent GetAPIDetails {
