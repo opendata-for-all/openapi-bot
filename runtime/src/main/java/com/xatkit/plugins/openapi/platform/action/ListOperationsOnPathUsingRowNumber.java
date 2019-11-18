@@ -15,9 +15,9 @@ public class ListOperationsOnPathUsingRowNumber extends RuntimeAction<OpenAPIPla
 
 	private int pathId;
 
-	public ListOperationsOnPathUsingRowNumber(OpenAPIPlatform platform, XatkitSession session, String pathIdentifier) {
+	public ListOperationsOnPathUsingRowNumber(OpenAPIPlatform platform, XatkitSession session, Integer pathIdentifier) {
 		super(platform, session);
-		pathId = Integer.parseInt(pathIdentifier);
+		pathId = pathIdentifier;
 	}
 
 	@Override

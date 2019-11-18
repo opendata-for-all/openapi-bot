@@ -17,7 +17,7 @@ public class SecuritySchemeList extends RuntimeAction<OpenAPIPlatform>{
 	}
 
 	@Override
-	protected Object compute() throws Exception {
+	protected List<Map.Entry<String, SecurityScheme>> compute() throws Exception {
 		API api = (API) session.get(OpenAPIPlatform.LOADED_API_KEY);
 		List<Map.Entry<String, SecurityScheme>> securityDefinitions = new ArrayList<Map.Entry<String, SecurityScheme>>();
 		securityDefinitions.addAll(api.getSecurityDefinitions());
