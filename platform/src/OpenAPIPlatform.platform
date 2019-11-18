@@ -6,27 +6,26 @@ actions {
 	///////API and global
 	LoadAPI(_url : String): java.util.Map<String, Object>
 	/////////path
-	ListPaths: Object
-	GetPathDetails(relativePath): Object
+	ListPaths: java.util.List<edu.uoc.som.openapi2.Path>
+	GetPathDetails(relativePath: String): java.util.Map<String, Object>
 	/////////operation
 	// pathIdentifier = Integer for now
-	ListOperationsOnPathUsingRowNumber(pathIdentifier: String): Object
-	GetOperationByhttpMethodUsingPathContext(httpMethod: String): Object
-	GetOperationById(operationId: String): Object
-	GetOperationByPathAndHttpMethod(operationPath: String, operationHttpMethod: String): Object
-	GetLicense: Object
+	ListOperationsOnPathUsingRowNumber(pathIdentifier: Integer): java.util.List<edu.uoc.som.openapi2.Operation>
+	GetOperationByhttpMethodUsingPathContext(httpMethod: String): java.util.Map<String, Object>
+	GetOperationById(operationId: String): java.util.Map<String, Object>
+	GetOperationByPathAndHttpMethod(operationPath: String, operationHttpMethod: String): java.util.Map<String, Object>
+	GetLicense: String
 	//Security
-	SupportedSchemes: Object
-	IsAuthenticationRequired: Object
-	IsAuthenticationRequiredOperation(operationId: String): Object
-	SecuritySchemeList
-	SecuritySchemeDetails(securitySchemeId)
+	SupportedSchemes: java.util.List<edu.uoc.som.openapi2.SchemeType>
+	IsAuthenticationRequired: java.util.Map<String, Object>
+	IsAuthenticationRequiredOperation(operationId: String): java.util.Map<String, Object>
+	SecuritySchemeList: java.util.List<java.util.Map.Entry<String, edu.uoc.som.openapi2.SecurityScheme>>
+	SecuritySchemeDetails(securitySchemeId: String): java.util.Map<String, Object>
 	//////Schema
-	GetSchemaDetails(schemaName)
-	ListSchemaDefinitions
-	GetOperationsConsumingSchema(schemaName)
-	GetOperationsReturningSchema(schemaName)
-	GetOperationsReusingSchemaParts(schemaName)
-
-	GetSchemasReusingSchemaParts(schemaName)
+	GetSchemaDetails(schemaName: String): java.util.Map<String, Object>
+	ListSchemaDefinitions: java.util.List<java.util.Map.Entry<String, edu.uoc.som.openapi2.SecurityScheme>>
+	GetOperationsConsumingSchema(schemaName: String): java.util.Map<String, Object>
+	GetOperationsReturningSchema(schemaName: String): java.util.Map<String, Object>
+	GetOperationsReusingSchemaParts(schemaName: String): java.util.Map<String, Object>
+	GetSchemasReusingSchemaParts(schemaName: String): java.util.Map<String, Object>
 }
