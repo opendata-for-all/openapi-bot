@@ -1,4 +1,4 @@
-Library OpenAPIExampleLibrary
+Library OpenAPILibrary
 
 
 ////////// API //////////////
@@ -11,7 +11,7 @@ intent LoadAPI {
 		"XXX"
 	}
 	creates context API {
-		sets parameter "_url" from fragment "XXX" (entity url)
+		sets parameter "opneAPIURL" from fragment "XXX" (entity any)
 	}
 }
 intent GetAPIDetails {

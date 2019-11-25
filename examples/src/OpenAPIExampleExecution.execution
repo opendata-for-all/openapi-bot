@@ -4,6 +4,7 @@ import platform "openapi-platform-model/src/OpenAPIPlatform.platform" as OpenAPI
 import platform "ReactPlatform"
 
 use provider ReactPlatform.ReactEventProvider
+use provider ReactPlatform.ReactIntentProvider
 
 
 on intent Default_Fallback_Intent do
@@ -13,8 +14,8 @@ on intent Default_Fallback_Intent do
 ////////// API /////////////////////
 //We load here a definition from a url. We need to add more messages to guide the user about the questions he could ask
 on intent LoadAPI do
-	ReactPlatform.Reply("Loading API from " + context.get("API").get("_url") as String)
-	val result = OpenAPIPlatform.LoadAPI(context.get("API").get("_url") as String)
+	ReactPlatform.Reply("Loading API from " + context.get("API").get("opneAPIURL") as String)
+	val result = OpenAPIPlatform.LoadAPI(context.get("API").get("opneAPIURL") as String)
 	if(result.get("loaded") == false){
 		val reason = result.get("reason") as String
 		if(reason.equals("OpenAPIValidationException")){
