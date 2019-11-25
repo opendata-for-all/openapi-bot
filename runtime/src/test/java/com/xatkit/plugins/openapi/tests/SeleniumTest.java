@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -16,9 +17,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.xatkit.plugins.openapi.config.InitWebDriver;
+import com.xatkit.plugins.openapi.config.InitWireMocServer;
+import com.xatkit.plugins.openapi.config.StartXatkit;
+import com.xatkit.plugins.openapi.config.WebDriverResolver;
 
 
 
+@ExtendWith(InitWireMocServer.class)
+@ExtendWith(StartXatkit.class)
+@ExtendWith({InitWebDriver.class,WebDriverResolver.class})
 public class SeleniumTest {
 
 
@@ -33,7 +41,6 @@ public class SeleniumTest {
 	void chatTest() throws FileNotFoundException, IOException {
 
 
-		System.err.println(driver);
 		WebElement element = driver.findElement(By.id("xatkit-chat"));
 		assertTrue(element != null);
 
