@@ -50,7 +50,8 @@ on intent GetAPIDetails do
 		}
 		if(api.getSchemes().size()>1){
 			ReactPlatform.Reply("The transfer protocols of the API are:")
-			ReactPlatform.ItemizeList(api.getSchemes())
+			val schemesList = ReactPlatform.ItemizeList(api.getSchemes())
+			ReactPlatform.Reply(schemesList as String)
 		}
 		ReactPlatform.Reply("The API includes "+api.getPaths().size()+ " paths and a total of "+api.getAllOperations().size()+ " operations")
 		ReactPlatform.Reply("It also includes "+api.getDefinitions().size()+" definitions")
@@ -492,7 +493,7 @@ on intent GetOperationsReturningSchema do
 		}
 		else {
 			val schemaItemize = ReactPlatform.ItemizeList(result.get("value") as java.util.List<edu.uoc.som.openapi2.Operation>)
-			ReactPlatform.Reply("I think these properties of the definition "+context.get("Schema").get("schemaName")+" are used in other definitions:")
+			ReactPlatform.Reply("I think this property of the definition "+context.get("Schema").get("schemaName")+" ss used in other definitions:")
 			ReactPlatform.Reply(schemaItemize as String)
 		}	
 	}
