@@ -14,7 +14,7 @@ on intent Default_Fallback_Intent do
 ////////// API /////////////////////
 //We load here a definition from a url. We need to add more messages to guide the user about the questions he could ask
 on intent LoadAPI do
-	ReactPlatform.Reply("Loading API from " + context.get("API").get("opneAPIURL") as String)
+	ReactPlatform.Reply("Loading API from " + context.get("API").get("opneAPIURL")+". Please wait...")
 	val result = OpenAPIPlatform.LoadAPI(context.get("API").get("opneAPIURL") as String)
 	if(result.get("loaded") == false){
 		val reason = result.get("reason") as String
@@ -43,8 +43,13 @@ on intent GetAPIDetails do
 		ReactPlatform.Reply("What is the URL of the API you want to know about?")
 	}
 	else {
-		ReactPlatform.Reply("The host serving the API is `"+api.getHost()+"`")
-		ReactPlatform.Reply("The base path on which the API is served is `"+api.getBasePath()+"`")
+		if(!api.getInfo()?.description.nullOrEmpty){
+			ReactPlatform.Reply("This API is described as follows:\n> "+api.info.description);
+		}
+		else {
+			ReactPlatform.Reply("The definition does not provide any description of the API")
+		}
+		ReactPlatform.Reply("The host serving the API is `"+api.getHost()+"` and its base path is `"+api.getBasePath()+"`")
 		if(api.getSchemes().size()== 1){
 			ReactPlatform.Reply("The transfer protocol of the API is `"+api.getSchemes().get(0)+"`")
 		}
@@ -56,6 +61,33 @@ on intent GetAPIDetails do
 		ReactPlatform.Reply("The API includes "+api.getPaths().size()+ " paths and a total of "+api.getAllOperations().size()+ " operations")
 		ReactPlatform.Reply("It also includes "+api.getDefinitions().size()+" definitions")
 		ReactPlatform.Reply("What else do you want to know?")
+	}
+	
+on intent WhatCanIDo do
+	val api = session.get("xatkit.plugins.openapi.api") as edu.uoc.som.openapi2.API
+	if(api === null){
+		ReactPlatform.Reply("You need to load an API first")
+		ReactPlatform.Reply("What is the URL of the API you want to know about?")
+	}
+	else {
+		if(!api.getInfo()?.description.nullOrEmpty){
+			ReactPlatform.Reply("This API is described as follows:\n> "+api.info.description);
+		}
+		else {
+			ReactPlatform.Reply("The definition does not provide any description of the API")
+		}
+		if(!api.definitions.nullOrEmpty) {
+			ReactPlatform.Reply("The API include the following Schema definitions:");
+			val schemaNames = ReactPlatform.ItemizeList(api.definitions.keySet().toList)
+			ReactPlatform.Reply(schemaNames as String);
+		}
+		val opeationList = api.allOperations;
+		if(!opeationList.nullOrEmpty){
+			ReactPlatform.Reply("The operations defined by the API are the following:")
+			val operationItems = ReactPlatform.ItemizeList(opeationList)
+			ReactPlatform.Reply(operationItems as String)
+		}
+		
 	}
 
 ////////// Path intent /////////////////////
@@ -88,6 +120,7 @@ on intent GetPathDetails do
 			}
 			else {
 				ReactPlatform.Reply("There are "+operations.size()+" available operations on the path "+path.getRelativePath())
+				session.put("xatkit.plugins.openapi.operation.list",operations)
 				val operationItemize = ReactPlatform.ItemizeList(operations)
 				ReactPlatform.Reply(operationItemize as String)
 			}
@@ -110,6 +143,53 @@ on intent GetNumberOfPath do
 	}
 	
 ////////// Operation intents /////////////////////
+on intent GetOperationDetailsUsingRowNumber do 
+		val api = session.get("xatkit.plugins.openapi.api") as edu.uoc.som.openapi2.API
+	if(api === null){
+		ReactPlatform.Reply("You need to load an API first")
+		ReactPlatform.Reply("What is the URL of the API you want to know about?")
+	} else {
+		val operationRowNumber =Integer.valueOf(context.get("Operation").get("operationRowNumber") as String)
+		val operationList = session.get("xatkit.plugins.openapi.operation.list") as java.util.List<edu.uoc.som.openapi2.Operation>
+		if(operationRowNumber > operationList.size || operationRowNumber < 1){
+			ReactPlatform.Reply("Wrong row number")
+		} else {
+			//Display the details of an operation
+			val operation = operationList.get(operationRowNumber - 1)
+			ReactPlatform.Reply("`"+(operation.eContainer as edu.uoc.som.openapi2.Path).relativePath+"`: "+operation.getHTTPMethod()+" "+operation.getSummary()+" ("+operation.getOperationId()+"`)")
+			val parameters = operation.getParameters()
+			val responses =  operation.responses
+			if(parameters.isEmpty()){
+				ReactPlatform.Reply("The operation does not declare any parameters")
+			}
+			else {
+				if(parameters.size() == 1){
+					ReactPlatform.Reply("The operation has "+parameters.size()+" parameter:")
+				}
+				else {
+					ReactPlatform.Reply("The operation has "+parameters.size()+" parameters:")
+				}
+				val parameterItemize = ReactPlatform.ItemizeList(parameters)
+				ReactPlatform.Reply(parameterItemize as String)
+			}
+			if(responses.isEmpty()){
+				ReactPlatform.Reply("The operation does not declare any responses")
+			}
+			else {
+				if(responses.size() == 1){
+					ReactPlatform.Reply("The operation has "+responses.size()+" response:")
+				}
+				else {
+					ReactPlatform.Reply("The operation has "+responses.size()+" responses:")
+				}
+			
+				val responsesItemize = ReactPlatform.ItemizeList(responses)
+				ReactPlatform.Reply(responsesItemize as String)
+			}
+		}
+	}
+
+
 on intent ListOperationsOnPathUsingRowNumber  do
 	val api = session.get("xatkit.plugins.openapi.api") as edu.uoc.som.openapi2.API
 	if(api===null){

@@ -23,6 +23,12 @@ intent GetAPIDetails {
 		"Give me a summary of this API"
 	}
 }
+
+intent WhatCanIDo {
+	inputs {
+		"What can I do with this API?"
+	}
+}
 ////////Path related intent///////////
 intent GetNumberOfPath {
 	inputs{
@@ -47,24 +53,26 @@ intent ListPaths {
 	inputs {
 		"Show me the list of paths in the API"
 		"Show me the list of paths"
+		"What are the paths defined by this API?"
+		"What are the entrypoint defined by the API?"
 		"Display the relative paths"
 		"What are the paths?"
 	}
 	creates context error with lifespan 2
 }
 
-//intent ListPathFallback {
-//	requires context error
-//	inputs {
-//		"API"
-//	}
-//	creates context API {
-//		sets parameter "url" from fragment "API" (entity url)
-//	}
-//	creates context error with lifespan 2
-//}
-
 ////////Operation related intents
+intent GetOperationDetailsUsingRowNumber follows WhatCanIDo {
+		inputs {
+		"Tell me more about the operation on the position XXX?"
+		"What can you tell me about the operation on the position XXX?"
+	}
+	creates context Operation {
+		sets parameter operationRowNumber from fragment "XXX" (entity number)
+	}
+}
+
+
 intent ListOperationsOnPathUsingRowNumber follows ListPaths {
 	inputs {
 		"List the operations of the path on the position XXX"

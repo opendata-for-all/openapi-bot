@@ -5,6 +5,7 @@ path "com.xatkit.plugins.openapi.platform.OpenAPIPlatform"
 actions {
 	///////API and global
 	LoadAPI(_url : String): java.util.Map<String, Object>
+	
 	/////////path
 	ListPaths: java.util.List<edu.uoc.som.openapi2.Path>
 	GetPathDetails(relativePath: String): java.util.Map<String, Object>
