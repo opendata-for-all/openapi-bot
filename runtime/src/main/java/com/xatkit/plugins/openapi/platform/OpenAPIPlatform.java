@@ -3,8 +3,6 @@ package com.xatkit.plugins.openapi.platform;
 import java.util.Map;
 
 import org.apache.commons.configuration2.Configuration;
-import static java.util.Objects.nonNull;
-
 import com.xatkit.core.XatkitCore;
 import com.xatkit.core.platform.RuntimePlatform;
 import com.xatkit.core.session.XatkitSession;
