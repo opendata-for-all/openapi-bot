@@ -77,6 +77,12 @@
 			<artifactId>failureaccess</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<dependency>
+    <groupId>com.ibm.icu</groupId>
+    <artifactId>icu4j</artifactId>
+    <version>65.1</version>
+</dependency>
+		
 
 		<!-- test dependencies -->
 		<dependency>
