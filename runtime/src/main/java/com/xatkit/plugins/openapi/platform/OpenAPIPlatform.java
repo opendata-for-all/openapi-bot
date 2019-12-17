@@ -25,6 +25,7 @@ public class OpenAPIPlatform extends RuntimePlatform {
 
     public static final String LOADED_API_KEY = "xatkit.plugins.openapi.api";
     public static final String PATH_IN_CONTEXT = "xatkit.plugins.openapi.path";
+    public static final String PATH_LIST_IN_CONTEXT = "xatkit.plugins.openapi.path.list";
 
     
     
@@ -47,13 +48,13 @@ public class OpenAPIPlatform extends RuntimePlatform {
        		 .append(p.getRequired()?"(required)":"")
        		 .toString());
         
-        this.xatkitCore.getFormatter("Default").registerFormatFunction(Map.Entry.class, e -> e.getKey()+"");
-        this.xatkitCore.getFormatter("Default").registerFormatFunction(Property.class, p -> p.getName());
-        this.xatkitCore.getFormatter("Default").registerFormatFunction(Parameter.class,
-       		 p -> p.getName());
+        this.xatkitCore.getFormatter("Default").registerFormatFunction(Map.Entry.class, e -> e.getKey()+FormattingUtils.formatObject(e.getValue(),", ",""));
+        this.xatkitCore.getFormatter("Default").registerFormatFunction(Property.class, FormattingUtils::formatProperty);
+        this.xatkitCore.getFormatter("Default").registerFormatFunction(Parameter.class,FormattingUtils::formatParameter);
         this.xatkitCore.getFormatter("Default").registerFormatFunction(PropertyToParameter.class, p -> p.getSource().getName()+": the parameter "+p.getTarget().getName()+" of the operation "+ FormattingUtils.formatOperation(OpenAPIUtils.getOperation(p.getTarget())));
         this.xatkitCore.getFormatter("Default").registerFormatFunction(PropertyToProperty.class, p -> p.getSource().getName()+": the property "+p.getTarget().getName()+" of the definition "+ OpenAPIUtils.getDefinition(p.getTarget()).getName());
     }
+    
     
 
     
