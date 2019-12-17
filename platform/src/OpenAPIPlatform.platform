@@ -9,6 +9,7 @@ actions {
 	/////////path
 	ListPaths: java.util.List<edu.uoc.som.openapi2.Path>
 	GetPathDetails(relativePath: String): java.util.Map<String, Object>
+	GetPathDetailsUsingRowNumber(rowNumber: Integer): java.util.Map<String, Object>
 	/////////operation
 	// pathIdentifier = Integer for now
 	ListOperationsOnPathUsingRowNumber(pathIdentifier: Integer): java.util.List<edu.uoc.som.openapi2.Operation>

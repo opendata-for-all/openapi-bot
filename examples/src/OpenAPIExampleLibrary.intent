@@ -27,6 +27,36 @@ intent GetAPIDetails {
 intent WhatCanIDo {
 	inputs {
 		"What can I do with this API?"
+		"What are the operations of this APIs"
+		"Show me the list of operations"
+	}
+}
+
+//// metadata ////
+intent GetTermsOfServices {
+	inputs {
+		"What are the terms of services of this API?"
+		"Show me the terms of services of this API"
+	}
+}
+
+intent GetContact {
+	inputs {
+		"How to contact the developer of this APIs"
+		"What is the contact info?"
+		"Show me the contact information"
+		
+	} 
+}
+
+intent AskLicenseInfo {
+	inputs {
+		"What is the license associated with this API?"
+	}
+}
+intent GetDocumentation {
+	inputs {
+		"Where can I find more information about this API?"
 	}
 }
 ////////Path related intent///////////
@@ -34,61 +64,79 @@ intent GetNumberOfPath {
 	inputs{
 		"How many endpoints are exposed by the API?"
 		"How many paths are exposed by the API?"
+		"How many paths does this API have?"
 	}
 }
 
 
-intent GetPathDetails {
-		inputs {
-		"Tell me more about the path XXX"
-		"Tell me more about the path with has the relative path XXX"
-		"Tell me about the path XXX"
-		"Show me the path XXX"
-	}
-	creates context RelativePath {
-		sets parameter relativePath from fragment "XXX" (entity any)
-	}
-}
+
 intent ListPaths {
 	inputs {
 		"Show me the list of paths in the API"
 		"Show me the list of paths"
 		"What are the paths defined by this API?"
-		"What are the entrypoint defined by the API?"
 		"Display the relative paths"
 		"What are the paths?"
 	}
-	creates context error with lifespan 2
+}
+
+
+intent GetPathDetailsUsingRowNumber follows ListPaths {
+		inputs {
+		"Tell me more about the path on the XXX position"
+		"Tell me about the path on the XXX position"
+		"Show me the path on the XXX position"
+		"SHow me the path on the XXX row"
+		
+	}
+	creates context Path {
+		sets parameter rowNumber from fragment "XXX" (entity any)
+	}
+}
+
+
+
+
+intent GetPathDetails {
+		inputs {
+		"Tell me about the path XXX"
+		"Tell me more about the path which has the relative path XXX"
+		"Tell me about the path XXX"
+		"Show the details of the path XXX"
+	}
+	creates context RelativePath {
+		sets parameter relativePath from fragment "XXX" (entity any)
+	}
 }
 
 ////////Operation related intents
-intent GetOperationDetailsUsingRowNumber follows WhatCanIDo {
+intent GetOperationDetailsUsingRowNumberAfterWhatCanIDo follows WhatCanIDo {
 		inputs {
-		"Tell me more about the operation on the position XXX?"
-		"What can you tell me about the operation on the position XXX?"
+		"Tell me about the operation on the XXX position"
+		"Show me the operation on the XXX position"
+		"SHow me the operation on the XXX row"
+		
 	}
 	creates context Operation {
-		sets parameter operationRowNumber from fragment "XXX" (entity number)
+		sets parameter rowNumber from fragment "XXX" (entity any)
 	}
 }
 
-
 intent ListOperationsOnPathUsingRowNumber follows ListPaths {
 	inputs {
-		"List the operations of the path on the position XXX"
-		"What are the operations of the path located at XXX"
-		"What are the operations of the path located at the position XXX"
+		"List the operations of the XXX path"
+		"What are the operations of the path located at the XXX position"
 	}
 	creates context Path {
 		// Let's say it's an integer for now
-		sets parameter pathIdentifier from fragment "XXX" (entity number)
+		sets parameter pathIdentifier from fragment "XXX" (entity any)
 	}
 }
 
 intent GetOperationByhttpMethodUsingPathContext follows GetPathDetails {
 	inputs {
 		"Show me the XXX operation"
-		"Show me the operation XXX"
+		"Tell me more about the operation XXX"
 	}
 	creates context Operation {
 		sets parameter httpMethod from fragment "XXX" (entity any)
@@ -97,6 +145,8 @@ intent GetOperationByhttpMethodUsingPathContext follows GetPathDetails {
 intent GetOperationById {
 	inputs {
 		"Show me the operation which has the ID XXX"
+		"Tell me about the operation which has the ID XXX"
+		"Show me the details of the operation which has the ID XXX"
 	}
 	creates context Operation {
 		sets parameter operationId from fragment "XXX" (entity any)
@@ -110,12 +160,6 @@ intent GetOperationByPathAndHttpMethod {
 	creates context Operation {
 		sets parameter operationPath from fragment "PPP" (entity any)
 		sets parameter operationHttpMethod from fragment "OOO" (entity any)
-	}
-}
-
-intent AskLicenseInfo {
-	inputs {
-		"What is the license associated with this API?"
 	}
 }
 
@@ -164,7 +208,7 @@ intent GetSchemaDetails {
 	inputs {
 		"Tell me about the schema definition XXX"
 		"Tell me about the schema XXX"
-		"Tell me about the definition XXX"
+		"Show me the details of the schema definition XXX"
 	}
 	creates context Schema {
 		sets parameter schemaName from fragment "XXX" (entity any)
