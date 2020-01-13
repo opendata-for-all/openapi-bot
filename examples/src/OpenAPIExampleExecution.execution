@@ -11,6 +11,13 @@ on intent Default_Fallback_Intent do
 	ReactPlatform.Reply("This is awkward. I could not treat your request")
 	ReactPlatform.Reply("Would you please try again")
 
+///Welcome message///
+on event Client_Ready do
+	ReactPlatform.Reply("Hi there,")
+	ReactPlatform.Reply("I can help get up to speed with a Web API")
+	ReactPlatform.Reply("Just give the URL of the OpenAPI definition of your Web API")
+on event Client_Closed do
+	ReactPlatform.Reply("Session closed due to inactivity")
 ////////// API /////////////////////
 //We load here a definition from a url. We need to add more messages to guide the user about the questions he could ask
 on intent LoadAPI do
@@ -172,15 +179,15 @@ on intent GetPathDetailsUsingRowNumber do
 		ReactPlatform.Reply("You need to load an API first")
 		ReactPlatform.Reply("What is the URL of the API you want to know about?")
 	} else {
-		val rowNumberText = context.get("Path").get("rowNumber") as String
+		val rowNumberText = Integer.valueOf(context.get("Path").get("rowNumber") as String) 
 		
-		val rowNumber = com.xatkit.plugins.openapi.platform.utils.NumberUtils.parseInteger(rowNumberText)
-		if(rowNumber!== null){
+	
+		if(rowNumberText!== null){
 			var pathList = session.get("xatkit.plugins.openapi.path.list") as java.util.List<edu.uoc.som.openapi2.Path>
-			if(rowNumber > pathList.size || rowNumber < 1){
+			if(rowNumberText > pathList.size || rowNumberText < 1){
 			ReactPlatform.Reply("Wrong row number")
 		} else {
-			val result = OpenAPIPlatform.GetPathDetailsUsingRowNumber(rowNumber - 1)
+			val result = OpenAPIPlatform.GetPathDetailsUsingRowNumber(rowNumberText - 1)
 		if(result.get("found") == true){
 			val path = result.get("value") as edu.uoc.som.openapi2.Path
 			val operations = result.get("operations") as java.util.List<edu.uoc.som.openapi2.Operation>
@@ -248,8 +255,7 @@ on intent GetOperationDetailsUsingRowNumberAfterWhatCanIDo do
 		ReactPlatform.Reply("You need to load an API first")
 		ReactPlatform.Reply("What is the URL of the API you want to know about?")
 	} else {
-		val rowNumberText = context.get("Operation").get("rowNumber") as String
-		val rowNumber = com.xatkit.plugins.openapi.platform.utils.NumberUtils.parseInteger(rowNumberText)
+		val rowNumber = Integer.valueOf(context.get("Operation").get("rowNumber") as String) 
 		val operationList = session.get("xatkit.plugins.openapi.operation.list") as java.util.List<edu.uoc.som.openapi2.Operation>
 		if(rowNumber > operationList.size || rowNumber < 1){
 			ReactPlatform.Reply("Wrong row number")
@@ -296,8 +302,7 @@ on intent ListOperationsOnPathUsingRowNumber  do
 		ReactPlatform.Reply("You need to load an API first")
 		ReactPlatform.Reply("What is the URL of the API you want to know about?")
 		} else {
-			val rowNumberText = context.get("Path").get("rowNumber") as String
-			val rowNumber = com.xatkit.plugins.openapi.platform.utils.NumberUtils.parseInteger(rowNumberText)
+			val rowNumber = Integer.valueOf(context.get("Path").get("rowNumber") as String) 
 			if(rowNumber!== null){
 				var pathList = session.get("xatkit.plugins.openapi.path.list") as java.util.List<edu.uoc.som.openapi2.Path>
 				if(rowNumber > pathList.size || rowNumber < 1){

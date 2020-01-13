@@ -27,7 +27,7 @@ intent GetAPIDetails {
 intent WhatCanIDo {
 	inputs {
 		"What can I do with this API?"
-		"What are the operations of this APIs"
+		"What are the operations of this APIs?"
 		"Show me the list of operations"
 	}
 }
@@ -42,9 +42,10 @@ intent GetTermsOfServices {
 
 intent GetContact {
 	inputs {
-		"How to contact the developer of this APIs"
+		"How to contact the developer of this APIs?"
 		"What is the contact info?"
 		"Show me the contact information"
+	
 		
 	} 
 }
@@ -57,6 +58,7 @@ intent AskLicenseInfo {
 intent GetDocumentation {
 	inputs {
 		"Where can I find more information about this API?"
+		"Where can I learn more about this API?"
 	}
 }
 ////////Path related intent///////////
@@ -90,7 +92,7 @@ intent GetPathDetailsUsingRowNumber follows ListPaths {
 		
 	}
 	creates context Path {
-		sets parameter rowNumber from fragment "XXX" (entity any)
+		sets parameter rowNumber from fragment "XXX" (entity number)
 	}
 }
 
@@ -118,7 +120,7 @@ intent GetOperationDetailsUsingRowNumberAfterWhatCanIDo follows WhatCanIDo {
 		
 	}
 	creates context Operation {
-		sets parameter rowNumber from fragment "XXX" (entity any)
+		sets parameter rowNumber from fragment "XXX" (entity number)
 	}
 }
 
@@ -129,7 +131,7 @@ intent ListOperationsOnPathUsingRowNumber follows ListPaths {
 	}
 	creates context Path {
 		// Let's say it's an integer for now
-		sets parameter pathIdentifier from fragment "XXX" (entity any)
+		sets parameter pathIdentifier from fragment "XXX" (entity number)
 	}
 }
 
@@ -147,6 +149,7 @@ intent GetOperationById {
 		"Show me the operation which has the ID XXX"
 		"Tell me about the operation which has the ID XXX"
 		"Show me the details of the operation which has the ID XXX"
+		"Show me the operation XXX"
 	}
 	creates context Operation {
 		sets parameter operationId from fragment "XXX" (entity any)
@@ -190,7 +193,6 @@ intent SecuritySchemeList {
 	//should check api.securityDefinitions
 	inputs {
 		"What are the authentication methods provided by this API?"
-		"What are the authentication methods declared by this API?"
 		"What are the security schemes provided by this API?"
 	}
 }
