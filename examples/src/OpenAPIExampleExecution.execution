@@ -14,8 +14,8 @@ on intent Default_Fallback_Intent do
 ///Welcome message///
 on event Client_Ready do
 	ReactPlatform.Reply("Hi there,")
-	ReactPlatform.Reply("I can help get up to speed with a Web API")
-	ReactPlatform.Reply("Just give the URL of the OpenAPI definition of your Web API")
+	ReactPlatform.Reply("I can help you get up to speed with a Web API")
+	ReactPlatform.Reply("Just give me the URL of the OpenAPI definition of your Web API")
 on event Client_Closed do
 	ReactPlatform.Reply("Session closed due to inactivity")
 ////////// API /////////////////////
@@ -101,6 +101,7 @@ on intent GetTermsOfServices do
 			ReactPlatform.Reply("No terms of services provided by the API")
 		}
 		else {
+			ReactPlatform.Reply("The Terms of Service of the API are the following:")
 			ReactPlatform.Reply(termsOfservice)
 		}
 		
@@ -122,10 +123,10 @@ on intent GetContact do
 				ReactPlatform.Reply("The contact name is "+name)
 			}	
 			if(!url.nullOrEmpty){
-				ReactPlatform.Reply("["+url+"]("+url+")")
+				ReactPlatform.Reply("The contact URL is ["+url+"]("+url+")")
 			}
 			if(!email.nullOrEmpty){
-				ReactPlatform.Reply("["+email+"](mailto:"+email+")")
+				ReactPlatform.Reply("the contact email is ["+email+"](mailto:"+email+")")
 			}
 			}
 			else {
@@ -170,6 +171,7 @@ on intent ListPaths do
 		val pathList = OpenAPIPlatform.ListPaths
 		session.put("xatkit.plugins.openapi.path.list", pathList)
 		val pathEnum = ReactPlatform.ItemizeList(pathList)
+		ReactPlatform.Reply("Here are the available paths for the API")
 		ReactPlatform.Reply(pathEnum as String)
 	}
 	
@@ -302,7 +304,7 @@ on intent ListOperationsOnPathUsingRowNumber  do
 		ReactPlatform.Reply("You need to load an API first")
 		ReactPlatform.Reply("What is the URL of the API you want to know about?")
 		} else {
-			val rowNumber = Integer.valueOf(context.get("Path").get("rowNumber") as String) 
+			val rowNumber = Integer.valueOf(context.get("Path").get("pathIdentifier") as String) 
 			if(rowNumber!== null){
 				var pathList = session.get("xatkit.plugins.openapi.path.list") as java.util.List<edu.uoc.som.openapi2.Path>
 				if(rowNumber > pathList.size || rowNumber < 1){
@@ -477,13 +479,13 @@ on intent IsAuthenticationRequired do
 		ReactPlatform.Reply("You need to load an API first")
 		ReactPlatform.Reply("What is the URL of the API you want to know about?")
 	} else {  
-		val result = OpenAPIPlatform.IsAuthenticationRequired as org.eclipse.emf.common.util.EMap<String, Object>
+		val result = OpenAPIPlatform.IsAuthenticationRequired
 		val security = result.get("security") as java.util.List<edu.uoc.som.openapi2.SecurityRequirement>
 		if(security.isEmpty) {
-			ReactPlatform.Reply("No")
+			ReactPlatform.Reply(" No, authentication is not required for the API as a whole.")
 		}
 		else {
-			ReactPlatform.Reply("Yes")
+			ReactPlatform.Reply("Yes, authentication is required")
 		}
 	}
 	
@@ -557,7 +559,7 @@ on intent SecuritySchemeDetails do
  			ReactPlatform.Reply("No schema definitions found")
  		}
  		else {
- 			val schemaItems = ReactPlatform.EnumerateList(result)
+ 			val schemaItems = ReactPlatform.ItemizeList(result)
  			 ReactPlatform.Reply(schemaItems as String)
  		}
  	}

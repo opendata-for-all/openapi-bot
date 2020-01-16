@@ -35,8 +35,8 @@ intent WhatCanIDo {
 //// metadata ////
 intent GetTermsOfServices {
 	inputs {
-		"What are the terms of services of this API?"
-		"Show me the terms of services of this API"
+		"What are the Terms of Service of this API?"
+		"Show me the terms of Service of this API"
 	}
 }
 
@@ -104,7 +104,7 @@ intent GetPathDetails {
 		"Tell me about the path XXX"
 		"Tell me more about the path which has the relative path XXX"
 		"Tell me about the path XXX"
-		"Show the details of the path XXX"
+		"Show me the details of the path XXX"
 	}
 	creates context RelativePath {
 		sets parameter relativePath from fragment "XXX" (entity any)
@@ -135,15 +135,7 @@ intent ListOperationsOnPathUsingRowNumber follows ListPaths {
 	}
 }
 
-intent GetOperationByhttpMethodUsingPathContext follows GetPathDetails {
-	inputs {
-		"Show me the XXX operation"
-		"Tell me more about the operation XXX"
-	}
-	creates context Operation {
-		sets parameter httpMethod from fragment "XXX" (entity any)
-	} 
-}
+
 intent GetOperationById {
 	inputs {
 		"Show me the operation which has the ID XXX"
@@ -200,6 +192,9 @@ intent SecuritySchemeDetails {
 	inputs {
 		"Tell me more about the security scheme xxx"
 		"Tell me more about the authentication method xxx"
+		"Show me the details of the authentication method xxx"
+		"Show me the details of the security xxx"
+		
 	}
 		creates context SecurityScheme {
 		sets parameter securitySchemeId from fragment "xxx" (entity any)
@@ -211,6 +206,7 @@ intent GetSchemaDetails {
 		"Tell me about the schema definition XXX"
 		"Tell me about the schema XXX"
 		"Show me the details of the schema definition XXX"
+		"Show me the details of the schema XXX"
 	}
 	creates context Schema {
 		sets parameter schemaName from fragment "XXX" (entity any)
@@ -264,6 +260,8 @@ intent GetOperationsReusingSchemaParts {
 intent GetSchemasReusingSchemaParts {
 	inputs {
 		"Are there links between XXX and other definitions?"
+		"Are there links between the schema definition XXX and other definitions?"
+		"Are there links between XXX and other schema definition?"
 	}
 	creates context Schema {
 		sets parameter schemaName from fragment "XXX" (entity any)
