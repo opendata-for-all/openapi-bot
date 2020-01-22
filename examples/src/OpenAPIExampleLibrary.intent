@@ -314,3 +314,9 @@ intent GetSchemasReusingSchemaParts {
 	}
 }
 
+intent GetOperationsToChangeForSchema {
+	inputs {
+		"Which operations do I need to change if I change the schema XXX"
+		"What are the operations to change if I change the schema XXX"	
+	}
+}
