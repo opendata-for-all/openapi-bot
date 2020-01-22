@@ -37,6 +37,7 @@ public class GetOperationById extends RuntimeAction<OpenAPIPlatform> {
     	}
     	else {
     		result.put("found", false);
+    		result.put("operations", api.getAllOperations());
     	}
         return result;
     }
