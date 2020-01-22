@@ -258,6 +258,23 @@ intent GetOperationsConsumingSchema {
 	}
 }
 
+
+intent GetOperationsUsingSchema {
+	inputs {
+		"What are the Operations which use the schema definition XXX?"
+		"Which operations use a XXX?"
+		"Which operations use an XXX?"
+		"Which operations use XXX?"
+		"Which operation use the definition XXX?"
+		"Where XXX is used?"
+		"Where the schema XXX is used?"
+		"Where the definition schema XXX is used?"
+	}
+	creates context Schema {
+		sets parameter schemaName from fragment "XXX" (entity any)
+	}
+}
+
 intent GetOperationsReturningSchema {
 	inputs {
 		"Which operations return a XXX instance?"

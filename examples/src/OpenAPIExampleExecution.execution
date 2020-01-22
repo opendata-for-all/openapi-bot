@@ -592,6 +592,57 @@ on intent GetSchemaDetails do
  			ReactPlatform.Reply(propertiesItems as String)
  		}
  	}
+
+
+on intent GetOperationsUsingSchema do 
+	val api = session.get("xatkit.plugins.openapi.api") as edu.uoc.som.openapi2.API
+	if(api === null){
+		ReactPlatform.Reply("You need to load an API first")
+		ReactPlatform.Reply("What is the URL of the API you want to know about?")
+	} else { 
+		val consumeResult = OpenAPIPlatform.GetOperationsConsumingSchema(context.get("Schema").get("schemaName") as String)
+		if(consumeResult.get("found")== false){
+			val reason = consumeResult.get("reason")
+			//the schema could not found on the definition
+			if(reason.equals("SchemaNotFound")){
+				ReactPlatform.Reply("Oops! I could not find the schema "+ context.get("Schema").get("schemaName") as String)
+ 				val schemaItemize = ReactPlatform.ItemizeList(consumeResult.get("options") as java.util.List<String>)
+				ReactPlatform.Reply("The available schema definitions are: ")
+				ReactPlatform.Reply(schemaItemize as String)
+			}
+			if(reason.equals("Empty")){
+				ReactPlatform.Reply("No operations consume the schema "+context.get("Schema").get("schemaName"))
+			}
+		}
+		else {
+			val operationItemize = ReactPlatform.ItemizeList(consumeResult.get("value") as java.util.List<edu.uoc.som.openapi2.Operation>)
+			ReactPlatform.Reply("The operations which consume instances of "+context.get("Schema").get("schemaName")+" are:")
+			ReactPlatform.Reply(operationItemize as String)
+		}
+	
+	val returnResult = OpenAPIPlatform.GetOperationsReturningSchema(context.get("Schema").get("schemaName") as String)
+		if(returnResult.get("found")== false){
+			val reason = returnResult.get("reason")
+			//the schema could not found on the definition
+			if(reason.equals("SchemaNotFound")){
+				ReactPlatform.Reply("Oops! I could not find the schema "+ context.get("Schema").get("schemaName"))
+ 				val schemaItemize = ReactPlatform.ItemizeList(returnResult.get("options") as java.util.List<String>)
+				ReactPlatform.Reply("The available schema definitions are: ")
+				ReactPlatform.Reply(schemaItemize as String)
+			}
+			if(reason.equals("Empty")){
+				ReactPlatform.Reply("No operations return "+context.get("Schema").get("schemaName"))
+			}
+		}
+		else {
+			val operationItemize = ReactPlatform.ItemizeList(returnResult.get("value") as java.util.List<edu.uoc.som.openapi2.Operation>)
+			ReactPlatform.Reply("The operations which return instances of "+context.get("Schema").get("schemaName")+" are:")
+			ReactPlatform.Reply(operationItemize as String)
+		}	
+	
+	
+	}
+	
  	
 on intent GetOperationsConsumingSchema do 
 	val api = session.get("xatkit.plugins.openapi.api") as edu.uoc.som.openapi2.API
