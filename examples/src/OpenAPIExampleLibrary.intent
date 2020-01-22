@@ -29,6 +29,7 @@ intent WhatCanIDo {
 		"What can I do with this API?"
 		"What are the operations of this APIs?"
 		"Show me the list of operations"
+		"Tell me more about the operations of this API"
 	}
 }
 
@@ -60,6 +61,7 @@ intent GetContact {
 intent AskLicenseInfo {
 	inputs {
 		"What is the license associated with this API?"
+		"Show me the license of this API"
 	}
 }
 intent GetDocumentation {
@@ -95,9 +97,10 @@ intent GetPathDetailsUsingRowNumber follows ListPaths {
 		"Tell me more about the path on the XXX position"
 		"Tell me about the path on the XXX position"
 		"Show me the path on the XXX position"
-		"SHow me the path on the XXX row"
-		
+		"SHow me the path on the XXX row"	
 	}
+	
+	
 	creates context Path {
 		sets parameter rowNumber from fragment "XXX" (entity number)
 	}
@@ -123,6 +126,7 @@ intent GetPathDetails {
 intent GetOperationDetailsUsingRowNumberAfterWhatCanIDo follows WhatCanIDo {
 		inputs {
 		"Tell me about the operation on the XXX position"
+		"Tell me more about the operation on the XXX position"
 		"Show me the operation on the XXX position"
 		"Show me the operation on the XXX row"
 		"Show me the details of the operation on the XXX row"
@@ -215,9 +219,12 @@ intent SecuritySchemeDetails {
 intent GetSchemaDetails {
 	inputs {
 		"Tell me about the schema definition XXX"
+		"Tell me more about the schema definition XXX"
 		"Tell me about the schema XXX"
+		"Tell me about the class XXX"
 		"Show me the details of the schema definition XXX"
 		"Show me the details of the schema XXX"
+		"Show me the details of the class XXX"
 	}
 	creates context Schema {
 		sets parameter schemaName from fragment "XXX" (entity any)
@@ -229,16 +236,22 @@ intent ListSchemaDefinitions {
 		"Show me the schema definitions"
 		"List the schema definitions"
 		"Show me all definitions"
+		"Show me the classes"
+		"Show me the list of class"
 	}
 }
 
 intent GetOperationsConsumingSchema {
 	inputs {
 		"What are the Operations which consume the schema definition XXX?"
+		"Which operations consume a XXX?"
+		"Which operations consume an XXX?"
 		"Which operations consume XXX?"
 		"Which operation consume the definition XXX?"
 		"What can I do with a XXX instance?"
+		"What can I do with an XXX instance?"
 		"Where can I use a XXX instance?"
+		"Where can I use an XXX instance?"
 	}
 	creates context Schema {
 		sets parameter schemaName from fragment "XXX" (entity any)
@@ -248,8 +261,11 @@ intent GetOperationsConsumingSchema {
 intent GetOperationsReturningSchema {
 	inputs {
 		"Which operations return a XXX instance?"
+		"Which operations return an XXX instance?"
 		"Which operations return a XXX?"
+		"Which operations return an XXX?"
 		"What are the operations which return a XXX?"
+		"What are the operations which return an XXX?"
 		"How can I get an instance of XXX?"
 	}
 	creates context Schema {
@@ -261,6 +277,8 @@ intent GetOperationsReusingSchemaParts {
 	inputs {
 		"Is there any operation that reuses parts of XXX?"
 		"Where can I use the attributes of an instance of XXX?"
+		"Where can I use the properties of a XXX?"
+		"Where can I use the properties of an XXX?"
 		"Are there operations which use the properties of XXX?"
 	}
 	creates context Schema {
