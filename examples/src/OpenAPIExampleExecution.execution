@@ -351,7 +351,54 @@ on intent ListOperationsOnPathUsingRowNumber  do
 			}
 			
 			}
-
+on intent GetOperationByIdFollowingListOfOperation do
+	val api = session.get("xatkit.plugins.openapi.api")
+	if(api === null){
+		ReactPlatform.Reply("You need to load an API first")
+		ReactPlatform.Reply("What is the URL of the API you want to know about?")
+	} else {
+		val result = OpenAPIPlatform.GetOperationById(context.get("Operation").get("operationId") as String)
+			if(result.get("found") == false){
+				val operationItemize = ReactPlatform.ItemizeList(result.get("operations") as java.util.List<edu.uoc.som.openapi2.Operation>)
+				ReactPlatform.Reply("Oops! I could not find the operation `"+context.get("Operation").get("operationId")+"`")
+				ReactPlatform.Reply("The operations provided by the API are: ")
+				ReactPlatform.Reply(operationItemize as String)
+		}
+		else {
+			//Display the details of an operation
+			val operation = result.get("value") as edu.uoc.som.openapi2.Operation
+			ReactPlatform.Reply("`"+result.get("path")+"`: "+operation.getHTTPMethod()+" "+operation.getSummary()+" ("+operation.getOperationId()+"`)")
+			val parameters = operation.getParameters()
+			val responses = operation.responses
+			if(parameters.isEmpty()){
+				ReactPlatform.Reply("The operation does not declare any parameters")
+			}
+			else {
+				if(parameters.size() == 1){
+					ReactPlatform.Reply("The operation has "+parameters.size()+" parameter:")
+				}
+				else {
+					ReactPlatform.Reply("The operation has "+parameters.size()+" parameters:")
+				}
+				val parameterItemize = ReactPlatform.ItemizeList(parameters)
+				ReactPlatform.Reply(parameterItemize as String)
+			}
+			if(responses.isEmpty()){
+				ReactPlatform.Reply("The operation does not declare any responses")
+			}
+			else {
+				if(responses.size() == 1){
+					ReactPlatform.Reply("The operation has "+responses.size()+" response:")
+				}
+				else {
+					ReactPlatform.Reply("The operation has "+responses.size()+" responses:")
+				}
+			
+				val responsesItemize = ReactPlatform.ItemizeList(responses)
+				ReactPlatform.Reply(responsesItemize as String)
+			}
+		}
+	}
 
 on intent GetOperationById do
 	val api = session.get("xatkit.plugins.openapi.api")

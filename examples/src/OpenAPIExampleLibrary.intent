@@ -172,6 +172,18 @@ intent GetOperationById {
 	}
 }
 
+intent GetOperationByIdFollowingListOfOperation follows WhatCanIDo {
+	inputs {
+		"Show me XXX"
+		"Tell me about XXX"
+		"Tell me more about XXX"
+	
+	}
+	creates context Operation {
+		sets parameter operationId from fragment "XXX" (entity any)
+	}
+}
+
 intent GetOperationByPathAndHttpMethod {
 	inputs {
 		"Show me the OOO operation on the path PPP"
