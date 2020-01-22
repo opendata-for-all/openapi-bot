@@ -262,6 +262,17 @@ intent ListSchemaDefinitions {
 	}
 }
 
+intent GetSchemaDetailsFollowingListSchema {
+	inputs {
+		"Tell me about XXX"
+		"Tell me more about XXX"
+		"Show me the details of XXX"
+	}
+	creates context Schema {
+		sets parameter schemaName from fragment "XXX" (entity any)
+	}
+}
+
 intent GetOperationsConsumingSchema {
 	inputs {
 		"What are the Operations which consume the schema definition XXX?"

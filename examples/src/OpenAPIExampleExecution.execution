@@ -644,6 +644,26 @@ on intent SecuritySchemeDetails do
  		}
  	}
  	
+on intent GetSchemaDetailsFollowingListSchema do
+	val api = session.get("xatkit.plugins.openapi.api") as edu.uoc.som.openapi2.API
+	if(api=== null){
+		ReactPlatform.Reply("You need to load an API first")
+		ReactPlatform.Reply("What is the URL of the API you want to know about?")
+	} else { 
+ 		val result = OpenAPIPlatform.GetSchemaDetails(context.get("Schema").get("schemaName") as String)
+ 		if(result.get("found") == false){
+ 			ReactPlatform.Reply("Oops! I could not find the schema "+ context.get("Schema").get("schemaName"))
+ 			val schemaItemize = ReactPlatform.ItemizeList(result.get("options") as java.util.List<String>)
+			ReactPlatform.Reply("The available schema definitions are: ")
+			ReactPlatform.Reply(schemaItemize as String)
+ 		}
+ 		else {
+ 			ReactPlatform.Reply("The properties defined by the schema definition  "+context.get("Schema").get("schemaName")+" are:")
+ 			val schema = result.get("value") as edu.uoc.som.openapi2.Schema
+ 			val propertiesItems = ReactPlatform.ItemizeList(schema.getProperties())
+ 			ReactPlatform.Reply(propertiesItems as String)
+ 		}
+ 	}
 
 on intent GetSchemaDetails do
 	val api = session.get("xatkit.plugins.openapi.api") as edu.uoc.som.openapi2.API
