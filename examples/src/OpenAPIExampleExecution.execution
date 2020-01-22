@@ -219,7 +219,33 @@ on intent GetPathDetailsUsingRowNumber do
 		}
 		}
 		}
-
+on intent GetPathDetailsFollowingListPaths do 
+	val api = session.get("xatkit.plugins.openapi.api")
+	if(api=== null){
+		ReactPlatform.Reply("You need to load an API first")
+		ReactPlatform.Reply("What is the URL of the API you want to know about?")
+	} else {
+		val result = OpenAPIPlatform.GetPathDetails(context.get("RelativePath").get("relativePath") as String)
+		if(result.get("found") == true){
+			val path = result.get("value") as edu.uoc.som.openapi2.Path
+			val operations = result.get("operations") as java.util.List<edu.uoc.som.openapi2.Operation>
+			if(operations.isEmpty()){
+				ReactPlatform.Reply("There are no operations defined on this path")
+			}
+			else {
+				ReactPlatform.Reply("There are "+operations.size()+" available operations on the path "+path.getRelativePath())
+				session.put("xatkit.plugins.openapi.operation.list",operations)
+				val operationItemize = ReactPlatform.ItemizeList(operations)
+				ReactPlatform.Reply(operationItemize as String)
+			}
+		}
+		else {
+			ReactPlatform.Reply("Oops! I could not find the path " + context.get("RelativePath").get("relativePath"))
+			val pathItemize = ReactPlatform.ItemizeList(result.get("options") as java.util.List<edu.uoc.som.openapi2.Path>)
+				ReactPlatform.Reply("The available paths on this API are: ")
+				ReactPlatform.Reply(pathItemize as String)
+			 }
+		}
 on intent GetPathDetails do
 	val api = session.get("xatkit.plugins.openapi.api")
 	if(api=== null){

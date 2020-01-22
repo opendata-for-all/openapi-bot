@@ -107,7 +107,16 @@ intent GetPathDetailsUsingRowNumber follows ListPaths {
 }
 
 
-
+intent GetPathDetailsFollowingListPaths follows ListPaths {
+		inputs {
+		"Tell me about XXX"
+		"Tell me more about XXX"
+		"Show me the details of XXX"
+	}
+	creates context RelativePath {
+		sets parameter relativePath from fragment "XXX" (entity any)
+	}
+}
 
 intent GetPathDetails {
 		inputs {
