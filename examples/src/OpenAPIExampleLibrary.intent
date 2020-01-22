@@ -32,6 +32,13 @@ intent WhatCanIDo {
 	}
 }
 
+intent WhatCanIAsk {
+	inputs {
+		"What can I ask?"
+		"Which kind of questions can I ask?"
+	}
+}
+
 //// metadata ////
 intent GetTermsOfServices {
 	inputs {
@@ -102,8 +109,9 @@ intent GetPathDetailsUsingRowNumber follows ListPaths {
 intent GetPathDetails {
 		inputs {
 		"Tell me about the path XXX"
-		"Tell me more about the path which has the relative path XXX"
-		"Tell me about the path XXX"
+		"Tell me more about the path XXX"
+		"Tell me more about the relative path XXX"
+		"Tell me the relative path XXX"
 		"Show me the details of the path XXX"
 	}
 	creates context RelativePath {
@@ -116,7 +124,8 @@ intent GetOperationDetailsUsingRowNumberAfterWhatCanIDo follows WhatCanIDo {
 		inputs {
 		"Tell me about the operation on the XXX position"
 		"Show me the operation on the XXX position"
-		"SHow me the operation on the XXX row"
+		"Show me the operation on the XXX row"
+		"Show me the details of the operation on the XXX row"
 		
 	}
 	creates context Operation {
@@ -141,7 +150,9 @@ intent GetOperationById {
 		"Show me the operation which has the ID XXX"
 		"Tell me about the operation which has the ID XXX"
 		"Show me the details of the operation which has the ID XXX"
-		"Show me the operation XXX"
+		"Show me the details of the operation XXX"
+		"Tell me about the operation XXX"
+		"Tell me more about the operation XXX"
 	}
 	creates context Operation {
 		sets parameter operationId from fragment "XXX" (entity any)

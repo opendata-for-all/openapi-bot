@@ -18,6 +18,7 @@ on event Client_Ready do
 	ReactPlatform.Reply("Just give me the URL of the OpenAPI definition of your Web API")
 on event Client_Closed do
 	ReactPlatform.Reply("Session closed due to inactivity")
+
 ////////// API /////////////////////
 //We load here a definition from a url. We need to add more messages to guide the user about the questions he could ask
 on intent LoadAPI do
@@ -43,7 +44,13 @@ on intent LoadAPI do
 		ReactPlatform.Reply("Ask me something")
 	}
 	
-
+on event WhatCanIAsk do
+	ReactPlatform.Reply("You can ask me about the metadata, operations and schema definitions. Here are some examples:")
+	ReactPlatform.Reply("*What do you know about this API?*")
+	ReactPlatform.Reply("*Show me the schema definitions*")
+	ReactPlatform.Reply("Find out more [here](#how-to)")
+	
+	
 on intent GetAPIDetails do
 	val api = session.get("xatkit.plugins.openapi.api") as edu.uoc.som.openapi2.API
 	if(api === null){
