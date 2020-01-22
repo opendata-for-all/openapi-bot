@@ -717,12 +717,7 @@ on intent GetOperationsUsingSchema do
 		if(returnResult.get("found")== false){
 			val reason = returnResult.get("reason")
 			//the schema could not found on the definition
-			if(reason.equals("SchemaNotFound")){
-				ReactPlatform.Reply("Oops! I could not find the schema "+ context.get("Schema").get("schemaName"))
- 				val schemaItemize = ReactPlatform.ItemizeList(returnResult.get("options") as java.util.List<String>)
-				ReactPlatform.Reply("The available schema definitions are: ")
-				ReactPlatform.Reply(schemaItemize as String)
-			}
+			
 			if(reason.equals("Empty")){
 				ReactPlatform.Reply("No operations return "+context.get("Schema").get("schemaName"))
 			}
@@ -848,13 +843,8 @@ on intent GetOperationsToChangeForSchema do
 	val returnResult = OpenAPIPlatform.GetOperationsReturningSchema(context.get("Schema").get("schemaName") as String)
 		if(returnResult.get("found")== false){
 			val reason = returnResult.get("reason")
-			//the schema could not found on the definition
-			if(reason.equals("SchemaNotFound")){
-				ReactPlatform.Reply("Oops! I could not find the schema "+ context.get("Schema").get("schemaName"))
- 				val schemaItemize = ReactPlatform.ItemizeList(returnResult.get("options") as java.util.List<String>)
-				ReactPlatform.Reply("The available schema definitions are: ")
-				ReactPlatform.Reply(schemaItemize as String)
-			}
+			
+			
 			if(reason.equals("Empty")){
 				ReactPlatform.Reply("No operations return "+context.get("Schema").get("schemaName"))
 			}
@@ -867,13 +857,7 @@ on intent GetOperationsToChangeForSchema do
 	val resultReusingSchemaParts = OpenAPIPlatform.GetOperationsReusingSchemaParts(context.get("Schema").get("schemaName") as String)
 		if(resultReusingSchemaParts.get("found")== false){
 			val reason = resultReusingSchemaParts.get("reason")
-			//the schema could not found on the definition
-			if(reason.equals("SchemaNotFound")){
-				ReactPlatform.Reply("Oops! I could not find the schema "+ context.get("Schema").get("schemaName"))
- 				val schemaItemize = ReactPlatform.ItemizeList(resultReusingSchemaParts.get("options") as java.util.List<String>)
-				ReactPlatform.Reply("The available schema definitions are: ")
-				ReactPlatform.Reply(schemaItemize as String)
-			}
+		
 			
 		}
 		else {
