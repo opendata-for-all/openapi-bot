@@ -360,7 +360,9 @@ intent GetOperationsToChangeForSchema {
 		"Which operations do I need to change if I change the schema XXX?"
 		"Which operations do I need to change if I change the definition XXX?"
 		"Which operations do I need to change if I change the schema definition XXX?"
-		"What are the operations to change if I change the schema XXX?"	
+		"What are the operations to change if I change the schema XXX?"
+		"Which operations should I change if I change the schema XXX?"
+		"Which operations should I change if I change the schema definition XXX?"
 	}
 	creates context Schema {
 		sets parameter schemaName from fragment "XXX" (entity any)
