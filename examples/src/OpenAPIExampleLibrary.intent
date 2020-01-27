@@ -212,6 +212,7 @@ intent IsAuthenticationRequiredOperation {
 	//should check operation.security
 	inputs {
 		"Does the operation xxx require authentication?"
+		"Does the operation xxx require authentication"
 	}
 	creates context Operation {
 		sets parameter operationId from fragment "xxx" (entity any)
@@ -276,15 +277,25 @@ intent GetSchemaDetailsFollowingListSchema follows ListSchemaDefinitions{
 intent GetOperationsConsumingSchema {
 	inputs {
 		"What are the Operations which consume the schema definition XXX?"
+		"What are the Operations which consume the schema definition XXX"
 		"Which operations consume a XXX?"
+		"Which operations consume a XXX"
 		"Which operations consume an XXX?"
+		"Which operations consume an XXX"
 		"Which operations consume XXX?"
+		"Which operations consume XXX"
 		"Which operations consume the definition XXX?"
+		"Which operations consume the definition XXX"
 		"Which operations consume the schema definition XXX?"
+		"Which operations consume the schema definition XXX"
 		"Which operations consume the schema XXX?"
+		"Which operations consume the schema XXX"
 		"What can I do with a XXX instance?"
+		"What can I do with a XXX instance"
 		"What can I do with an XXX instance?"
+		"What can I do with an XXX instance"
 		"What can I do with an instance of XXX?"
+		"What can I do with an instance of XXX"
 	}
 	creates context Schema {
 		sets parameter schemaName from fragment "XXX" (entity any)
@@ -295,15 +306,25 @@ intent GetOperationsConsumingSchema {
 intent GetOperationsUsingSchema {
 	inputs {
 		"What are the Operations which use the schema definition XXX?"
+		"What are the Operations which use the schema definition XXX"
 		"Which operations use a XXX?"
+		"Which operations use a XXX"
 		"Which operations use an XXX?"
+		"Which operations use an XXX"
 		"Which operations use XXX?"
+		"Which operations use XXX"
 		"Which operations use the definition XXX?"
+		"Which operations use the definition XXX"
 		"Which operations use the schema XXX?"
+		"Which operations use the schema XXX"
 		"Which operations use the schema definition XXX?"
+		"Which operations use the schema definition XXX"
 		"Where XXX is used?"
+		"Where XXX is used"
 		"Where the schema XXX is used?"
+		"Where the schema XXX is used"
 		"Where the schema definition XXX is used?"
+		"Where the schema definition XXX is used"
 	}
 	creates context Schema {
 		sets parameter schemaName from fragment "XXX" (entity any)
@@ -313,15 +334,25 @@ intent GetOperationsUsingSchema {
 intent GetOperationsReturningSchema {
 	inputs {
 		"Which operations return a XXX instance?"
+		"Which operations return a XXX instance"
 		"Which operations return an XXX instance?"
+		"Which operations return an XXX instance"
 		"Which operations return a XXX?"
+		"Which operations return a XXX"
 		"Which operations return the schema XXX?"
+		"Which operations return the schema XXX"
 		"Which operations return the definition XXX?"
+		"Which operations return the definition XXX"
 		"Which operations return the schema definition XXX?"
+		"Which operations return the schema definition XXX"
 		"Which operations return an XXX?"
+		"Which operations return an XXX"
 		"What are the operations which return a XXX?"
+		"What are the operations which return a XXX"
 		"What are the operations which return an XXX?"
+		"What are the operations which return an XXX"
 		"How can I get an instance of XXX?"
+		"How can I get an instance of XXX"
 	}
 	creates context Schema {
 		sets parameter schemaName from fragment "XXX" (entity any)
@@ -331,13 +362,21 @@ intent GetOperationsReturningSchema {
 intent GetOperationsReusingSchemaParts {
 	inputs {
 		"Is there any operation that reuses parts of XXX?"
+		"Is there any operation that reuses parts of XXX"
 		"Where can I use the attributes of an instance of XXX?"
+		"Where can I use the attributes of an instance of XXX"
 		"Where can I use the properties of a XXX?"
+		"Where can I use the properties of a XXX"
 		"Where can I use the properties of the schema XXX?"
+		"Where can I use the properties of the schema XXX"
 		"Where can I use the properties of the schema definition XXX?"
+		"Where can I use the properties of the schema definition XXX"
 		"Where can I use the properties of the definition XXX?"
+		"Where can I use the properties of the definition XXX"
 		"Where can I use the properties of an XXX?"
+		"Where can I use the properties of an XXX"
 		"Are there operations which use the properties of XXX?"
+		"Are there operations which use the properties of XXX"
 	}
 	creates context Schema {
 		sets parameter schemaName from fragment "XXX" (entity any)
@@ -347,8 +386,11 @@ intent GetOperationsReusingSchemaParts {
 intent GetSchemasReusingSchemaParts {
 	inputs {
 		"Are there links between XXX and other definitions?"
+		"Are there links between XXX and other definitions"
 		"Are there links between the schema definition XXX and other definitions?"
+		"Are there links between the schema definition XXX and other definitions"
 		"Are there links between XXX and other schema definition?"
+		"Are there links between XXX and other schema definition"
 	}
 	creates context Schema {
 		sets parameter schemaName from fragment "XXX" (entity any)
@@ -358,11 +400,17 @@ intent GetSchemasReusingSchemaParts {
 intent GetOperationsToChangeForSchema {
 	inputs {
 		"Which operations do I need to change if I change the schema XXX?"
+		"Which operations do I need to change if I change the schema XXX"
 		"Which operations do I need to change if I change the definition XXX?"
+		"Which operations do I need to change if I change the definition XXX"
 		"Which operations do I need to change if I change the schema definition XXX?"
+		"Which operations do I need to change if I change the schema definition XXX"
 		"What are the operations to change if I change the schema XXX?"
+		"What are the operations to change if I change the schema XXX"
 		"Which operations should I change if I change the schema XXX?"
+		"Which operations should I change if I change the schema XXX"
 		"Which operations should I change if I change the schema definition XXX?"
+		"Which operations should I change if I change the schema definition XXX"
 	}
 	creates context Schema {
 		sets parameter schemaName from fragment "XXX" (entity any)
