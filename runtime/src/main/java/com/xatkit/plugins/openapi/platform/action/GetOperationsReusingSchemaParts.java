@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import com.xatkit.core.platform.action.RuntimeAction;
 import com.xatkit.core.session.XatkitSession;
 import com.xatkit.plugins.openapi.platform.OpenAPIPlatform;
+import com.xatkit.plugins.openapi.platform.utils.OpenAPIUtils;
+
 import edu.uoc.som.openapi2.API;
 import edu.uoc.som.openapi2.Schema;
 import edu.uoc.som.openapi2.commons.Heuristics;
@@ -25,7 +27,7 @@ public class GetOperationsReusingSchemaParts extends RuntimeAction<OpenAPIPlatfo
 	@Override
 	protected Map<String, Object> compute() throws Exception {
 		 API api = runtimePlatform.getApi(session);
-		 Schema schema = api.getDefinitions().get(schemaName);
+		 Schema schema = OpenAPIUtils.getSchemaByNameIgnoreCase(api, schemaName);
 		 Map<String, Object> result = new HashMap<String, Object>();
 		 
 		 if(schema == null) {

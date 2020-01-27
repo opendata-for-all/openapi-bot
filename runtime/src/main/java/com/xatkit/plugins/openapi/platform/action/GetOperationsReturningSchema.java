@@ -26,7 +26,7 @@ public class GetOperationsReturningSchema extends RuntimeAction<OpenAPIPlatform>
 	@Override
 	protected Map<String, Object> compute() throws Exception {
 		 API api = runtimePlatform.getApi(session);
-		 Schema schema = api.getDefinitions().get(schemaName);
+		 Schema schema = com.xatkit.plugins.openapi.platform.utils.OpenAPIUtils.getSchemaByNameIgnoreCase(api, schemaName);
 		 Map<String, Object> result = new HashMap<String, Object>();
 		 
 		 if(schema == null) {

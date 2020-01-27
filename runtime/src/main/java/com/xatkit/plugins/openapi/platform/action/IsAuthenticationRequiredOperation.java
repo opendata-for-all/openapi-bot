@@ -25,7 +25,7 @@ public class IsAuthenticationRequiredOperation extends RuntimeAction<OpenAPIPlat
 	@Override
 	protected Map<String, Object> compute() throws Exception {
 		Map<String, Object> result = new HashMap<String, Object>();
-		Operation operation = api.getOperationById(operationId);
+		Operation operation = com.xatkit.plugins.openapi.platform.utils.OpenAPIUtils.getOperationByIdIgnoreCase(api, operationId);
 		if (operation == null) {
 			result.put("found", false);
 			result.put("operations", api.getAllOperations());

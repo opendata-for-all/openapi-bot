@@ -9,6 +9,8 @@ import static java.util.Objects.nonNull;
 import com.xatkit.core.platform.action.RuntimeAction;
 import com.xatkit.core.session.XatkitSession;
 import com.xatkit.plugins.openapi.platform.OpenAPIPlatform;
+import com.xatkit.plugins.openapi.platform.utils.OpenAPIUtils;
+
 import edu.uoc.som.openapi2.API;
 import edu.uoc.som.openapi2.Schema;
 
@@ -26,7 +28,7 @@ public class GetSchemaDetails extends RuntimeAction<OpenAPIPlatform> {
 
     @Override
     protected Map<String, Object> compute() throws Exception {
-    	Schema schema = api.getDefinitions().get(schemaName);
+    	Schema schema = OpenAPIUtils.getSchemaByNameIgnoreCase(api, schemaName);
     	Map<String, Object> result = new HashMap<String, Object>();
     	if(nonNull(schema)) {
     		result.put("found", true);

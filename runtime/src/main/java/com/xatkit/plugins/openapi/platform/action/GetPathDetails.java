@@ -23,7 +23,7 @@ public class GetPathDetails extends RuntimeAction<OpenAPIPlatform> {
 	    protected Map<String,Object> compute() throws Exception {
 	        
 	    	 API api = runtimePlatform.getApi(session);
-	    	 Path path = api.getPathByRelativePath(relativePath);
+	    	 Path path = com.xatkit.plugins.openapi.platform.utils.OpenAPIUtils.getPathByNameIgnoreCase(api, relativePath);
 	    	 session.store(OpenAPIPlatform.PATH_IN_CONTEXT, path);
 	    	 Map<String,Object> result = new HashMap<String, Object>();
 	    		 if(path!=null) {

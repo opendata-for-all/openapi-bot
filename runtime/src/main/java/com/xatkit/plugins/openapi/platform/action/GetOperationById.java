@@ -9,6 +9,7 @@ import static java.util.Objects.nonNull;
 import com.xatkit.core.platform.action.RuntimeAction;
 import com.xatkit.core.session.XatkitSession;
 import com.xatkit.plugins.openapi.platform.OpenAPIPlatform;
+import com.xatkit.plugins.openapi.platform.utils.OpenAPIUtils;
 import edu.uoc.som.openapi2.API;
 import edu.uoc.som.openapi2.Operation;
 import edu.uoc.som.openapi2.Path;
@@ -27,7 +28,7 @@ public class GetOperationById extends RuntimeAction<OpenAPIPlatform> {
 
     @Override
     protected Map<String, Object> compute() throws Exception {
-    	Operation operation = api.getOperationById(operationId);
+    	Operation operation = OpenAPIUtils.getOperationByIdIgnoreCase(api,operationId);
     	Map<String, Object> result = new HashMap<String, Object>();
     	if(nonNull(operation)) {
     		result.put("found", true);
