@@ -14,16 +14,16 @@ on intent Default_Fallback_Intent do
 
 ///Welcome message///
 on event Client_Ready do
-	ReactPlatform.Reply("Hi there,")
-	ReactPlatform.Reply("I can help you get up to speed with a Web API")
-	ReactPlatform.Reply("Just give me the URL of the OpenAPI definition of your Web API")
+	ReactPlatform.Reply("Hi there 👋")
+	ReactPlatform.Reply("I can help you get up to speed with a REST API")
+	ReactPlatform.Reply("Just give me the URL of the OpenAPI definition of your API")
 on event Client_Closed do
 	ReactPlatform.Reply("Session closed due to inactivity")
 
 ////////// API /////////////////////
 //We load here a definition from a url. We need to add more messages to guide the user about the questions he could ask
 on intent LoadAPI do
-	ReactPlatform.Reply("Loading API from " + context.get("API").get("opneAPIURL")+". Please wait...")
+	ReactPlatform.Reply("Loading the API from " + context.get("API").get("opneAPIURL")+". Please wait...")
 	val result = OpenAPIPlatform.LoadAPI(context.get("API").get("opneAPIURL") as String)
 	if(result.get("loaded") == false){
 		val reason = result.get("reason") as String
@@ -106,7 +106,7 @@ on intent GetTermsOfServices do
 	} else {
 		val termsOfservice = api.info.termsOfService
 		if(termsOfservice.nullOrEmpty){
-			ReactPlatform.Reply("No terms of services provided by the API")
+			ReactPlatform.Reply("No terms of Service provided by the API")
 		}
 		else {
 			ReactPlatform.Reply("The Terms of Service of the API are the following:")
@@ -179,7 +179,7 @@ on intent ListPaths do
 		val pathList = OpenAPIPlatform.ListPaths
 		session.put("xatkit.plugins.openapi.path.list", pathList)
 		val pathEnum = ReactPlatform.ItemizeList(pathList)
-		ReactPlatform.Reply("Here are the available paths for the API")
+		ReactPlatform.Reply("Here are the available paths in this API")
 		ReactPlatform.Reply(pathEnum as String)
 	}
 	
@@ -195,7 +195,7 @@ on intent GetPathDetailsUsingRowNumber do
 		if(rowNumberText!== null){
 			var pathList = session.get("xatkit.plugins.openapi.path.list") as java.util.List<edu.uoc.som.openapi2.Path>
 			if(rowNumberText > pathList.size || rowNumberText < 1){
-			ReactPlatform.Reply("Wrong row number")
+			ReactPlatform.Reply("Oops, wrong row number")
 		} else {
 			val result = OpenAPIPlatform.GetPathDetailsUsingRowNumber(rowNumberText - 1)
 		if(result.get("found") == true){
@@ -298,6 +298,7 @@ on intent GetOperationDetailsUsingRowNumberAfterWhatCanIDo do
 		} else {
 			//Display the details of an operation
 			val operation = operationList.get(rowNumber - 1)
+			ReactPlatform.Reply("Here is what I found")
 			ReactPlatform.Reply("`"+(operation.eContainer as edu.uoc.som.openapi2.Path).relativePath+"`: "+operation.getHTTPMethod()+" "+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
 			val parameters = operation.getParameters()
 			val responses =  operation.responses
@@ -346,7 +347,7 @@ on intent ListOperationsOnPathUsingRowNumber  do
 			} else {
 				val operationList = OpenAPIPlatform.ListOperationsOnPathUsingRowNumber(rowNumber - 1)
 				val operationItemize = ReactPlatform.ItemizeList(operationList)
-				ReactPlatform.Reply("Here are the operations I found for the path:")
+				ReactPlatform.Reply("Here are the operations I found on that path")
 				ReactPlatform.Reply(operationItemize as String)
 				}
 			}
@@ -368,6 +369,7 @@ on intent GetOperationByNameFollowingListOfOperation do
 		else {
 			//Display the details of an operation
 			val operation = result.get("value") as edu.uoc.som.openapi2.Operation
+			ReactPlatform.Reply("Here is what I found")
 			ReactPlatform.Reply("`"+result.get("path")+"`: "+operation.getHTTPMethod()+" "+operation.getSummary()+" ("+operation.getOperationId()+"`)")
 			val parameters = operation.getParameters()
 			val responses = operation.responses
@@ -417,6 +419,7 @@ on intent GetOperationByName do
 		else {
 			//Display the details of an operation
 			val operation = result.get("value") as edu.uoc.som.openapi2.Operation
+			ReactPlatform.Reply("Here is what I found about the operation "+context.get("Operation").get("operationName"))
 			ReactPlatform.Reply("`"+result.get("path")+"`: "+operation.getHTTPMethod()+" "+operation.getSummary()+" ("+operation.getOperationId()+"`)")
 			val parameters = operation.getParameters()
 			val responses = operation.responses
@@ -513,7 +516,8 @@ on intent GetOperationByPathAndHttpMethod do
 		else {
 			//Display the details of an operation
 			val operation = result.get("value") as edu.uoc.som.openapi2.Operation
-			ReactPlatform.Reply("`"+context.get("Operation").get("operationHttpMethod")+": "+context.get("Operation").get("operationPath")+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
+			ReactPlatform.Reply("Here is what I found")
+			ReactPlatform.Reply("`"+context.get("Operation").get("operationHttpMethod")+": "+context.get("Operation").get("operationPath")+" "+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
 			val parameters = operation.getParameters() 
 			val responses = operation.responses
 			if(parameters.isEmpty()){
