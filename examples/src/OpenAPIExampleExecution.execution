@@ -7,6 +7,7 @@ use provider ReactPlatform.ReactEventProvider
 use provider ReactPlatform.ReactIntentProvider
 
 
+
 on intent Default_Fallback_Intent do
 	ReactPlatform.Reply("This is awkward. I could not treat your request")
 	ReactPlatform.Reply("Would you please try again")
@@ -351,7 +352,7 @@ on intent ListOperationsOnPathUsingRowNumber  do
 			}
 			
 			}
-on intent GetOperationByIdFollowingListOfOperation do
+on intent GetOperationByNameFollowingListOfOperation do
 	val api = session.get("xatkit.plugins.openapi.api")
 	if(api === null){
 		ReactPlatform.Reply("You need to load an API first")
@@ -360,7 +361,7 @@ on intent GetOperationByIdFollowingListOfOperation do
 		val result = OpenAPIPlatform.GetOperationById(context.get("Operation").get("operationId") as String)
 			if(result.get("found") == false){
 				val operationItemize = ReactPlatform.ItemizeList(result.get("operations") as java.util.List<edu.uoc.som.openapi2.Operation>)
-				ReactPlatform.Reply("Oops! I could not find the operation `"+context.get("Operation").get("operationId")+"`")
+				ReactPlatform.Reply("Oops! I could not find the operation `"+context.get("Operation").get("operationName")+"`")
 				ReactPlatform.Reply("The operations provided by the API are: ")
 				ReactPlatform.Reply(operationItemize as String)
 		}
@@ -400,16 +401,16 @@ on intent GetOperationByIdFollowingListOfOperation do
 		}
 	}
 
-on intent GetOperationById do
+on intent GetOperationByName do
 	val api = session.get("xatkit.plugins.openapi.api")
 	if(api === null){
 		ReactPlatform.Reply("You need to load an API first")
 		ReactPlatform.Reply("What is the URL of the API you want to know about?")
 	} else {
-		val result = OpenAPIPlatform.GetOperationById(context.get("Operation").get("operationId") as String)
+		val result = OpenAPIPlatform.GetOperationById(context.get("Operation").get("operationName") as String)
 			if(result.get("found") == false){
 				val operationItemize = ReactPlatform.ItemizeList(result.get("operations") as java.util.List<edu.uoc.som.openapi2.Operation>)
-				ReactPlatform.Reply("Oops! I could not find the operation `"+context.get("Operation").get("operationId")+"`")
+				ReactPlatform.Reply("Oops! I could not find the operation `"+context.get("Operation").get("operationName")+"`")
 				ReactPlatform.Reply("The operations provided by the API are: ")
 				ReactPlatform.Reply(operationItemize as String)
 		}

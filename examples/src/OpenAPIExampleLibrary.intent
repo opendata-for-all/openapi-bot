@@ -1,5 +1,10 @@
 Library OpenAPILibrary
 
+intent Options {
+	inputs {
+		"Give me the options"
+	}
+} 
 
 ////////// API //////////////
 intent LoadAPI {
@@ -21,6 +26,8 @@ intent GetAPIDetails {
 		"What can you tell me about this API?"
 		"What do you know about this API?"
 		"Give me a summary of this API"
+		"Explain all what you know about this API"
+		"Print the information about this API"
 	}
 }
 
@@ -30,6 +37,8 @@ intent WhatCanIDo {
 		"What are the operations of this APIs?"
 		"Show me the list of operations"
 		"Tell me more about the operations of this API"
+		"Explain all what you know about the operations of this API"
+		"Print the information about the operation"
 	}
 }
 
@@ -45,6 +54,8 @@ intent GetTermsOfServices {
 	inputs {
 		"What are the Terms of Service of this API?"
 		"Show me the terms of Service of this API"
+		"Explain the terms of service of this API"
+		"Print the terms of service"
 	}
 }
 
@@ -53,6 +64,7 @@ intent GetContact {
 		"How to contact the developer of this APIs?"
 		"What is the contact info?"
 		"Show me the contact information"
+		"Print the contact information"
 	
 		
 	} 
@@ -62,12 +74,15 @@ intent AskLicenseInfo {
 	inputs {
 		"What is the license associated with this API?"
 		"Show me the license of this API"
+		"Print the license of the API"
 	}
 }
 intent GetDocumentation {
 	inputs {
 		"Where can I find more information about this API?"
 		"Where can I learn more about this API?"
+		"Show me the documentation"
+		"Print the documentation"
 	}
 }
 ////////Path related intent///////////
@@ -88,6 +103,7 @@ intent ListPaths {
 		"What are the paths defined by this API?"
 		"Display the relative paths"
 		"What are the paths?"
+		"Print the list of paths"
 	}
 }
 
@@ -112,6 +128,8 @@ intent GetPathDetailsFollowingListPaths follows ListPaths {
 		"Tell me about XXX"
 		"Tell me more about XXX"
 		"Show me the details of XXX"
+		"Print the information of XXX"
+		"Explain the path XXX"
 	}
 	creates context RelativePath {
 		sets parameter relativePath from fragment "XXX" (entity any)
@@ -125,6 +143,8 @@ intent GetPathDetails {
 		"Tell me more about the relative path XXX"
 		"Tell me the relative path XXX"
 		"Show me the details of the path XXX"
+		"Print the information of the path XXX"
+		"Explain the path XXX"
 	}
 	creates context RelativePath {
 		sets parameter relativePath from fragment "XXX" (entity any)
@@ -139,6 +159,8 @@ intent GetOperationDetailsUsingRowNumberAfterWhatCanIDo follows WhatCanIDo {
 		"Show me the operation on the XXX position"
 		"Show me the operation on the XXX row"
 		"Show me the details of the operation on the XXX row"
+		"Print the information about the operation on the XXX row"
+		"Explain what you know about the operation on the XXX row"
 		
 	}
 	creates context Operation {
@@ -150,6 +172,7 @@ intent ListOperationsOnPathUsingRowNumber follows ListPaths {
 	inputs {
 		"List the operations of the XXX path"
 		"What are the operations of the path located at the XXX position"
+		"Show the operations of the XXX path"
 	}
 	creates context Path {
 		// Let's say it's an integer for now
@@ -158,35 +181,42 @@ intent ListOperationsOnPathUsingRowNumber follows ListPaths {
 }
 
 
-intent GetOperationById {
+intent GetOperationByName {
 	inputs {
+		"Explain all what you know about the operation XXX"
+		"Show me the details of the operation XXX"
+		"Print the information of the operation XXX"
+		"Tell me more about the operation XXX"
 		"Show me the operation which has the ID XXX"
 		"Tell me about the operation which has the ID XXX"
 		"Show me the details of the operation which has the ID XXX"
-		"Show me the details of the operation XXX"
-		"Tell me about the operation XXX"
-		"Tell me more about the operation XXX"
+		
+
 	}
 	creates context Operation {
-		sets parameter operationId from fragment "XXX" (entity any)
+		sets parameter operationName from fragment "XXX" (entity any)
 	}
 }
 
-intent GetOperationByIdFollowingListOfOperation follows WhatCanIDo {
+intent GetOperationByNameFollowingListOfOperation follows WhatCanIDo {
 	inputs {
 		"Show me XXX"
 		"Tell me about XXX"
 		"Tell me more about XXX"
+		"Print the information about XXX"
+		"Explain all what you know about XXX"
 	
 	}
 	creates context Operation {
-		sets parameter operationId from fragment "XXX" (entity any)
+		sets parameter operationName from fragment "XXX" (entity any)
 	}
 }
 
 intent GetOperationByPathAndHttpMethod {
 	inputs {
 		"Show me the OOO operation on the path PPP"
+		"Print the information about the operation OOO on the path PPP"
+		"Explain all what you know about the operation OOO on the path PPP"
 	}
 	creates context Operation {
 		sets parameter operationPath from fragment "PPP" (entity any)
@@ -198,6 +228,8 @@ intent GetOperationByPathAndHttpMethod {
 intent SupportedSchemes {
 	inputs {
 		"What are the transfer protocols supported by this API?"
+		"Show me the transfer protocols supported by this APIs"
+		"Print the transfer protocols supported by this APIs"
 	}
 }
 
@@ -205,6 +237,9 @@ intent IsAuthenticationRequired {
 	//should check api.security and operation.security
 	inputs {
 		"Does this API require authentication?"
+		"Does this API require authentication"
+		"Is authentication required for this API?"
+		"Is authentication required for this API"
 	}
 }
 
@@ -230,7 +265,9 @@ intent SecuritySchemeDetails {
 		"Tell me more about the security scheme xxx"
 		"Tell me more about the authentication method xxx"
 		"Show me the details of the authentication method xxx"
-		"Show me the details of the security xxx"
+		"Show me the details of the security scheme xxx"
+		"Explain what you know about the security scheme xxx"
+		"print the information about the security scheme xxx"
 		
 	}
 		creates context SecurityScheme {
@@ -247,6 +284,8 @@ intent GetSchemaDetails {
 		"Show me the details of the schema definition XXX"
 		"Show me the details of the schema XXX"
 		"Show me the details of the class XXX"
+		"Explain what you know about the schema XXX"
+		"Print the information about the schema XXX"
 	}
 	creates context Schema {
 		sets parameter schemaName from fragment "XXX" (entity any)
@@ -268,6 +307,8 @@ intent GetSchemaDetailsFollowingListSchema follows ListSchemaDefinitions{
 		"Tell me about XXX"
 		"Tell me more about XXX"
 		"Show me the details of XXX"
+		"Explain all what you know about XXX"
+		"Print the information of XXX"
 	}
 	creates context Schema {
 		sets parameter schemaName from fragment "XXX" (entity any)
