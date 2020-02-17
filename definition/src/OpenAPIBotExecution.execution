@@ -1,4 +1,4 @@
-import library "OpenAPIExample/src/OpenAPIExampleLibrary.intent" as OpenAPILibrary
+import library "OpenAPIBotDefinition/src/OpenAPIBotLibrary.intent" as OpenAPILibrary
 import library "CoreLibrary"
 import platform "openapi-platform-model/src/OpenAPIPlatform.platform" as OpenAPIPlatform
 import platform "ReactPlatform"
