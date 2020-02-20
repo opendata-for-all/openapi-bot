@@ -7,6 +7,8 @@ import edu.uoc.som.openapi2.API;
 import edu.uoc.som.openapi2.io.OpenAPI2Builder;
 import edu.uoc.som.openapi2.io.exceptions.OpenAPIProcessingException;
 import edu.uoc.som.openapi2.io.exceptions.OpenAPIValidationException;
+import edu.uoc.som.openapi2.io.exceptions.UnsupportedOpenAPIVersionException;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
@@ -38,11 +40,13 @@ public class LoadAPI extends RuntimeAction<OpenAPIPlatform> {
 			result.put("loaded", false);
 			result.put("reason", "MalformedURLException");
 			result.put("errorMessage", e.getMessage());
+		
 		}  catch (OpenAPIValidationException e) {
 			result.put("loaded", false);
 			result.put("reason", "OpenAPIValidationException");
-			result.put("report", e.getReport().getError());
+			result.put("report", e.getReport().getErrorMessages());
 			result.put("errorMessage", e.getMessage());
+		
 		} catch (OpenAPIProcessingException e) {
 			result.put("loaded", false);
 			result.put("reason", "OpenAPIProcessingException");
@@ -51,11 +55,17 @@ public class LoadAPI extends RuntimeAction<OpenAPIPlatform> {
 			result.put("loaded", false);
 			result.put("reason", "IOException");
 			result.put("errorMessage", e.getMessage());
+
+		} catch(UnsupportedOpenAPIVersionException e){
+			result.put("loaded", false);
+			result.put("reason", "UnsupportedOpenAPIVersionException");
+			result.put("version", e.getOpenAPIVersion());
+			result.put("errorMessage", e.getMessage());
 		}
 		catch (Exception e) {
 			result.put("loaded", false);
-			result.put("reason", "Exception");
-			result.put("errorMessage", e.getMessage());
+			result.put("reason", "Unknown");
+			e.printStackTrace();
 		}
 		return result;
 	}
