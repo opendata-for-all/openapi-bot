@@ -28,13 +28,28 @@ on intent LoadAPI do
 	if(result.get("loaded") == false){
 		val reason = result.get("reason") as String
 		if(reason.equals("OpenAPIValidationException")){
-			ReactPlatform.Reply("Oops, Your OpenAPI definition is not valid")
+			ReactPlatform.Reply("Oops, your OpenAPI definition is not valid")
 			ReactPlatform.Reply("Here is the validation report:")
 			val reportItems = ReactPlatform.ItemizeList(result.get("report") as java.util.List<String>)
 			ReactPlatform.Reply(reportItems as String)
 		}
-		else {
-			ReactPlatform.Reply("Oops, I could not parse the API")
+		else
+		if(reason.equals("Unknown")){
+			ReactPlatform.Reply("😞  Oops, this is awkward")
+			ReactPlatform.Reply("I ran into a problem while reading your definition")
+			ReactPlatform.Reply("My team will look into this and fix me ASAP")
+			ReactPlatform.Reply("Could you please provide a different definition")
+			
+		} else
+		if(reason.equals("UnsupportedOpenAPIVersionException")){
+			ReactPlatform.Reply("😞  Oops, this is awkward")
+			ReactPlatform.Reply("I don't know OpenAPI version "+edu.uoc.som.openapi2.io.utils.Utils.printOpenPIVersion(result.get("version") as edu.uoc.som.openapi2.io.model.OpenAPIVersion)+" just yet")
+			ReactPlatform.Reply("I will do my best to learn it ASAP")
+			ReactPlatform.Reply("Could you please provide a different definition")
+			
+		} else
+		 {
+			ReactPlatform.Reply("😞  Oops, I couldn't parse your definition")
 			ReactPlatform.Reply("Here is the error message:")
 			ReactPlatform.Reply(result.get("errorMessage") as String)
 		}

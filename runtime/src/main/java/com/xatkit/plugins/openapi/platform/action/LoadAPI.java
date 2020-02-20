@@ -52,6 +52,11 @@ public class LoadAPI extends RuntimeAction<OpenAPIPlatform> {
 			result.put("reason", "IOException");
 			result.put("errorMessage", e.getMessage());
 		}
+		catch (Exception e) {
+			result.put("loaded", false);
+			result.put("reason", "Exception");
+			result.put("errorMessage", e.getMessage());
+		}
 		return result;
 	}
 }
