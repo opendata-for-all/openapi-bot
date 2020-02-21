@@ -60,6 +60,11 @@ on intent LoadAPI do
 		ReactPlatform.Reply("Ask me something")
 	}
 	
+
+on event GetSupportedOpenAPIVerisons do	
+	ReactPlatform.Reply("Right now I know OpenAPI 2.0")
+	ReactPlatform.Reply("OpenAPI v3 is in the queue. Soon I'll be able to answer questions about it 🙂")
+
 on event WhatCanIAsk do
 	ReactPlatform.Reply("You can ask me about the metadata, operations and schema definitions. Here are some examples:")
 	ReactPlatform.Reply("*What do you know about this API?*")
