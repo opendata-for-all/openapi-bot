@@ -1,6 +1,6 @@
 # OpenAPI Bot
 
-A chatbot designed to answer questions regarding Web APIs by leveraging their OpenAPI definitions.
+A chatbot designed to answer questions about REST APIs by leveraging their OpenAPI definitions.
 
 ## Implementation
 
