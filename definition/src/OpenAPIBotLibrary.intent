@@ -32,6 +32,22 @@ intent GetSupportedOpenAPIVerisons {
 	}
 }
 
+
+intent GetAnythingByName {
+	inputs {
+		"Show me XXX"
+		"Show me the details of XXX"
+		"Tell me about XXX"
+		"Tell me more about XXX"
+		"Print the information about XXX"
+		"Explain all what you know about XXX"
+	
+	}
+	creates context Object {
+		sets parameter objectName from fragment "XXX" (entity any)
+	}
+}
+
 intent GetAPIDetails {
 	inputs {
 		"Tell me about this API"

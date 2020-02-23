@@ -61,9 +61,86 @@ on intent LoadAPI do
 	}
 	
 
+
 on event GetSupportedOpenAPIVerisons do	
 	ReactPlatform.Reply("Right now I know OpenAPI 2.0")
 	ReactPlatform.Reply("OpenAPI v3 is in the queue. Soon I'll be able to answer questions about it 🙂")
+
+
+on event GetAnythingByName do 
+	val api = session.get("xatkit.plugins.openapi.api") as edu.uoc.som.openapi2.API
+	if(api === null){
+		ReactPlatform.Reply("You need to load an API first")
+		ReactPlatform.Reply("What is the URL of the API you want to know about?")
+	}
+	else {
+		val result = OpenAPIPlatform.GetAnythingByName(context.get("Object").get("objectName") as String)
+		if(result !== null){
+			if(result instanceof edu.uoc.som.openapi2.Operation){
+				val operation = result as edu.uoc.som.openapi2.Operation
+				ReactPlatform.Reply("Here are the details of the operation "+operation.operationId)
+			ReactPlatform.Reply("`"+(operation.eContainer as edu.uoc.som.openapi2.Path).relativePath+"`: "+operation.getHTTPMethod()+" "+operation.getSummary()+" ("+operation.getOperationId()+"`)")
+			val parameters = operation.getParameters()
+			val responses = operation.responses
+			if(parameters.isEmpty()){
+				ReactPlatform.Reply("The operation does not declare any parameters")
+			}
+			else {
+				if(parameters.size() == 1){
+					ReactPlatform.Reply("The operation has "+parameters.size()+" parameter:")
+				}
+				else {
+					ReactPlatform.Reply("The operation has "+parameters.size()+" parameters:")
+				}
+				val parameterItemize = ReactPlatform.ItemizeList(parameters)
+				ReactPlatform.Reply(parameterItemize as String)
+			}
+			if(responses.isEmpty()){
+				ReactPlatform.Reply("The operation does not declare any responses")
+			}
+			else {
+				if(responses.size() == 1){
+					ReactPlatform.Reply("The operation has "+responses.size()+" response:")
+				}
+				else {
+					ReactPlatform.Reply("The operation has "+responses.size()+" responses:")
+				}
+			
+				val responsesItemize = ReactPlatform.ItemizeList(responses)
+				ReactPlatform.Reply(responsesItemize as String)
+				
+			}
+			
+			}
+			else if(result instanceof edu.uoc.som.openapi2.Path){
+				val path = result as edu.uoc.som.openapi2.Path
+				ReactPlatform.Reply("Here are the details of the path "+path.relativePath)
+				val operations =edu.uoc.som.openapi2.commons.OpenAPIUtils.getAllOperationsOnPath(path)
+				if(operations.isEmpty()){
+				ReactPlatform.Reply("There are no operations defined on this path")
+			}
+			else {
+				ReactPlatform.Reply("There are "+operations.size()+" available operations on the path "+path.getRelativePath())
+				session.put("xatkit.plugins.openapi.operation.list",operations)
+				val operationItemize = ReactPlatform.ItemizeList(operations)
+				ReactPlatform.Reply(operationItemize as String)
+			}
+			}
+			else if(result instanceof edu.uoc.som.openapi2.Schema){
+				val schema = result as edu.uoc.som.openapi2.Schema
+				ReactPlatform.Reply("Here are the details of the schema "+schema.name)
+				ReactPlatform.Reply("The properties defined by the schema definition  "+schema.name+" are:")
+ 				val propertiesItems = ReactPlatform.ItemizeList(schema.getProperties())
+ 				ReactPlatform.Reply(propertiesItems as String)
+			}
+		}
+		else {
+			ReactPlatform.Reply("I couldn't find "+context.get("Object").get("objectName")+" in the API")
+		}
+		
+	
+		
+	}
 
 on event WhatCanIAsk do
 	ReactPlatform.Reply("You can ask me about the metadata, operations and schema definitions. Here are some examples:")
