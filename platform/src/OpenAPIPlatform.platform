@@ -30,4 +30,5 @@ actions {
 	GetOperationsReturningSchema(schemaName: String): java.util.Map<String, Object>
 	GetOperationsReusingSchemaParts(schemaName: String): java.util.Map<String, Object>
 	GetSchemasReusingSchemaParts(schemaName: String): java.util.Map<String, Object>
+	GetAnythingByName(objectName: String): Object
 }
