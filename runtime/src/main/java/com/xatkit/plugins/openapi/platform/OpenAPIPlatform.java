@@ -51,8 +51,8 @@ public class OpenAPIPlatform extends RuntimePlatform {
         this.xatkitCore.getFormatter("Default").registerFormatFunction(Map.Entry.class, e -> e.getKey()+FormattingUtils.formatObject(e.getValue(),", ",""));
         this.xatkitCore.getFormatter("Default").registerFormatFunction(Property.class, FormattingUtils::formatProperty);
         this.xatkitCore.getFormatter("Default").registerFormatFunction(Parameter.class,FormattingUtils::formatParameter);
-        this.xatkitCore.getFormatter("Default").registerFormatFunction(PropertyToParameter.class, p -> p.getSource().getName()+": the parameter "+p.getTarget().getName()+" of the operation "+ FormattingUtils.formatOperation(OpenAPIUtils.getOperation(p.getTarget())));
-        this.xatkitCore.getFormatter("Default").registerFormatFunction(PropertyToProperty.class, p -> p.getSource().getName()+": the property "+p.getTarget().getName()+" of the definition "+ OpenAPIUtils.getDefinition(p.getTarget()).getName());
+        this.xatkitCore.getFormatter("Default").registerFormatFunction(PropertyToParameter.class, p -> "`"+p.getSource().getName()+"`"+": the parameter `"+p.getTarget().getName()+"` of the operation "+ FormattingUtils.formatOperation(OpenAPIUtils.getOperation(p.getTarget())));
+        this.xatkitCore.getFormatter("Default").registerFormatFunction(PropertyToProperty.class, p -> "`"+p.getSource().getName()+"`"+": the property `"+p.getTarget().getName()+"` of the definition `"+ OpenAPIUtils.getDefinition(p.getTarget()).getName()+"`");
     }
     
     
