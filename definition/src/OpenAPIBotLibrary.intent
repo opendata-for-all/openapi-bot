@@ -57,6 +57,7 @@ intent GetAPIDetails {
 		"Give me a summary of this API"
 		"Explain all what you know about this API"
 		"Print the information about this API"
+		"Show me the details of this API"
 	}
 }
 
@@ -75,6 +76,7 @@ intent WhatCanIAsk {
 	inputs {
 		"What can I ask?"
 		"Which kind of questions can I ask?"
+		"Which questions can I ask?"
 	}
 }
 
@@ -82,7 +84,7 @@ intent WhatCanIAsk {
 intent GetTermsOfServices {
 	inputs {
 		"What are the Terms of Service of this API?"
-		"Show me the terms of Service of this API"
+		"Show me the Terms of Service of this API"
 		"Explain the terms of service of this API"
 		"Print the terms of service"
 	}
@@ -216,6 +218,7 @@ intent GetOperationByName {
 		"Show me the details of the operation XXX"
 		"Print the information of the operation XXX"
 		"Tell me more about the operation XXX"
+		"Show me the operation with the name XXX"
 		"Show me the operation which has the ID XXX"
 		"Tell me about the operation which has the ID XXX"
 		"Show me the details of the operation which has the ID XXX"

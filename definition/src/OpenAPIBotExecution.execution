@@ -79,7 +79,7 @@ on event GetAnythingByName do
 			if(result instanceof edu.uoc.som.openapi2.Operation){
 				val operation = result as edu.uoc.som.openapi2.Operation
 				ReactPlatform.Reply("Here are the details of the operation "+operation.operationId)
-			ReactPlatform.Reply("`"+(operation.eContainer as edu.uoc.som.openapi2.Path).relativePath+"`: "+operation.getHTTPMethod()+" "+operation.getSummary()+" ("+operation.getOperationId()+"`)")
+			ReactPlatform.Reply("`"+(operation.eContainer as edu.uoc.som.openapi2.Path).relativePath+"`: "+operation.getHTTPMethod()+" "+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
 			val parameters = operation.getParameters()
 			val responses = operation.responses
 			if(parameters.isEmpty()){
@@ -396,7 +396,7 @@ on intent GetOperationDetailsUsingRowNumberAfterWhatCanIDo do
 			//Display the details of an operation
 			val operation = operationList.get(rowNumber - 1)
 			ReactPlatform.Reply("Here is what I found")
-			ReactPlatform.Reply("`"+(operation.eContainer as edu.uoc.som.openapi2.Path).relativePath+"`: "+operation.getHTTPMethod()+" "+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
+			ReactPlatform.Reply("`"+operation.getHTTPMethod()+" "+(operation.eContainer as edu.uoc.som.openapi2.Path).relativePath+"`: "+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
 			val parameters = operation.getParameters()
 			val responses =  operation.responses
 			if(parameters.isEmpty()){
@@ -467,7 +467,7 @@ on intent GetOperationByNameFollowingListOfOperation do
 			//Display the details of an operation
 			val operation = result.get("value") as edu.uoc.som.openapi2.Operation
 			ReactPlatform.Reply("Here is what I found")
-			ReactPlatform.Reply("`"+result.get("path")+"`: "+operation.getHTTPMethod()+" "+operation.getSummary()+" ("+operation.getOperationId()+"`)")
+			ReactPlatform.Reply("`"+operation.getHTTPMethod()+" "+(operation.eContainer as edu.uoc.som.openapi2.Path).relativePath+"`: "+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
 			val parameters = operation.getParameters()
 			val responses = operation.responses
 			if(parameters.isEmpty()){
@@ -517,7 +517,7 @@ on intent GetOperationByName do
 			//Display the details of an operation
 			val operation = result.get("value") as edu.uoc.som.openapi2.Operation
 			ReactPlatform.Reply("Here is what I found about the operation "+context.get("Operation").get("operationName"))
-			ReactPlatform.Reply("`"+result.get("path")+"`: "+operation.getHTTPMethod()+" "+operation.getSummary()+" ("+operation.getOperationId()+"`)")
+			ReactPlatform.Reply("`"+operation.getHTTPMethod()+" "+result.get("path")+"`: "+operation.getSummary()+"")
 			val parameters = operation.getParameters()
 			val responses = operation.responses
 			if(parameters.isEmpty()){
@@ -614,7 +614,7 @@ on intent GetOperationByPathAndHttpMethod do
 			//Display the details of an operation
 			val operation = result.get("value") as edu.uoc.som.openapi2.Operation
 			ReactPlatform.Reply("Here is what I found")
-			ReactPlatform.Reply("`"+context.get("Operation").get("operationHttpMethod")+": "+context.get("Operation").get("operationPath")+" "+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
+			ReactPlatform.Reply("`"+operation.getHTTPMethod()+" "+(operation.eContainer as edu.uoc.som.openapi2.Path).relativePath+"`: "+operation.getSummary()+" (`"+operation.getOperationId()+"`)")
 			val parameters = operation.getParameters() 
 			val responses = operation.responses
 			if(parameters.isEmpty()){
